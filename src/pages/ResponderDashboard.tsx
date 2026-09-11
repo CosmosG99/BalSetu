@@ -45,16 +45,16 @@ export const ResponderDashboard: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       
       {/* Top Greeting & Operational Status Banner */}
-      <div className="glass-panel p-6 rounded-3xl border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-2xl">
+      <div className="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-2xl">
         <div className="space-y-1">
           <div className="flex items-center space-x-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
-            <span className="text-xs font-mono font-bold text-emerald-400 uppercase">Response Command Active</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-ping" />
+            <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase">Response Command Active</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
             Good evening, Response Team.
           </h1>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-600 dark:text-slate-400">
             "Here's what needs attention across high-footfall transit concourses."
           </p>
         </div>
@@ -63,7 +63,7 @@ export const ResponderDashboard: React.FC = () => {
         <div className="flex flex-wrap items-center gap-2">
           <Link
             to="/responder/map"
-            className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 font-bold text-xs transition-colors flex items-center space-x-1.5"
+            className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-800 font-bold text-xs transition-colors flex items-center space-x-1.5 shadow-sm"
           >
             <MapIcon className="w-4 h-4 text-brand-purple" />
             <span>Transit Map Radar</span>
@@ -71,7 +71,7 @@ export const ResponderDashboard: React.FC = () => {
 
           <Link
             to="/responder/matches"
-            className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 font-bold text-xs transition-colors flex items-center space-x-1.5"
+            className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-800 font-bold text-xs transition-colors flex items-center space-x-1.5 shadow-sm"
           >
             <Users className="w-4 h-4 text-brand-magenta" />
             <span>Missing Child Matches</span>
@@ -119,17 +119,17 @@ export const ResponderDashboard: React.FC = () => {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <h2 className="text-xl font-bold text-white">Priority Dispatch Queue</h2>
-            <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30">
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Priority Dispatch Queue</h2>
+            <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-red-500/10 dark:bg-red-500/20 text-red-700 dark:text-red-300 border border-red-500/30">
               {priorityCases.length} Critical & High Alerts
             </span>
           </div>
 
-          <div className="flex items-center space-x-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs">
+          <div className="flex items-center space-x-1 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-800 text-xs">
             <button
               onClick={() => setViewMode('cards')}
               className={`px-3 py-1 rounded-lg font-semibold transition-colors ${
-                viewMode === 'cards' ? 'bg-brand-purple text-white' : 'text-slate-400 hover:text-white'
+                viewMode === 'cards' ? 'bg-brand-purple text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               Rich Cards
@@ -137,7 +137,7 @@ export const ResponderDashboard: React.FC = () => {
             <button
               onClick={() => setViewMode('table')}
               className={`px-3 py-1 rounded-lg font-semibold transition-colors ${
-                viewMode === 'table' ? 'bg-brand-purple text-white' : 'text-slate-400 hover:text-white'
+                viewMode === 'table' ? 'bg-brand-purple text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               Compact Table
@@ -152,7 +152,7 @@ export const ResponderDashboard: React.FC = () => {
               <div
                 key={c.id}
                 onClick={() => navigate(`/responder/cases/${c.id}`)}
-                className="glass-panel glass-panel-hover p-5 rounded-2xl border border-white/10 space-y-3 cursor-pointer shadow-lg flex flex-col justify-between"
+                className="glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-200 dark:border-white/10 space-y-3 cursor-pointer shadow-lg flex flex-col justify-between"
               >
                 <div className="space-y-2.5">
                   <div className="flex items-center justify-between">
@@ -162,20 +162,20 @@ export const ResponderDashboard: React.FC = () => {
 
                   <div className="flex items-center justify-between text-xs">
                     <StatusBadge status={c.status} size="sm" />
-                    <span className="text-slate-400 font-mono text-[11px]">{c.report.approxTime || 'Recent'}</span>
+                    <span className="text-slate-500 dark:text-slate-400 font-mono text-[11px]">{c.report.approxTime || 'Recent'}</span>
                   </div>
 
                   <div>
-                    <h4 className="text-sm font-bold text-white line-clamp-1">{c.report.location}</h4>
-                    <p className="text-xs text-slate-300 line-clamp-2 mt-1">{c.report.description}</p>
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1">{c.report.location}</h4>
+                    <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 mt-1">{c.report.description}</p>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
-                  <span className="text-slate-400 font-mono text-[11px] truncate">
-                    Assigned: <strong className="text-slate-200">{c.assignedResponder || 'Unassigned'}</strong>
+                <div className="pt-3 border-t border-slate-200 dark:border-slate-800/80 flex items-center justify-between text-xs">
+                  <span className="text-slate-500 dark:text-slate-400 font-mono text-[11px] truncate">
+                    Assigned: <strong className="text-slate-800 dark:text-slate-200">{c.assignedResponder || 'Unassigned'}</strong>
                   </span>
-                  <button className="px-3 py-1.5 rounded-lg bg-brand-purple/20 hover:bg-brand-purple/30 text-purple-200 font-bold border border-brand-purple/40 transition-colors flex items-center space-x-1">
+                  <button className="px-3 py-1.5 rounded-lg bg-brand-purple/10 dark:bg-brand-purple/20 hover:bg-brand-purple/20 text-purple-700 dark:text-purple-200 font-bold border border-brand-purple/40 transition-colors flex items-center space-x-1">
                     <span>Open Case</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
@@ -194,8 +194,8 @@ export const ResponderDashboard: React.FC = () => {
         {/* Map Preview (2 Cols) */}
         <div className="lg:col-span-2 space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider">Live Transit Map Preview</h3>
-            <Link to="/responder/map" className="text-xs text-brand-purple hover:text-purple-300 font-bold">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Live Transit Map Preview</h3>
+            <Link to="/responder/map" className="text-xs text-brand-purple hover:text-purple-700 dark:hover:text-purple-300 font-bold">
               Full Screen Radar →
             </Link>
           </div>
@@ -203,9 +203,9 @@ export const ResponderDashboard: React.FC = () => {
         </div>
 
         {/* Recent Activity Log (1 Col) */}
-        <div className="glass-panel p-5 rounded-2xl border border-white/10 space-y-4 shadow-xl">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center space-x-1">
+        <div className="glass-panel p-5 rounded-2xl border border-slate-200 dark:border-white/10 space-y-4 shadow-xl">
+          <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+            <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center space-x-1">
               <Activity className="w-4 h-4 text-brand-purple" />
               <span>Recent Dispatch Stream</span>
             </h3>
@@ -214,12 +214,12 @@ export const ResponderDashboard: React.FC = () => {
 
           <div className="space-y-3 max-h-96 overflow-y-auto pr-1 text-xs">
             {cases.slice(0, 6).flatMap((c) => c.auditLogs).slice(0, 8).map((log) => (
-              <div key={log.id} className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1">
+              <div key={log.id} className="p-3 rounded-xl bg-white/90 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-1 shadow-sm">
                 <div className="flex items-center justify-between font-mono text-[10px]">
                   <span className="font-bold text-brand-purple">{log.action}</span>
                   <span className="text-slate-500">{log.timestamp}</span>
                 </div>
-                <p className="text-slate-300 text-[11px]">{log.details}</p>
+                <p className="text-slate-700 dark:text-slate-300 text-[11px]">{log.details}</p>
               </div>
             ))}
           </div>

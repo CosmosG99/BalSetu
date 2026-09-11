@@ -53,12 +53,12 @@ export const ResourcesPage: React.FC = () => {
       
       {/* Header */}
       <div className="text-center space-y-3 max-w-3xl mx-auto">
-        <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-semibold">
+        <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-purple-500/10 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-500/30 text-xs font-semibold">
           <BookOpen className="w-3.5 h-3.5 text-brand-magenta" />
           <span>Child & Bystander Education</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-white">Safety Resource Center</h1>
-        <p className="text-sm text-slate-300">
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white">Safety Resource Center</h1>
+        <p className="text-sm text-slate-600 dark:text-slate-300">
           Trauma-informed guidance and friendly safety tips for children, parents, and community bystanders.
         </p>
       </div>
@@ -70,26 +70,26 @@ export const ResourcesPage: React.FC = () => {
           return (
             <div
               key={idx}
-              className="glass-panel glass-panel-hover p-6 rounded-3xl border border-white/10 space-y-4 shadow-xl flex flex-col justify-between"
+              className="glass-panel glass-panel-hover p-6 rounded-3xl border border-slate-200 dark:border-white/10 space-y-4 shadow-xl flex flex-col justify-between"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${card.color} text-white flex items-center justify-center font-bold shadow-md`}>
                     <Icon className="w-6 h-6" />
                   </div>
-                  <span className="text-[10px] font-mono font-bold text-purple-300 bg-slate-900 px-2.5 py-1 rounded-full border border-slate-800">
+                  <span className="text-[10px] font-mono font-bold text-purple-700 dark:text-purple-300 bg-slate-100 dark:bg-slate-900 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-800">
                     {card.category}
                   </span>
                 </div>
 
-                <h3 className="text-lg font-bold text-white leading-snug">{card.title}</h3>
-                <p className="text-xs text-slate-300 leading-relaxed">{card.desc}</p>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-snug">{card.title}</h3>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{card.desc}</p>
               </div>
 
               <div className="pt-2">
                 <Link
                   to="/report"
-                  className="text-xs font-bold text-brand-purple hover:text-purple-300 flex items-center space-x-1 transition-colors"
+                  className="text-xs font-bold text-brand-purple hover:text-purple-700 dark:hover:text-purple-300 flex items-center space-x-1 transition-colors"
                 >
                   <span>Report a concern now</span>
                   <span>→</span>

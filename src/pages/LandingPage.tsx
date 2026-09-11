@@ -173,17 +173,17 @@ export const LandingPage: React.FC = () => {
           {/* Hero Left Column */}
           <div className="lg:col-span-7 space-y-6 text-left">
             
-            <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-xs font-bold text-purple-300 shadow-md">
+            <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 text-xs font-bold text-purple-700 dark:text-purple-300 shadow-md">
               <Sparkles className="w-3.5 h-3.5 text-brand-magenta animate-pulse" />
               <span>BAL SURAKSHA • CHILD SAFETY NETWORK</span>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-[1.1]">
+            <h1 className="text-4xl sm:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.1]">
               Turn a moment of concern <br className="hidden sm:block" />
-              into a <span className="bg-gradient-to-r from-brand-purple via-purple-300 to-brand-magenta bg-clip-text text-transparent">moment of protection.</span>
+              into a <span className="bg-gradient-to-r from-brand-purple via-purple-600 dark:via-purple-300 to-brand-magenta bg-clip-text text-transparent">moment of protection.</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-700 dark:text-slate-300 max-w-xl leading-relaxed">
               Rakshak connects people who notice vulnerable children with a coordinated response ecosystem — quickly, safely and anonymously.
             </p>
 
@@ -198,13 +198,13 @@ export const LandingPage: React.FC = () => {
 
               <Link
                 to="/how-it-works"
-                className="px-8 py-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 font-semibold text-sm border border-slate-800 hover:border-slate-700 transition-all flex items-center justify-center space-x-2 text-center"
+                className="px-8 py-4 rounded-2xl bg-white/90 dark:bg-slate-900/90 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-sm border border-slate-300 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700 transition-all flex items-center justify-center space-x-2 text-center shadow-sm"
               >
                 <span>See How It Works</span>
               </Link>
             </div>
 
-            <div className="pt-2 flex items-center space-x-3 text-xs text-slate-400 font-mono">
+            <div className="pt-2 flex items-center space-x-3 text-xs text-slate-600 dark:text-slate-400 font-mono">
               <span className="flex items-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                 Anonymous reporting
@@ -226,9 +226,9 @@ export const LandingPage: React.FC = () => {
           {/* Hero Right Column: Transit Concourse Simulation + Live Case Card */}
           <div className="lg:col-span-5 relative">
             
-            <div className="glass-panel p-6 rounded-3xl border border-white/15 shadow-2xl relative space-y-4 overflow-hidden">
+            <div className="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-white/15 shadow-2xl relative space-y-4 overflow-hidden">
               
-              <div className="relative h-64 rounded-2xl bg-slate-950 border border-slate-800 overflow-hidden flex items-center justify-center p-4">
+              <div className="relative h-64 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 overflow-hidden flex items-center justify-center p-4">
                 <div className="absolute inset-0 bg-grid-pattern opacity-20" />
                 
                 <svg className="absolute inset-0 w-full h-full opacity-40">
@@ -242,21 +242,21 @@ export const LandingPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="absolute top-3 left-3 bg-slate-900/90 backdrop-blur-md px-3 py-1 rounded-lg border border-slate-800 text-[10px] font-mono font-bold text-slate-300 flex items-center gap-1.5">
+                <div className="absolute top-3 left-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-800 text-[10px] font-mono font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 shadow-sm">
                   <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
                   <span>LIVE TRANSIT RADAR • MUMBAI CENTRAL</span>
                 </div>
               </div>
 
               {/* Floating Case Overlay */}
-              <div className="p-4 rounded-2xl bg-slate-900/95 border border-brand-purple/40 shadow-glow-purple space-y-2">
+              <div className="p-4 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-brand-purple/40 shadow-glow-purple space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs font-extrabold text-brand-purple">RB-2026-10482</span>
                   <RiskBadge level="HIGH" score={78} size="sm" />
                 </div>
 
-                <div className="text-xs font-bold text-white">Child appears lost & distressed</div>
-                <div className="text-[11px] text-slate-400 flex items-center justify-between">
+                <div className="text-xs font-bold text-slate-900 dark:text-white">Child appears lost & distressed</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-between">
                   <span>Mumbai Central Station • Platform 4</span>
                   <StatusBadge status="ROUTED" size="sm" />
                 </div>
@@ -274,37 +274,37 @@ export const LandingPage: React.FC = () => {
       {/* 2. SECTION — WHY THIS MATTERS (THE FIRST-MILE GAP)            */}
       {/* ============================================================ */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-white/10 space-y-8 shadow-2xl">
+        <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-slate-200 dark:border-white/10 space-y-8 shadow-2xl">
           
           <div className="text-center space-y-3 max-w-2xl mx-auto">
             <span className="text-xs font-mono font-bold text-brand-magenta uppercase">The First-Mile Gap</span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-white">
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
               "The first signal often comes from someone who isn't part of the system."
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
               People may notice a child who appears lost, distressed, unaccompanied or at risk, but may not know how to quickly submit a structured report.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-center">
-            <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-2">
-              <div className="text-xs font-bold text-purple-300">Bystander Signal</div>
-              <p className="text-xs text-slate-400">Vendor, driver, or passenger notices a child who appears vulnerable.</p>
+            <div className="p-5 rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-2 shadow-sm">
+              <div className="text-xs font-bold text-purple-700 dark:text-purple-300">Bystander Signal</div>
+              <p className="text-xs text-slate-600 dark:text-slate-400">Vendor, driver, or passenger notices a child who appears vulnerable.</p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-2">
-              <div className="text-xs font-bold text-amber-300">Uncertainty</div>
-              <p className="text-xs text-slate-400">Bystander doesn't know who to contact or whether to intervene.</p>
+            <div className="p-5 rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-2 shadow-sm">
+              <div className="text-xs font-bold text-amber-700 dark:text-amber-300">Uncertainty</div>
+              <p className="text-xs text-slate-600 dark:text-slate-400">Bystander doesn't know who to contact or whether to intervene.</p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-2">
-              <div className="text-xs font-bold text-red-400">Critical Delay</div>
-              <p className="text-xs text-slate-400">Time passes while the minor moves through crowded transit concourses.</p>
+            <div className="p-5 rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-2 shadow-sm">
+              <div className="text-xs font-bold text-red-600 dark:text-red-400">Critical Delay</div>
+              <p className="text-xs text-slate-600 dark:text-slate-400">Time passes while the minor moves through crowded transit concourses.</p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-brand-purple/20 border border-brand-purple/40 space-y-2">
-              <div className="text-xs font-bold text-white">Rakshak Bridge</div>
-              <p className="text-xs text-purple-200">Turns concern into a 30-second report & routed case in real time.</p>
+            <div className="p-5 rounded-2xl bg-brand-purple/10 dark:bg-brand-purple/20 border border-brand-purple/40 space-y-2 shadow-sm">
+              <div className="text-xs font-bold text-slate-900 dark:text-white">Rakshak Bridge</div>
+              <p className="text-xs text-purple-900 dark:text-purple-200">Turns concern into a 30-second report & routed case in real time.</p>
             </div>
           </div>
 
@@ -321,9 +321,9 @@ export const LandingPage: React.FC = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
         <div className="text-center space-y-3">
-          <span className="text-xs font-mono font-bold text-purple-400 uppercase">Simple 3-Step Process</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white">How Rakshak Operates</h2>
-          <p className="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto">
+          <span className="text-xs font-mono font-bold text-purple-600 dark:text-purple-400 uppercase">Simple 3-Step Process</span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">How Rakshak Operates</h2>
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
             From bystander observation to human responder action.
           </p>
         </div>
@@ -334,22 +334,22 @@ export const LandingPage: React.FC = () => {
             return (
               <div
                 key={s.num}
-                className="glass-panel glass-panel-hover p-8 rounded-3xl border border-white/10 space-y-4 text-left shadow-lg flex flex-col justify-between"
+                className="glass-panel glass-panel-hover p-8 rounded-3xl border border-slate-200 dark:border-white/10 space-y-4 text-left shadow-lg flex flex-col justify-between"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-2xl bg-brand-purple/20 text-brand-purple border border-brand-purple/30 flex items-center justify-center font-bold text-xl">
+                    <div className="w-12 h-12 rounded-2xl bg-brand-purple/10 dark:bg-brand-purple/20 text-brand-purple border border-brand-purple/30 flex items-center justify-center font-bold text-xl">
                       <Icon className="w-6 h-6" />
                     </div>
-                    <span className="text-xs font-mono font-bold text-purple-300">{s.num}</span>
+                    <span className="text-xs font-mono font-bold text-purple-700 dark:text-purple-300">{s.num}</span>
                   </div>
 
-                  <h3 className="text-xl font-extrabold text-white">{s.title}</h3>
+                  <h3 className="text-xl font-extrabold text-slate-900 dark:text-white">{s.title}</h3>
                   <div className="text-xs font-semibold text-brand-purple">{s.subtitle}</div>
-                  <p className="text-xs text-slate-300 leading-relaxed">{s.desc}</p>
+                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{s.desc}</p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-[11px] font-mono text-slate-400">
+                <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-[11px] font-mono text-slate-600 dark:text-slate-400">
                   {s.mockDesc}
                 </div>
               </div>
@@ -366,8 +366,8 @@ export const LandingPage: React.FC = () => {
         
         <div className="text-center space-y-3">
           <span className="text-xs font-mono font-bold text-brand-purple uppercase">Core Architecture</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white">Product Capabilities</h2>
-          <p className="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Product Capabilities</h2>
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
             Built from the ground up for speed, privacy, and team coordination.
           </p>
         </div>
@@ -378,14 +378,14 @@ export const LandingPage: React.FC = () => {
             return (
               <div
                 key={idx}
-                className="glass-panel glass-panel-hover p-6 rounded-3xl border border-white/10 space-y-3 text-left shadow-lg"
+                className="glass-panel glass-panel-hover p-6 rounded-3xl border border-slate-200 dark:border-white/10 space-y-3 text-left shadow-lg"
               >
-                <div className={`w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center ${cap.color}`}>
+                <div className={`w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center ${cap.color}`}>
                   <Icon className="w-5 h-5" />
                 </div>
 
-                <h3 className="text-base font-bold text-white">{cap.title}</h3>
-                <p className="text-xs text-slate-300 leading-relaxed">{cap.desc}</p>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">{cap.title}</h3>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{cap.desc}</p>
               </div>
             );
           })}
@@ -397,36 +397,36 @@ export const LandingPage: React.FC = () => {
       {/* 5. SECTION — PRIVACY & SAFETY                                 */}
       {/* ============================================================ */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-white/10 space-y-8 text-center shadow-2xl">
+        <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-slate-200 dark:border-white/10 space-y-8 text-center shadow-2xl">
           
           <div className="space-y-3 max-w-2xl mx-auto">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 mx-auto flex items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 mx-auto flex items-center justify-center">
               <Lock className="w-6 h-6" />
             </div>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-white">
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
               "Safety should never come at the cost of privacy."
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
               Rakshak is designed around privacy-first child protection — not mass surveillance.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
-            <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1">
-              <div className="text-xs font-bold text-white">Anonymous by Default</div>
-              <p className="text-xs text-slate-400">No account, phone number, or personal details required from bystanders.</p>
+            <div className="p-5 rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1 shadow-sm">
+              <div className="text-xs font-bold text-slate-900 dark:text-white">Anonymous by Default</div>
+              <p className="text-xs text-slate-600 dark:text-slate-400">No account, phone number, or personal details required from bystanders.</p>
             </div>
-            <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1">
-              <div className="text-xs font-bold text-white">Minimal Data Collection</div>
-              <p className="text-xs text-slate-400">Only information needed to help ground responders locate the child is collected.</p>
+            <div className="p-5 rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1 shadow-sm">
+              <div className="text-xs font-bold text-slate-900 dark:text-white">Minimal Data Collection</div>
+              <p className="text-xs text-slate-600 dark:text-slate-400">Only information needed to help ground responders locate the child is collected.</p>
             </div>
-            <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1">
-              <div className="text-xs font-bold text-white">Human Verification</div>
-              <p className="text-xs text-slate-400">AI output is strictly advisory; physical verification is mandatory before action.</p>
+            <div className="p-5 rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1 shadow-sm">
+              <div className="text-xs font-bold text-slate-900 dark:text-white">Human Verification</div>
+              <p className="text-xs text-slate-600 dark:text-slate-400">AI output is strictly advisory; physical verification is mandatory before action.</p>
             </div>
-            <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1">
-              <div className="text-xs font-bold text-white">No Public Child Tracking</div>
-              <p className="text-xs text-slate-400">Media and precise transit coordinates are encrypted and restricted to authorized teams.</p>
+            <div className="p-5 rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1 shadow-sm">
+              <div className="text-xs font-bold text-slate-900 dark:text-white">No Public Child Tracking</div>
+              <p className="text-xs text-slate-600 dark:text-slate-400">Media and precise transit coordinates are encrypted and restricted to authorized teams.</p>
             </div>
           </div>
 
@@ -468,26 +468,26 @@ export const LandingPage: React.FC = () => {
       {/* ============================================================ */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
         <div className="space-y-2">
-          <span className="text-xs font-mono font-bold text-slate-400 uppercase">Performance Targets</span>
-          <h2 className="text-3xl font-extrabold text-white">Impact & Coverage Targets</h2>
+          <span className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400 uppercase">Performance Targets</span>
+          <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white">Impact & Coverage Targets</h2>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="glass-panel p-6 rounded-3xl border border-white/10 space-y-2">
+          <div className="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-white/10 space-y-2 shadow-sm">
             <div className="text-3xl sm:text-4xl font-extrabold text-brand-purple font-mono">30 sec</div>
-            <div className="text-xs font-bold text-white uppercase">Target Reporting Time</div>
+            <div className="text-xs font-bold text-slate-900 dark:text-white uppercase">Target Reporting Time</div>
           </div>
-          <div className="glass-panel p-6 rounded-3xl border border-white/10 space-y-2">
+          <div className="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-white/10 space-y-2 shadow-sm">
             <div className="text-3xl sm:text-4xl font-extrabold text-brand-magenta font-mono">1</div>
-            <div className="text-xs font-bold text-white uppercase">Unified Case ID</div>
+            <div className="text-xs font-bold text-slate-900 dark:text-white uppercase">Unified Case ID</div>
           </div>
-          <div className="glass-panel p-6 rounded-3xl border border-white/10 space-y-2">
-            <div className="text-3xl sm:text-4xl font-extrabold text-blue-400 font-mono">3</div>
-            <div className="text-xs font-bold text-white uppercase">Core Response Layers</div>
+          <div className="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-white/10 space-y-2 shadow-sm">
+            <div className="text-3xl sm:text-4xl font-extrabold text-blue-500 dark:text-blue-400 font-mono">3</div>
+            <div className="text-xs font-bold text-slate-900 dark:text-white uppercase">Core Response Layers</div>
           </div>
-          <div className="glass-panel p-6 rounded-3xl border border-white/10 space-y-2">
-            <div className="text-3xl sm:text-4xl font-extrabold text-emerald-400 font-mono">24/7</div>
-            <div className="text-xs font-bold text-white uppercase">Designed Availability</div>
+          <div className="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-white/10 space-y-2 shadow-sm">
+            <div className="text-3xl sm:text-4xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono">24/7</div>
+            <div className="text-xs font-bold text-slate-900 dark:text-white uppercase">Designed Availability</div>
           </div>
         </div>
       </section>
@@ -546,7 +546,7 @@ export const LandingPage: React.FC = () => {
         
         <div className="text-center space-y-3">
           <span className="text-xs font-mono font-bold text-brand-purple uppercase">Frequently Asked Questions</span>
-          <h2 className="text-3xl font-extrabold text-white">Everything You Need to Know</h2>
+          <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white">Everything You Need to Know</h2>
         </div>
 
         <div className="space-y-3">
@@ -555,18 +555,18 @@ export const LandingPage: React.FC = () => {
             return (
               <div
                 key={idx}
-                className="border border-slate-800 rounded-2xl overflow-hidden bg-slate-900/60 transition-all"
+                className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden bg-white/80 dark:bg-slate-900/60 transition-all shadow-sm"
               >
                 <button
                   onClick={() => toggleFaq(idx)}
-                  className="w-full p-5 text-left flex items-center justify-between text-sm font-bold text-white hover:bg-slate-800/50 transition-colors"
+                  className="w-full p-5 text-left flex items-center justify-between text-sm font-bold text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors"
                 >
                   <span>{faq.q}</span>
                   {isOpen ? <ChevronUp className="w-4 h-4 text-brand-purple" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
                 </button>
 
                 {isOpen && (
-                  <div className="p-5 pt-0 text-xs text-slate-300 leading-relaxed border-t border-slate-800/60">
+                  <div className="p-5 pt-0 text-xs text-slate-700 dark:text-slate-300 leading-relaxed border-t border-slate-200 dark:border-slate-800/60">
                     {faq.a}
                   </div>
                 )}

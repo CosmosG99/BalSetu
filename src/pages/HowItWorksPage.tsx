@@ -54,12 +54,12 @@ export const HowItWorksPage: React.FC = () => {
       
       {/* Header */}
       <div className="text-center space-y-4">
-        <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-semibold">
+        <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-purple-500/10 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-500/30 text-xs font-semibold">
           <Sparkles className="w-3.5 h-3.5 text-brand-magenta" />
           <span>Core Product Architecture</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-white">How Rakshak Works</h1>
-        <p className="text-base text-slate-300 max-w-2xl mx-auto">
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white">How Rakshak Works</h1>
+        <p className="text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
           Connecting bystander observation to human ground intervention in 5 structured steps.
         </p>
 
@@ -75,7 +75,7 @@ export const HowItWorksPage: React.FC = () => {
           return (
             <div
               key={step.num}
-              className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 flex flex-col md:flex-row items-start md:items-center gap-6 shadow-xl relative overflow-hidden group hover:border-brand-purple/40 transition-all"
+              className="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-white/10 flex flex-col md:flex-row items-start md:items-center gap-6 shadow-xl relative overflow-hidden group hover:border-brand-purple/40 transition-all"
             >
               {/* Step Number & Icon */}
               <div className="flex items-center space-x-4 flex-shrink-0">
@@ -88,10 +88,10 @@ export const HowItWorksPage: React.FC = () => {
               {/* Step Content */}
               <div className="space-y-1 flex-1">
                 <div className="flex items-center space-x-2">
-                  <h3 className="text-xl font-bold text-white tracking-tight">{step.title}</h3>
-                  <span className="text-xs text-purple-300 font-semibold">— {step.subtitle}</span>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">{step.title}</h3>
+                  <span className="text-xs text-purple-700 dark:text-purple-300 font-semibold">— {step.subtitle}</span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">{step.desc}</p>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{step.desc}</p>
               </div>
             </div>
           );
@@ -99,12 +99,12 @@ export const HowItWorksPage: React.FC = () => {
       </div>
 
       {/* Disclaimer Banner */}
-      <div className="p-6 rounded-3xl bg-slate-900/90 border border-slate-800 text-center space-y-2 max-w-3xl mx-auto shadow-xl">
-        <div className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center justify-center space-x-1.5">
+      <div className="p-6 rounded-3xl bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-center space-y-2 max-w-3xl mx-auto shadow-xl">
+        <div className="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider flex items-center justify-center space-x-1.5">
           <AlertTriangle className="w-4 h-4" />
           <span>System Positioning Guarantee</span>
         </div>
-        <p className="text-xs text-slate-300">
+        <p className="text-xs text-slate-600 dark:text-slate-300">
           "Rakshak is designed to complement existing child-protection systems, not replace them."
         </p>
       </div>

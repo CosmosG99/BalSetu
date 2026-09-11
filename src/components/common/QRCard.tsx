@@ -17,7 +17,6 @@ export const QRCard: React.FC<QRCardProps> = ({ caseId, size = 160 }) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Generate deterministic synthetic SVG QR grid based on caseId string hash
   const generateGrid = () => {
     const grid = [];
     let hash = 0;
@@ -29,7 +28,6 @@ export const QRCard: React.FC<QRCardProps> = ({ caseId, size = 160 }) => {
     for (let r = 0; r < cols; r++) {
       const row = [];
       for (let c = 0; c < cols; c++) {
-        // Standard QR corners
         const isCorner =
           (r < 4 && c < 4) || (r < 4 && c >= cols - 4) || (r >= cols - 4 && c < 4);
         if (isCorner) {
@@ -49,13 +47,13 @@ export const QRCard: React.FC<QRCardProps> = ({ caseId, size = 160 }) => {
   const grid = generateGrid();
 
   return (
-    <div className="glass-panel p-5 rounded-2xl border border-white/10 flex flex-col items-center text-center space-y-4 max-w-xs mx-auto shadow-xl">
+    <div className="glass-panel p-5 rounded-2xl flex flex-col items-center text-center space-y-4 max-w-xs mx-auto">
       <div className="flex items-center space-x-2 text-brand-purple font-semibold text-xs uppercase tracking-wider">
         <QrCode className="w-4 h-4" />
         <span>Scan or Save QR Code</span>
       </div>
 
-      <div className="bg-white p-3 rounded-xl shadow-inner inline-block">
+      <div className="bg-white p-3 rounded-xl shadow-md border border-slate-200 inline-block">
         <svg width={size} height={size} viewBox="0 0 15 15" className="shape-rendering-crisp">
           {grid.map((row, r) =>
             row.map((cell, c) => (
@@ -73,20 +71,20 @@ export const QRCard: React.FC<QRCardProps> = ({ caseId, size = 160 }) => {
       </div>
 
       <div className="w-full space-y-2">
-        <div className="text-xs text-slate-400 font-mono bg-slate-900/60 p-2 rounded-lg border border-slate-800 break-all select-all flex items-center justify-between">
-          <span className="truncate mr-2">{caseId}</span>
+        <div className="text-xs text-slate-700 dark:text-slate-400 font-mono bg-slate-100 dark:bg-slate-900/60 p-2 rounded-lg border border-slate-200 dark:border-slate-800 break-all select-all flex items-center justify-between">
+          <span className="truncate mr-2 font-bold">{caseId}</span>
           <button
             onClick={copyToClipboard}
-            className="text-brand-purple hover:text-white p-1 transition-colors"
+            className="text-brand-purple hover:text-purple-600 p-1 transition-colors"
             title="Copy Track URL"
           >
-            {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+            {copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
           </button>
         </div>
 
         <Link
           to={`/track/${caseId}`}
-          className="w-full inline-flex items-center justify-center space-x-2 py-2 px-3 bg-brand-purple/20 hover:bg-brand-purple/30 text-purple-200 border border-brand-purple/40 rounded-xl text-xs font-medium transition-all"
+          className="w-full inline-flex items-center justify-center space-x-2 py-2 px-3 bg-brand-purple/15 hover:bg-brand-purple/25 text-brand-purple dark:text-purple-200 border border-brand-purple/35 rounded-xl text-xs font-bold transition-all"
         >
           <span>Open Tracking Page</span>
           <ExternalLink className="w-3.5 h-3.5" />

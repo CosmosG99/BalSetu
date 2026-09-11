@@ -1,35 +1,35 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, Lock, Heart, HeartHandshake, ExternalLink } from 'lucide-react';
+import { Shield, Lock, Heart, ExternalLink } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
 export const Footer: React.FC = () => {
   const { t } = useLanguage();
 
   return (
-    <footer className="bg-slate-950 border-t border-white/10 text-slate-400 py-16 px-4 sm:px-6 lg:px-8">
+    <footer className="bg-slate-100 dark:bg-slate-950 border-t border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 py-16 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-10">
         
-        {/* Column 1: Brand & Prototype Disclaimer */}
+        {/* Column 1: Brand & Disclaimer */}
         <div className="space-y-4 md:col-span-2">
           <div className="flex items-center space-x-3">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-purple to-brand-magenta p-0.5 shadow-glow-purple">
-              <div className="w-full h-full bg-brand-dark rounded-[10px] flex items-center justify-center">
+              <div className="w-full h-full bg-white dark:bg-brand-dark rounded-[10px] flex items-center justify-center">
                 <Shield className="w-5 h-5 text-brand-purple" />
               </div>
             </div>
             <div>
-              <span className="text-xl font-extrabold text-white tracking-tight">RAKSHAK</span>
+              <span className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">RAKSHAK</span>
               <p className="text-[11px] text-slate-500 font-medium">Protect. Connect. Respond.</p>
             </div>
           </div>
 
-          <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
+          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed max-w-sm">
             Rakshak is a first-mile child-safety coordination platform concept developed for the Bit N Build Hackathon under Track 2: Bal Suraksha (Support Ecosystems). Designed to turn bystander observation into instant protection.
           </p>
 
-          <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-[11px] text-slate-400 space-y-1">
-            <div className="font-bold text-amber-400">⚠️ Hackathon Concept & Simulated Integrations</div>
+          <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-[11px] text-slate-600 dark:text-slate-400 space-y-1 shadow-sm">
+            <div className="font-bold text-amber-600 dark:text-amber-400">⚠️ Hackathon Concept & Simulated Integrations</div>
             <p>
               This project is an independent prototype and is not officially affiliated with or endorsed by Indian Railways, Railway Protection Force (RPF), CHILDLINE, Police, or government databases. All data and profiles are 100% synthetic.
             </p>
@@ -38,31 +38,31 @@ export const Footer: React.FC = () => {
 
         {/* Column 2: Platform Links */}
         <div className="space-y-3">
-          <div className="text-xs font-bold text-white uppercase tracking-wider">Platform</div>
+          <div className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Platform</div>
           <ul className="space-y-2.5 text-xs">
             <li>
-              <Link to="/report" className="hover:text-purple-300 transition-colors">
+              <Link to="/report" className="hover:text-purple-600 dark:hover:text-purple-300 transition-colors">
                 Report a Concern
               </Link>
             </li>
             <li>
-              <Link to="/track" className="hover:text-purple-300 transition-colors">
+              <Link to="/track" className="hover:text-purple-600 dark:hover:text-purple-300 transition-colors">
                 Track Case Status
               </Link>
             </li>
             <li>
-              <Link to="/how-it-works" className="hover:text-purple-300 transition-colors">
+              <Link to="/how-it-works" className="hover:text-purple-600 dark:hover:text-purple-300 transition-colors">
                 How It Works
               </Link>
             </li>
             <li>
-              <Link to="/responder" className="hover:text-purple-300 transition-colors flex items-center gap-1 text-brand-purple font-semibold">
+              <Link to="/responder" className="hover:text-purple-600 dark:hover:text-purple-300 transition-colors flex items-center gap-1 text-brand-purple font-semibold">
                 <span>Response Center Portal</span>
                 <ExternalLink className="w-3 h-3" />
               </Link>
             </li>
             <li>
-              <Link to="/trusted-reporter" className="hover:text-purple-300 transition-colors">
+              <Link to="/trusted-reporter" className="hover:text-purple-600 dark:hover:text-purple-300 transition-colors">
                 Trusted Reporter Network
               </Link>
             </li>
@@ -71,25 +71,25 @@ export const Footer: React.FC = () => {
 
         {/* Column 3: Resources & Safety */}
         <div className="space-y-3">
-          <div className="text-xs font-bold text-white uppercase tracking-wider">Resources</div>
+          <div className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Resources</div>
           <ul className="space-y-2.5 text-xs">
             <li>
-              <Link to="/resources" className="hover:text-purple-300 transition-colors">
+              <Link to="/resources" className="hover:text-purple-600 dark:hover:text-purple-300 transition-colors">
                 Safety Resource Center
               </Link>
             </li>
             <li>
-              <Link to="/about" className="hover:text-purple-300 transition-colors">
+              <Link to="/about" className="hover:text-purple-600 dark:hover:text-purple-300 transition-colors">
                 Privacy Architecture
               </Link>
             </li>
             <li>
-              <Link to="/impact" className="hover:text-purple-300 transition-colors">
+              <Link to="/impact" className="hover:text-purple-600 dark:hover:text-purple-300 transition-colors">
                 Impact & Metrics
               </Link>
             </li>
             <li>
-              <Link to="/admin" className="hover:text-purple-300 transition-colors">
+              <Link to="/admin" className="hover:text-purple-600 dark:hover:text-purple-300 transition-colors">
                 Admin Analytics
               </Link>
             </li>
@@ -98,15 +98,15 @@ export const Footer: React.FC = () => {
 
         {/* Column 4: Project Info */}
         <div className="space-y-3">
-          <div className="text-xs font-bold text-white uppercase tracking-wider">Project</div>
+          <div className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Project</div>
           <ul className="space-y-2.5 text-xs">
             <li>
-              <Link to="/about" className="hover:text-purple-300 transition-colors">
+              <Link to="/about" className="hover:text-purple-600 dark:hover:text-purple-300 transition-colors">
                 About Bal Suraksha
               </Link>
             </li>
             <li>
-              <a href="#faq" className="hover:text-purple-300 transition-colors">
+              <a href="#faq" className="hover:text-purple-600 dark:hover:text-purple-300 transition-colors">
                 FAQ
               </a>
             </li>
@@ -115,7 +115,7 @@ export const Footer: React.FC = () => {
             </li>
           </ul>
 
-          <div className="pt-2 flex items-center space-x-2 text-[11px] text-emerald-400">
+          <div className="pt-2 flex items-center space-x-2 text-[11px] text-emerald-600 dark:text-emerald-400">
             <Lock className="w-3.5 h-3.5" />
             <span>Privacy First • Zero Data Harvesting</span>
           </div>
@@ -123,7 +123,7 @@ export const Footer: React.FC = () => {
 
       </div>
 
-      <div className="max-w-7xl mx-auto mt-12 pt-6 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 space-y-3 sm:space-y-0">
+      <div className="max-w-7xl mx-auto mt-12 pt-6 border-t border-slate-200 dark:border-slate-900 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 space-y-3 sm:space-y-0">
         <div>© 2026 RAKSHAK Team — Built for Bit N Build Hackathon • Bal Suraksha • Track 2.</div>
         <div className="flex items-center space-x-1">
           <span>Crafted with</span>
