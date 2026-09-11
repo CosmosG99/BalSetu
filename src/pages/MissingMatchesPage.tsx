@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { MissingChildProfile } from '../types';
 import { searchPotentialMatches, INITIAL_SYNTHETIC_MISSING_CHILDREN } from '../services/mockMatchService';
-import { Users, Search, AlertTriangle, ShieldCheck, Sparkles, Eye, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
+import { Users, Search, AlertTriangle, ShieldCheck, Sparkles } from 'lucide-react';
 
 export const MissingMatchesPage: React.FC = () => {
+  const { t } = useLanguage();
   const [searching, setSearching] = useState(false);
   const [results, setResults] = useState<MissingChildProfile[]>(INITIAL_SYNTHETIC_MISSING_CHILDREN);
-  const [selectedPhoto, setSelectedPhoto] = useState<string>(
+  const [selectedPhoto] = useState<string>(
     'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=400&q=80'
   );
 
@@ -26,10 +27,10 @@ export const MissingMatchesPage: React.FC = () => {
         <div>
           <div className="flex items-center space-x-2">
             <Users className="w-6 h-6 text-brand-magenta" />
-            <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white">Potential Match Assistance</h1>
+            <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white">{t('matchAssistanceTitle')}</h1>
           </div>
           <p className="text-xs text-slate-600 dark:text-slate-400">
-            Use submitted images to search a synthetic missing-child dataset for potential similarity patterns.
+            {t('matchAssistanceSub')}
           </p>
         </div>
 
@@ -42,9 +43,9 @@ export const MissingMatchesPage: React.FC = () => {
       <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-200 flex items-start space-x-3 text-xs shadow-lg">
         <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
         <div>
-          <strong className="text-amber-900 dark:text-amber-300 block text-sm font-bold">MANDATORY ADVISORY WARNING</strong>
+          <strong className="text-amber-900 dark:text-amber-300 block text-sm font-bold">{t('mandatoryWarningTitle')}</strong>
           <p>
-            Potential similarity only. Algorithmic results are advisory helpers for ground officers. Mandatory human verification is required before taking any intervention or legal action.
+            {t('mandatoryWarningBody')}
           </p>
         </div>
       </div>
@@ -54,7 +55,7 @@ export const MissingMatchesPage: React.FC = () => {
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center space-x-2">
             <Sparkles className="w-4 h-4 text-brand-purple" />
-            <span>Similarity Search Query Image</span>
+            <span>{t('queryImageTitle')}</span>
           </h3>
           <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">1 face detected</span>
         </div>
@@ -74,7 +75,7 @@ export const MissingMatchesPage: React.FC = () => {
               className="py-2.5 px-5 rounded-xl bg-gradient-to-r from-brand-purple to-brand-magenta text-white font-bold text-xs shadow-glow-purple disabled:opacity-50 transition-all flex items-center space-x-2"
             >
               <Search className={`w-3.5 h-3.5 ${searching ? 'animate-spin' : ''}`} />
-              <span>{searching ? 'Calculating Similarities...' : 'Run Similarity Search'}</span>
+              <span>{searching ? 'Calculating Similarities...' : t('runSimilaritySearchBtn')}</span>
             </button>
           </div>
         </div>
@@ -83,11 +84,11 @@ export const MissingMatchesPage: React.FC = () => {
       {/* Results Grid */}
       <div className="space-y-4">
         <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
-          Potential Similarity Matches ({results.length})
+          {t('potentialSimilarityMatches')} ({results.length})
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {results.map((item, idx) => (
+          {results.map((item) => (
             <div
               key={item.id}
               className="glass-panel glass-panel-hover p-5 rounded-2xl border border-slate-200 dark:border-white/10 space-y-3 shadow-lg flex flex-col justify-between"
@@ -114,7 +115,7 @@ export const MissingMatchesPage: React.FC = () => {
 
               <button className="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs border border-slate-300 dark:border-slate-700 transition-colors flex items-center justify-center space-x-1.5 shadow-sm">
                 <ShieldCheck className="w-3.5 h-3.5 text-brand-purple" />
-                <span>Verify Similarity</span>
+                <span>{t('verifySimilarityBtn')}</span>
               </button>
             </div>
           ))}

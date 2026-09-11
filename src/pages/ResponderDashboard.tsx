@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCases } from '../context/CaseContext';
+import { useLanguage } from '../context/LanguageContext';
 import { CaseTable } from '../components/responder/CaseTable';
 import { MetricCard } from '../components/admin/MetricCard';
 import { RiskBadge } from '../components/common/RiskBadge';
@@ -7,25 +8,19 @@ import { StatusBadge } from '../components/common/StatusBadge';
 import { MapView } from '../components/map/MapView';
 import { DemoModeDropdown } from '../components/responder/DemoModeDropdown';
 import {
-  ShieldCheck,
   AlertTriangle,
   FileText,
   CheckCircle2,
-  MapPin,
   Users,
-  Search,
-  Filter,
   Layers,
   Map as MapIcon,
-  Sparkles,
   ArrowRight,
-  Clock,
-  Activity,
-  UserCheck
+  Activity
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export const ResponderDashboard: React.FC = () => {
+  const { t } = useLanguage();
   const { cases } = useCases();
   const navigate = useNavigate();
   const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
@@ -49,13 +44,13 @@ export const ResponderDashboard: React.FC = () => {
         <div className="space-y-1">
           <div className="flex items-center space-x-2">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-ping" />
-            <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase">Response Command Active</span>
+            <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase">{t('commandActive')}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
-            Good evening, Response Team.
+            {t('greetingResponder')}
           </h1>
           <p className="text-xs text-slate-600 dark:text-slate-400">
-            "Here's what needs attention across high-footfall transit concourses."
+            {t('greetingSub')}
           </p>
         </div>
 
@@ -66,7 +61,7 @@ export const ResponderDashboard: React.FC = () => {
             className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-800 font-bold text-xs transition-colors flex items-center space-x-1.5 shadow-sm"
           >
             <MapIcon className="w-4 h-4 text-brand-purple" />
-            <span>Transit Map Radar</span>
+            <span>{t('transitMapRadar')}</span>
           </Link>
 
           <Link
@@ -74,7 +69,7 @@ export const ResponderDashboard: React.FC = () => {
             className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-800 font-bold text-xs transition-colors flex items-center space-x-1.5 shadow-sm"
           >
             <Users className="w-4 h-4 text-brand-magenta" />
-            <span>Missing Child Matches</span>
+            <span>{t('missingChildMatches')}</span>
           </Link>
 
           {/* Integrated Demo Mode Popover Dropdown */}
@@ -85,7 +80,7 @@ export const ResponderDashboard: React.FC = () => {
       {/* Top 4 KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
-          title="ACTIVE CASES"
+          title={t('activeCasesMetric')}
           value={activeCasesCount}
           change="+8% vs yesterday"
           icon={Layers}
@@ -119,7 +114,7 @@ export const ResponderDashboard: React.FC = () => {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Priority Dispatch Queue</h2>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">{t('priorityQueueHeading')}</h2>
             <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-red-500/10 dark:bg-red-500/20 text-red-700 dark:text-red-300 border border-red-500/30">
               {priorityCases.length} Critical & High Alerts
             </span>
@@ -132,7 +127,7 @@ export const ResponderDashboard: React.FC = () => {
                 viewMode === 'cards' ? 'bg-brand-purple text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              Rich Cards
+              {t('richCards')}
             </button>
             <button
               onClick={() => setViewMode('table')}
@@ -140,7 +135,7 @@ export const ResponderDashboard: React.FC = () => {
                 viewMode === 'table' ? 'bg-brand-purple text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              Compact Table
+              {t('compactTable')}
             </button>
           </div>
         </div>
@@ -194,9 +189,9 @@ export const ResponderDashboard: React.FC = () => {
         {/* Map Preview (2 Cols) */}
         <div className="lg:col-span-2 space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Live Transit Map Preview</h3>
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">{t('liveTransitMapPreview')}</h3>
             <Link to="/responder/map" className="text-xs text-brand-purple hover:text-purple-700 dark:hover:text-purple-300 font-bold">
-              Full Screen Radar →
+              {t('fullScreenRadar')}
             </Link>
           </div>
           <MapView cases={cases.slice(0, 8)} interactive={false} />
@@ -207,7 +202,7 @@ export const ResponderDashboard: React.FC = () => {
           <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
             <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center space-x-1">
               <Activity className="w-4 h-4 text-brand-purple" />
-              <span>Recent Dispatch Stream</span>
+              <span>{t('recentDispatchStream')}</span>
             </h3>
             <span className="text-[10px] text-slate-500 font-mono">Live</span>
           </div>

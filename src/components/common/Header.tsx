@@ -34,7 +34,7 @@ export const Header: React.FC = () => {
               </div>
             </div>
             <span className="text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">
-              RAKSHAK <span className="text-xs text-brand-purple font-mono font-medium">| Report App</span>
+              {t('appName')} <span className="text-xs text-brand-purple font-mono font-medium">| Report App</span>
             </span>
           </Link>
 
@@ -50,10 +50,10 @@ export const Header: React.FC = () => {
 
             <div className="flex items-center space-x-1.5 text-slate-500 dark:text-slate-400 font-medium">
               <Lock className="w-3.5 h-3.5 text-emerald-500" />
-              <span className="hidden sm:inline">256-Bit Encrypted</span>
+              <span className="hidden sm:inline">{t('encryptedNotice')}</span>
             </div>
-            <Link to="/" className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white px-2 py-1 transition-colors">
-              Exit Flow
+            <Link to="/" className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white px-2 py-1 transition-colors font-medium">
+              {t('exitFlow')}
             </Link>
           </div>
         </div>
@@ -85,7 +85,7 @@ export const Header: React.FC = () => {
                   {t('appName')}
                 </span>
                 <span className="text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-purple-500/10 dark:bg-purple-500/15 text-purple-700 dark:text-purple-300 border border-purple-500/20 dark:border-purple-500/25">
-                  Bal Suraksha
+                  {t('balSurakshaBadge')}
                 </span>
               </div>
               <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium tracking-wide hidden sm:block">
@@ -104,7 +104,7 @@ export const Header: React.FC = () => {
                   : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
               }`}
             >
-              Home
+              {t('navHome')}
             </Link>
             <Link
               to="/how-it-works"
@@ -114,7 +114,7 @@ export const Header: React.FC = () => {
                   : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
               }`}
             >
-              How It Works
+              {t('navHowItWorks')}
             </Link>
             <Link
               to="/impact"
@@ -124,7 +124,7 @@ export const Header: React.FC = () => {
                   : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
               }`}
             >
-              Impact
+              {t('navImpact')}
             </Link>
             <Link
               to="/resources"
@@ -134,7 +134,7 @@ export const Header: React.FC = () => {
                   : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
               }`}
             >
-              Resources
+              {t('navResources')}
             </Link>
             <Link
               to="/about"
@@ -144,7 +144,7 @@ export const Header: React.FC = () => {
                   : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
               }`}
             >
-              About
+              {t('navAbout')}
             </Link>
           </nav>
 
@@ -179,7 +179,7 @@ export const Header: React.FC = () => {
               to="/track"
               className="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
             >
-              Track Report
+              {t('navTrack')}
             </Link>
 
             {/* Primary Action Button */}
@@ -187,7 +187,7 @@ export const Header: React.FC = () => {
               to="/report"
               className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-purple to-brand-magenta text-white font-bold text-xs shadow-glow-purple hover:shadow-glow-magenta hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
-              <span>REPORT A CONCERN</span>
+              <span>{t('btnReportConcern')}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
 
@@ -205,7 +205,7 @@ export const Header: React.FC = () => {
               to="/report"
               className="px-3 py-1.5 rounded-lg bg-brand-purple text-white font-bold text-xs shadow-sm"
             >
-              Report
+              {t('btnReportConcern')}
             </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -227,47 +227,47 @@ export const Header: React.FC = () => {
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-              Home
+              {t('navHome')}
             </Link>
             <Link
               to="/how-it-works"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-              How It Works
+              {t('navHowItWorks')}
             </Link>
             <Link
               to="/impact"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-              Impact
+              {t('navImpact')}
             </Link>
             <Link
               to="/resources"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-              Resources
+              {t('navResources')}
             </Link>
             <Link
               to="/about"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-              About
+              {t('navAbout')}
             </Link>
             <Link
               to="/track"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-              Track Report
+              {t('navTrack')}
             </Link>
           </div>
 
           <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
-            <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">Select Language:</span>
+            <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">{t('selectLang')}</span>
             <div className="flex space-x-2">
               <button
                 onClick={() => setLanguage('en')}
@@ -296,7 +296,7 @@ export const Header: React.FC = () => {
               onClick={() => setMobileMenuOpen(false)}
               className="text-xs text-brand-purple font-mono font-bold"
             >
-              Go to Response Center Portal →
+              {t('btnResponderDashboard')} →
             </Link>
           </div>
         </div>

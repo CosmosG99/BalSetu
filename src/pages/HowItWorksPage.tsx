@@ -1,5 +1,5 @@
 import React from 'react';
-import { Eye, Send, Cpu, Network, ShieldCheck, Lock, Sparkles, CheckCircle2, AlertTriangle, ArrowRight } from 'lucide-react';
+import { Eye, Send, Cpu, Network, ShieldCheck, Sparkles, AlertTriangle, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { Link } from 'react-router-dom';
 
@@ -58,9 +58,9 @@ export const HowItWorksPage: React.FC = () => {
           <Sparkles className="w-3.5 h-3.5 text-brand-magenta" />
           <span>Core Product Architecture</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white">How Rakshak Works</h1>
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white">{t('navHowItWorks')}</h1>
         <p className="text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-          Connecting bystander observation to human ground intervention in 5 structured steps.
+          {t('processSub')}
         </p>
 
         <div className="pt-2 flex items-center justify-center space-x-2 text-xs font-mono font-bold text-brand-purple">
@@ -70,7 +70,7 @@ export const HowItWorksPage: React.FC = () => {
 
       {/* 5-Step Vertical Cards */}
       <div className="space-y-6">
-        {steps.map((step, idx) => {
+        {steps.map((step) => {
           const Icon = step.icon;
           return (
             <div
@@ -115,7 +115,7 @@ export const HowItWorksPage: React.FC = () => {
           to="/report"
           className="inline-flex items-center space-x-2 py-4 px-8 rounded-2xl bg-gradient-to-r from-brand-purple to-brand-magenta text-white font-bold text-sm shadow-glow-purple hover:scale-105 transition-all"
         >
-          <span>Try Citizen Reporting Flow</span>
+          <span>{t('btnReportConcern')}</span>
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>

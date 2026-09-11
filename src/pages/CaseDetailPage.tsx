@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useCases } from '../context/CaseContext';
+import { useLanguage } from '../context/LanguageContext';
 import { CaseStatus } from '../types';
 import { RiskBadge } from '../components/common/RiskBadge';
 import { StatusBadge } from '../components/common/StatusBadge';
@@ -11,20 +12,19 @@ import { AuditLogView } from '../components/responder/AuditLogView';
 import {
   ArrowLeft,
   UserCheck,
-  ShieldAlert,
   CheckCircle2,
   AlertCircle,
   MessageSquarePlus,
   Cpu,
   MapPin,
   Clock,
-  Send,
-  Sparkles
+  Send
 } from 'lucide-react';
 
 export const CaseDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const { getCaseById, updateCaseStatus, addNoteToCase } = useCases();
 
   const caseData = id ? getCaseById(id) : undefined;
@@ -44,7 +44,7 @@ export const CaseDetailPage: React.FC = () => {
           className="inline-flex items-center space-x-2 px-4 py-2 bg-brand-purple text-white text-xs font-bold rounded-xl"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Return to Dashboard</span>
+          <span>{t('backToDashboard')}</span>
         </Link>
       </div>
     );
@@ -76,11 +76,11 @@ export const CaseDetailPage: React.FC = () => {
           className="inline-flex items-center space-x-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-xs font-semibold transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Back to Responder Dashboard</span>
+          <span>{t('backToDashboard')}</span>
         </Link>
 
         <div className="text-xs font-mono text-slate-500 dark:text-slate-400">
-          Case Registry ID: <span className="font-bold text-brand-purple">{caseData.id}</span>
+          {t('caseRegistryId')} <span className="font-bold text-brand-purple">{caseData.id}</span>
         </div>
       </div>
 
@@ -116,21 +116,21 @@ export const CaseDetailPage: React.FC = () => {
               className="py-2.5 px-4 rounded-xl bg-brand-purple hover:bg-brand-purple/90 text-white font-bold text-xs shadow-glow-purple flex items-center space-x-1.5 transition-all"
             >
               <UserCheck className="w-4 h-4" />
-              <span>Assign to Me</span>
+              <span>{t('assignToMe')}</span>
             </button>
 
             <button
               onClick={() => setStatusModalOpen(true)}
               className="py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs border border-slate-300 dark:border-slate-700 transition-colors shadow-sm"
             >
-              Update Status
+              {t('updateStatusBtn')}
             </button>
 
             <button
               onClick={() => updateCaseStatus(caseData.id, 'INTERVENTION', responderName)}
               className="py-2.5 px-4 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-700 dark:text-red-300 font-bold text-xs border border-red-500/30 transition-colors"
             >
-              Escalate Case
+              {t('escalateCaseBtn')}
             </button>
           </div>
         </div>
@@ -139,7 +139,7 @@ export const CaseDetailPage: React.FC = () => {
         {caseData.assignedResponder && (
           <div className="p-3 rounded-xl bg-purple-500/10 border border-purple-500/30 text-xs text-purple-900 dark:text-purple-200 flex items-center space-x-2 font-medium">
             <UserCheck className="w-4 h-4 text-brand-purple" />
-            <span>Assigned Ground Responder: <strong className="text-slate-900 dark:text-white">{caseData.assignedResponder}</strong></span>
+            <span>{t('assignedResponderLabel')} <strong className="text-slate-900 dark:text-white">{caseData.assignedResponder}</strong></span>
           </div>
         )}
       </div>
@@ -155,7 +155,7 @@ export const CaseDetailPage: React.FC = () => {
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
               <div className="flex items-center space-x-2">
                 <Cpu className="w-5 h-5 text-brand-purple" />
-                <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">AI-Assisted Triage Assessment</h3>
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">{t('aiTriageAssessmentHeading')}</h3>
               </div>
               <span className="text-[10px] font-bold text-purple-700 dark:text-purple-300 bg-brand-purple/10 dark:bg-brand-purple/20 px-2.5 py-0.5 rounded-full border border-brand-purple/30">
                 Score {caseData.aiAnalysis.riskScore}/100
@@ -163,12 +163,12 @@ export const CaseDetailPage: React.FC = () => {
             </div>
 
             <div className="p-3 rounded-xl bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 space-y-1 shadow-sm">
-              <span className="font-semibold text-amber-600 dark:text-amber-400 block">Advisory Disclaimer</span>
-              <p>"AI output is advisory. Mandatory human verification is required."</p>
+              <span className="font-semibold text-amber-600 dark:text-amber-400 block">{t('advisoryAiAssessment')}</span>
+              <p>"{t('advisoryDisclaimerBox')}"</p>
             </div>
 
             <div className="space-y-2 text-xs">
-              <span className="font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">Detected Indicators</span>
+              <span className="font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">{t('detectedIndicatorsTitle')}</span>
               <div className="space-y-1.5">
                 {caseData.aiAnalysis.indicators.map((ind, idx) => (
                   <div key={idx} className="p-2.5 rounded-xl bg-slate-100/80 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 flex items-center space-x-2">
@@ -180,7 +180,7 @@ export const CaseDetailPage: React.FC = () => {
             </div>
 
             <div className="space-y-1 text-xs pt-1">
-              <span className="font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">Why Flagged?</span>
+              <span className="font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">{t('whyFlaggedTitle')}</span>
               <ul className="list-disc list-inside space-y-1 text-slate-600 dark:text-slate-300 text-xs">
                 {caseData.aiAnalysis.explanations.map((exp, idx) => (
                   <li key={idx}>{exp}</li>
@@ -191,7 +191,7 @@ export const CaseDetailPage: React.FC = () => {
 
           {/* Citizen Description Card */}
           <div className="glass-panel p-6 rounded-2xl border border-slate-200 dark:border-white/10 space-y-3 shadow-xl">
-            <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Submitted Incident Description</h3>
+            <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">{t('submittedDescriptionHeading')}</h3>
             <p className="text-sm text-slate-800 dark:text-slate-200 leading-relaxed bg-white/90 dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
               "{caseData.report.description}"
             </p>
@@ -223,7 +223,7 @@ export const CaseDetailPage: React.FC = () => {
           <div className="glass-panel p-6 rounded-2xl border border-slate-200 dark:border-white/10 space-y-4 shadow-xl">
             <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center space-x-1.5">
               <MessageSquarePlus className="w-4 h-4 text-brand-purple" />
-              <span>Add Internal Ground Note</span>
+              <span>{t('addInternalGroundNote')}</span>
             </h3>
 
             <form onSubmit={handleAddNote} className="space-y-3">
@@ -231,7 +231,7 @@ export const CaseDetailPage: React.FC = () => {
                 rows={3}
                 value={noteText}
                 onChange={(e) => setNoteText(e.target.value)}
-                placeholder="Enter physical welfare check observations or ground updates..."
+                placeholder={t('notePlaceholder')}
                 className="w-full p-3.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-brand-purple shadow-sm"
               />
               <div className="flex items-center justify-between">
@@ -247,7 +247,7 @@ export const CaseDetailPage: React.FC = () => {
                   className="py-2 px-4 rounded-xl bg-brand-purple hover:bg-brand-purple/90 text-white font-bold text-xs disabled:opacity-50 transition-all flex items-center space-x-1"
                 >
                   <Send className="w-3.5 h-3.5" />
-                  <span>Log Note</span>
+                  <span>{t('logNoteBtn')}</span>
                 </button>
               </div>
             </form>
@@ -277,7 +277,7 @@ export const CaseDetailPage: React.FC = () => {
       {statusModalOpen && (
         <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-white/10 max-w-md w-full space-y-4 shadow-2xl animate-fade-in">
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Update Workflow Status</h3>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">{t('updateStatusModalTitle')}</h3>
             <p className="text-xs text-slate-600 dark:text-slate-400">Select the new operational state for Case {caseData.id}:</p>
 
             <div className="space-y-2">
@@ -302,13 +302,13 @@ export const CaseDetailPage: React.FC = () => {
                 onClick={() => setStatusModalOpen(false)}
                 className="px-4 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold"
               >
-                Cancel
+                {t('btnCancel')}
               </button>
               <button
                 onClick={handleApplyStatusChange}
                 className="px-5 py-2 rounded-xl bg-brand-purple text-white text-xs font-bold shadow-sm"
               >
-                Apply Status Change
+                {t('btnConfirm')}
               </button>
             </div>
           </div>
