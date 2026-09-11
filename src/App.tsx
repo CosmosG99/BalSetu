@@ -6,7 +6,6 @@ import { CaseProvider } from './context/CaseContext';
 
 import { Header } from './components/common/Header';
 import { Footer } from './components/common/Footer';
-import { DemoModeBar } from './components/common/DemoModeBar';
 import { OfflineBanner } from './components/common/OfflineBanner';
 
 import { LandingPage } from './pages/LandingPage';
@@ -70,7 +69,6 @@ export const App: React.FC = () => {
               </main>
 
               <Footer />
-              <DemoModeBar />
             </div>
           </Router>
         </DemoProvider>

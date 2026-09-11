@@ -33,7 +33,7 @@ export const SmartRoutingCard: React.FC<SmartRoutingCardProps> = ({ routing, loc
         </div>
 
         <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
-          Prototype / Simulated Integration
+          Simulated Network Integration
         </span>
       </div>
 

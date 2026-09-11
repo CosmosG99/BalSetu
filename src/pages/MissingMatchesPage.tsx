@@ -34,7 +34,7 @@ export const MissingMatchesPage: React.FC = () => {
         </div>
 
         <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-magenta-500/20 text-magenta-300 border border-magenta-500/30">
-          Synthetic Demo Dataset
+          Sample Case Database
         </span>
       </div>
 

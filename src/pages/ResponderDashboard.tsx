@@ -5,6 +5,7 @@ import { MetricCard } from '../components/admin/MetricCard';
 import { RiskBadge } from '../components/common/RiskBadge';
 import { StatusBadge } from '../components/common/StatusBadge';
 import { MapView } from '../components/map/MapView';
+import { DemoModeDropdown } from '../components/responder/DemoModeDropdown';
 import {
   ShieldCheck,
   AlertTriangle,
@@ -58,21 +59,26 @@ export const ResponderDashboard: React.FC = () => {
           </p>
         </div>
 
+        {/* Quick Action Navigation & Demo Mode Popover */}
         <div className="flex flex-wrap items-center gap-2">
           <Link
             to="/responder/map"
-            className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 font-bold text-xs transition-colors flex items-center space-x-1.5"
+            className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 font-bold text-xs transition-colors flex items-center space-x-1.5"
           >
             <MapIcon className="w-4 h-4 text-brand-purple" />
             <span>Transit Map Radar</span>
           </Link>
+
           <Link
             to="/responder/matches"
-            className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 font-bold text-xs transition-colors flex items-center space-x-1.5"
+            className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 font-bold text-xs transition-colors flex items-center space-x-1.5"
           >
             <Users className="w-4 h-4 text-brand-magenta" />
             <span>Missing Child Matches</span>
           </Link>
+
+          {/* Integrated Demo Mode Popover Dropdown */}
+          <DemoModeDropdown />
         </div>
       </div>
 

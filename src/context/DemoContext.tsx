@@ -12,7 +12,7 @@ export interface DemoScenario {
 export const DEMO_SCENARIOS: DemoScenario[] = [
   {
     id: 'scenario-1',
-    title: 'SCENARIO 1: Lost & Distressed Child',
+    title: 'Sample Case 1: Lost & Distressed Child',
     subtitle: 'Mumbai Central Railway Station • Platform 4',
     badge: 'HIGH RISK',
     reportData: {
@@ -35,7 +35,7 @@ export const DEMO_SCENARIOS: DemoScenario[] = [
   },
   {
     id: 'scenario-2',
-    title: 'SCENARIO 2: Potential Trafficking Concern',
+    title: 'Sample Case 2: Potential Trafficking Concern',
     subtitle: 'Nagpur Junction Station • Exit Gate 2',
     badge: 'CRITICAL RISK',
     reportData: {
@@ -57,7 +57,7 @@ export const DEMO_SCENARIOS: DemoScenario[] = [
   },
   {
     id: 'scenario-3',
-    title: 'SCENARIO 3: Unaccompanied Child',
+    title: 'Sample Case 3: Unaccompanied Child',
     subtitle: 'Pune Swargate Bus Terminal • Bay No. 3',
     badge: 'MEDIUM RISK',
     reportData: {
