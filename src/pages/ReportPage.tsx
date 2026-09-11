@@ -8,7 +8,8 @@ import { EvidenceUploader } from '../components/citizen/EvidenceUploader';
 import { AIAnalysisModal } from '../components/citizen/AIAnalysisModal';
 import { CaseSuccessCard } from '../components/citizen/CaseSuccessCard';
 import { analyzeReportWithAI } from '../services/mockAiService';
-import { ArrowLeft, ArrowRight, ShieldAlert, Check, Sparkles, Save } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ShieldAlert, Check, Sparkles, Save, HelpCircle, PhoneCall } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const ReportPage: React.FC = () => {
   const { t } = useLanguage();
@@ -47,13 +48,13 @@ export const ReportPage: React.FC = () => {
     setStep(3);
   };
 
-  const handleReviewStep = async () => {
+  const handleReviewStep = () => {
     if (!reportDraft.description || reportDraft.description.trim().length === 0) return;
-    setStep(4); // Review screen
+    setStep(4);
   };
 
   const handleTriggerAITriage = async () => {
-    setStep(5); // AI Triage modal
+    setStep(5);
     setIsAnalyzing(true);
     const fullInput: ReportInput = {
       incidentTypes: reportDraft.incidentTypes || ['LOST'],
@@ -99,38 +100,62 @@ export const ReportPage: React.FC = () => {
 
     const newCase = await submitReport(fullInput);
     setCreatedCase(newCase);
-    setStep(6); // Success
+    setStep(6);
   };
+
+  const stepLabels = [
+    '01 What happened',
+    '02 Where',
+    '03 Details',
+    '04 Review',
+    '05 Submitted'
+  ];
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 space-y-6">
       
-      {/* Step Indicator Header (Steps 1-4) */}
+      {/* App Step Indicator Pills (Steps 1-4) */}
       {step <= 4 && (
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="text-xs font-mono font-bold text-brand-purple uppercase">STEP {step} OF 4</span>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-white">{t('reportHeadline')}</h1>
-              <p className="text-xs text-slate-400">{t('reportSubhead')}</p>
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+            <div className="flex items-center space-x-1.5 overflow-x-auto py-1">
+              {stepLabels.slice(0, 4).map((label, idx) => {
+                const currentIdx = idx + 1;
+                const isCurrent = step === currentIdx;
+                const isPassed = step > currentIdx;
+                return (
+                  <span
+                    key={label}
+                    className={`px-3 py-1 rounded-full text-xs font-mono font-bold transition-all whitespace-nowrap ${
+                      isCurrent
+                        ? 'bg-brand-purple text-white shadow-glow-purple'
+                        : isPassed
+                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                        : 'bg-slate-900 text-slate-500 border border-slate-800'
+                    }`}
+                  >
+                    {label}
+                  </span>
+                );
+              })}
             </div>
-            
-            <button
-              onClick={() => saveOfflineDraft()}
-              className="text-xs text-slate-400 hover:text-amber-300 flex items-center space-x-1 p-2 rounded-xl bg-slate-900 border border-slate-800 transition-colors"
-              title="Save draft locally for offline sync"
-            >
-              <Save className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Save Offline</span>
-            </button>
-          </div>
 
-          {/* Progress Bar */}
-          <div className="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden border border-slate-800">
-            <div
-              className="bg-gradient-to-r from-brand-purple to-brand-magenta h-full transition-all duration-300"
-              style={{ width: `${(step / 4) * 100}%` }}
-            />
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => saveOfflineDraft()}
+                className="text-[11px] text-slate-400 hover:text-amber-300 flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800"
+              >
+                <Save className="w-3 h-3" />
+                <span>Save & Exit</span>
+              </button>
+              <Link
+                to="/resources"
+                className="text-[11px] text-amber-400 hover:text-amber-300 flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/30 font-bold"
+              >
+                <PhoneCall className="w-3 h-3" />
+                <span>I need help now</span>
+              </Link>
+            </div>
           </div>
         </div>
       )}
@@ -138,10 +163,12 @@ export const ReportPage: React.FC = () => {
       {/* STEP 1: WHAT DID YOU NOTICE? */}
       {step === 1 && (
         <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6 shadow-2xl animate-fade-in">
-          <h2 className="text-lg font-bold text-white flex items-center space-x-2">
-            <ShieldAlert className="w-5 h-5 text-brand-purple" />
-            <span>{t('step1Title')}</span>
-          </h2>
+          <div className="space-y-1">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Tell us what you noticed.</h1>
+            <p className="text-xs text-slate-400">
+              You don't need to know exactly what's happening to raise a concern. Select all that apply:
+            </p>
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {incidentTypesList.map((type) => (
@@ -154,13 +181,20 @@ export const ReportPage: React.FC = () => {
             ))}
           </div>
 
-          <div className="pt-4 flex justify-end">
+          <div className="pt-4 flex items-center justify-between border-t border-slate-800">
+            <Link
+              to="/"
+              className="py-2.5 px-4 rounded-xl bg-slate-900 text-slate-400 text-xs font-semibold hover:bg-slate-800"
+            >
+              Cancel & Exit
+            </Link>
+
             <button
               onClick={handleNextStep1}
               disabled={(reportDraft.incidentTypes || []).length === 0}
-              className="py-3 px-6 rounded-xl bg-gradient-to-r from-brand-purple to-brand-magenta text-white font-bold text-sm shadow-glow-purple disabled:opacity-50 disabled:pointer-events-none transition-all flex items-center space-x-2"
+              className="py-3.5 px-8 rounded-2xl bg-gradient-to-r from-brand-purple to-brand-magenta text-white font-bold text-sm shadow-glow-purple disabled:opacity-50 disabled:pointer-events-none transition-all flex items-center space-x-2"
             >
-              <span>{t('btnNext')}</span>
+              <span>Continue</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -170,9 +204,12 @@ export const ReportPage: React.FC = () => {
       {/* STEP 2: WHERE DID YOU NOTICE IT? */}
       {step === 2 && (
         <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6 shadow-2xl animate-fade-in">
-          <h2 className="text-lg font-bold text-white flex items-center space-x-2">
-            <span>{t('step2Title')}</span>
-          </h2>
+          <div className="space-y-1">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Where did you notice it?</h1>
+            <p className="text-xs text-slate-400">
+              Enter the station name, platform number, or select a high-footfall transit hub.
+            </p>
+          </div>
 
           <LocationPicker
             location={reportDraft.location || ''}
@@ -186,18 +223,18 @@ export const ReportPage: React.FC = () => {
           <div className="pt-4 flex items-center justify-between border-t border-slate-800">
             <button
               onClick={() => setStep(1)}
-              className="py-2.5 px-4 rounded-xl bg-slate-900 text-slate-300 text-xs font-semibold hover:bg-slate-800 transition-colors flex items-center space-x-1"
+              className="py-2.5 px-4 rounded-xl bg-slate-900 text-slate-300 text-xs font-semibold hover:bg-slate-800 flex items-center space-x-1"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>{t('btnBack')}</span>
+              <span>Back</span>
             </button>
 
             <button
               onClick={handleNextStep2}
               disabled={!reportDraft.location || reportDraft.location.trim().length === 0}
-              className="py-3 px-6 rounded-xl bg-gradient-to-r from-brand-purple to-brand-magenta text-white font-bold text-sm shadow-glow-purple disabled:opacity-50 disabled:pointer-events-none transition-all flex items-center space-x-2"
+              className="py-3.5 px-8 rounded-2xl bg-gradient-to-r from-brand-purple to-brand-magenta text-white font-bold text-sm shadow-glow-purple disabled:opacity-50 disabled:pointer-events-none transition-all flex items-center space-x-2"
             >
-              <span>{t('btnNext')}</span>
+              <span>Continue</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -207,31 +244,34 @@ export const ReportPage: React.FC = () => {
       {/* STEP 3: WHAT DID YOU SEE? */}
       {step === 3 && (
         <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6 shadow-2xl animate-fade-in">
-          <h2 className="text-lg font-bold text-white">{t('step3Title')}</h2>
+          <div className="space-y-1">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white">What did you see?</h1>
+            <p className="text-xs text-slate-400">
+              Describe what caught your attention. Optional photo evidence will be blurred automatically.
+            </p>
+          </div>
 
-          {/* Description Textarea */}
           <div className="space-y-2">
             <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
-              Describe what you noticed
+              Incident Description
             </label>
             <textarea
               rows={4}
               value={reportDraft.description || ''}
               onChange={(e) => updateReportDraft({ description: e.target.value })}
               placeholder={t('descPlaceholder')}
-              className="w-full p-4 bg-slate-900/90 border border-slate-800 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-purple transition-all"
+              className="w-full p-4 bg-slate-900/90 border border-slate-800 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand-purple"
             />
           </div>
 
-          {/* Optional Fields Accordion / Grid */}
           <div className="space-y-3">
             <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
-              Optional Details (Improves Responder Speed)
+              Optional Details (Assists Responders)
             </span>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               <div>
-                <label className="text-slate-400 mb-1 block">{t('optAge')}</label>
+                <label className="text-slate-400 mb-1 block">Approximate Age</label>
                 <input
                   type="text"
                   value={reportDraft.approxAge || ''}
@@ -242,7 +282,7 @@ export const ReportPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-slate-400 mb-1 block">{t('optGender')}</label>
+                <label className="text-slate-400 mb-1 block">Apparent Gender</label>
                 <input
                   type="text"
                   value={reportDraft.apparentGender || ''}
@@ -253,7 +293,7 @@ export const ReportPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-slate-400 mb-1 block">{t('optClothing')}</label>
+                <label className="text-slate-400 mb-1 block">Clothing Description</label>
                 <input
                   type="text"
                   value={reportDraft.clothing || ''}
@@ -264,7 +304,7 @@ export const ReportPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-slate-400 mb-1 block">{t('optPlatform')}</label>
+                <label className="text-slate-400 mb-1 block">Platform / Gate</label>
                 <input
                   type="text"
                   value={reportDraft.platformOrGate || ''}
@@ -276,7 +316,6 @@ export const ReportPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Evidence Uploader & Anonymous Toggle */}
           <EvidenceUploader
             photoUrl={reportDraft.photoUrl}
             isBlurred={reportDraft.isBlurred}
@@ -289,16 +328,16 @@ export const ReportPage: React.FC = () => {
           <div className="pt-4 flex items-center justify-between border-t border-slate-800">
             <button
               onClick={() => setStep(2)}
-              className="py-2.5 px-4 rounded-xl bg-slate-900 text-slate-300 text-xs font-semibold hover:bg-slate-800 transition-colors flex items-center space-x-1"
+              className="py-2.5 px-4 rounded-xl bg-slate-900 text-slate-300 text-xs font-semibold hover:bg-slate-800 flex items-center space-x-1"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>{t('btnBack')}</span>
+              <span>Back</span>
             </button>
 
             <button
               onClick={handleReviewStep}
               disabled={!reportDraft.description || reportDraft.description.trim().length === 0}
-              className="py-3 px-6 rounded-xl bg-gradient-to-r from-brand-purple to-brand-magenta text-white font-bold text-sm shadow-glow-purple disabled:opacity-50 disabled:pointer-events-none transition-all flex items-center space-x-2"
+              className="py-3.5 px-8 rounded-2xl bg-gradient-to-r from-brand-purple to-brand-magenta text-white font-bold text-sm shadow-glow-purple disabled:opacity-50 disabled:pointer-events-none transition-all flex items-center space-x-2"
             >
               <span>Review Report</span>
               <ArrowRight className="w-4 h-4" />
@@ -307,20 +346,19 @@ export const ReportPage: React.FC = () => {
         </div>
       )}
 
-      {/* STEP 4: REPORT REVIEW SUMMARY */}
+      {/* STEP 4: REVIEW REPORT */}
       {step === 4 && (
         <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6 shadow-2xl animate-fade-in">
           <div className="border-b border-slate-800 pb-4">
-            <h2 className="text-xl font-bold text-white">Review Your Report</h2>
+            <h1 className="text-2xl font-extrabold text-white">Review Summary</h1>
             <p className="text-xs text-slate-400">
-              We only ask for information needed to help responders assess the situation safely.
+              Check details before securely initiating AI triage and responder routing.
             </p>
           </div>
 
-          {/* Summary Breakdown */}
-          <div className="space-y-4 text-xs">
+          <div className="space-y-3 text-xs">
             <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1">
-              <span className="text-slate-400 font-semibold uppercase">Incident Categories</span>
+              <span className="text-slate-400 font-semibold uppercase">WHAT HAPPENED</span>
               <div className="flex flex-wrap gap-1.5 pt-1">
                 {(reportDraft.incidentTypes || []).map((t) => (
                   <span key={t} className="px-2.5 py-1 rounded-lg bg-brand-purple/20 text-purple-300 font-bold border border-brand-purple/30">
@@ -331,17 +369,17 @@ export const ReportPage: React.FC = () => {
             </div>
 
             <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1">
-              <span className="text-slate-400 font-semibold uppercase">Location</span>
+              <span className="text-slate-400 font-semibold uppercase">WHERE</span>
               <div className="text-sm font-bold text-white">{reportDraft.location}</div>
             </div>
 
             <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1">
-              <span className="text-slate-400 font-semibold uppercase">Description</span>
+              <span className="text-slate-400 font-semibold uppercase">DESCRIPTION</span>
               <p className="text-slate-200 leading-relaxed">{reportDraft.description}</p>
             </div>
 
             <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-between">
-              <span className="text-slate-400 font-semibold uppercase">Privacy Status</span>
+              <span className="text-slate-400 font-semibold uppercase">PRIVACY GUARANTEE</span>
               <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">
                 {reportDraft.isAnonymous ? 'Anonymous Report' : 'Identified Bystander'}
               </span>
@@ -351,9 +389,9 @@ export const ReportPage: React.FC = () => {
           <div className="pt-4 flex items-center justify-between border-t border-slate-800">
             <button
               onClick={() => setStep(3)}
-              className="py-2.5 px-4 rounded-xl bg-slate-900 text-slate-300 text-xs font-semibold hover:bg-slate-800 transition-colors"
+              className="py-2.5 px-4 rounded-xl bg-slate-900 text-slate-300 text-xs font-semibold hover:bg-slate-800"
             >
-              {t('btnEdit')}
+              Edit Details
             </button>
 
             <button
@@ -361,13 +399,13 @@ export const ReportPage: React.FC = () => {
               className="py-3.5 px-8 rounded-2xl bg-gradient-to-r from-brand-purple to-brand-magenta text-white font-bold text-sm shadow-glow-purple hover:scale-105 transition-all flex items-center space-x-2"
             >
               <Sparkles className="w-4 h-4 text-amber-300" />
-              <span>{t('btnSubmitSecurely')}</span>
+              <span>Submit Securely</span>
             </button>
           </div>
         </div>
       )}
 
-      {/* STEP 5: AI TRIAGE MODAL */}
+      {/* STEP 5: FULL-SCREEN IMMERSIVE AI TRIAGE */}
       {step === 5 && aiAnalysisResult && (
         <AIAnalysisModal
           analysis={aiAnalysisResult}
@@ -375,7 +413,7 @@ export const ReportPage: React.FC = () => {
         />
       )}
 
-      {/* STEP 6: SUCCESS & CASE ID GENERATION */}
+      {/* STEP 6: CASE SUCCESS */}
       {step === 6 && createdCase && (
         <CaseSuccessCard caseData={createdCase} />
       )}

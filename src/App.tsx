@@ -11,6 +11,8 @@ import { OfflineBanner } from './components/common/OfflineBanner';
 
 import { LandingPage } from './pages/LandingPage';
 import { HowItWorksPage } from './pages/HowItWorksPage';
+import { ImpactPage } from './pages/ImpactPage';
+import { AboutPage } from './pages/AboutPage';
 import { ReportPage } from './pages/ReportPage';
 import { TrackPage } from './pages/TrackPage';
 import { ResponderDashboard } from './pages/ResponderDashboard';
@@ -33,10 +35,15 @@ export const App: React.FC = () => {
               
               <main className="flex-1">
                 <Routes>
+                  {/* Public Marketing Website Routes */}
                   <Route path="/" element={<LandingPage />} />
                   <Route path="/how-it-works" element={<HowItWorksPage />} />
-                  
-                  {/* Citizen Reporting Flow */}
+                  <Route path="/impact" element={<ImpactPage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/resources" element={<ResourcesPage />} />
+                  <Route path="/trusted-reporter" element={<TrustedReporterPage />} />
+
+                  {/* Citizen Reporting App Routes */}
                   <Route path="/report" element={<ReportPage />} />
                   <Route path="/report/review" element={<ReportPage />} />
                   <Route path="/report/analysis" element={<ReportPage />} />
@@ -45,10 +52,8 @@ export const App: React.FC = () => {
                   {/* Citizen Case Tracking */}
                   <Route path="/track" element={<TrackPage />} />
                   <Route path="/track/:caseId" element={<TrackPage />} />
-                  <Route path="/resources" element={<ResourcesPage />} />
-                  <Route path="/trusted-reporter" element={<TrustedReporterPage />} />
 
-                  {/* Responder Command Center */}
+                  {/* Responder Command Center Portal */}
                   <Route path="/responder" element={<ResponderDashboard />} />
                   <Route path="/responder/cases" element={<ResponderDashboard />} />
                   <Route path="/responder/cases/:id" element={<CaseDetailPage />} />
@@ -59,7 +64,7 @@ export const App: React.FC = () => {
                   <Route path="/admin" element={<AdminDashboard />} />
                   <Route path="/admin/analytics" element={<AdminDashboard />} />
 
-                  {/* Catch-all redirect to Home */}
+                  {/* Fallback Redirect */}
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </main>

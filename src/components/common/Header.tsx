@@ -1,124 +1,139 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
-import { useCases } from '../../context/CaseContext';
-import { Shield, Globe, Menu, X, AlertTriangle, LayoutDashboard, ShieldCheck, HeartHandshake, UserCheck } from 'lucide-react';
+import { Shield, Globe, Menu, X, ArrowRight, Lock } from 'lucide-react';
 import { Language } from '../../types';
 
 export const Header: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
-  const { activeRole, setActiveRole } = useCases();
   const location = useLocation();
-  const navigate = useNavigate();
+  const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const isActive = (path: string) => location.pathname === path;
 
+  // Don't render public header inside citizen reporting flow or responder portal if dedicated headers are preferred
+  const isCitizenApp = location.pathname.startsWith('/report');
+
+  if (isCitizenApp) {
+    return (
+      <header className="sticky top-0 z-40 bg-brand-dark/95 backdrop-blur-xl border-b border-white/10 shadow-md">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          <Link to="/" className="flex items-center space-x-2.5 group">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-purple to-brand-magenta p-0.5 shadow-glow-purple">
+              <div className="w-full h-full bg-brand-dark rounded-[10px] flex items-center justify-center">
+                <Shield className="w-4 h-4 text-brand-purple" />
+              </div>
+            </div>
+            <span className="text-lg font-extrabold tracking-tight text-white">
+              RAKSHAK <span className="text-xs text-brand-purple font-mono font-medium font-normal">| Report App</span>
+            </span>
+          </Link>
+
+          <div className="flex items-center space-x-3 text-xs">
+            <div className="flex items-center space-x-1.5 text-slate-400 font-medium">
+              <Lock className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="hidden sm:inline">256-Bit Encrypted</span>
+            </div>
+            <Link to="/" className="text-slate-400 hover:text-white px-2 py-1 transition-colors">
+              Exit Flow
+            </Link>
+          </div>
+        </div>
+      </header>
+    );
+  }
+
   return (
-    <header className="sticky top-0 z-40 bg-brand-dark/85 backdrop-blur-xl border-b border-white/10 shadow-lg">
+    <header
+      className={`sticky top-0 z-40 transition-all duration-300 ${
+        scrolled
+          ? 'bg-brand-dark/90 backdrop-blur-xl border-b border-white/10 shadow-2xl py-3'
+          : 'bg-transparent py-5 border-b border-transparent'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between">
           
-          {/* Logo & Prototype Tag */}
+          {/* RAKSHAK Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
-            <div className="relative flex items-center justify-center w-11 h-11 rounded-2xl bg-gradient-to-br from-brand-purple to-brand-magenta p-0.5 shadow-glow-purple group-hover:scale-105 transition-transform">
+            <div className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-purple to-brand-magenta p-0.5 shadow-glow-purple group-hover:scale-105 transition-transform">
               <div className="w-full h-full bg-brand-dark rounded-[14px] flex items-center justify-center">
-                <Shield className="w-6 h-6 text-brand-purple group-hover:text-brand-magenta transition-colors" />
+                <Shield className="w-5 h-5 text-brand-purple group-hover:text-brand-magenta transition-colors" />
               </div>
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-purple-200 bg-clip-text text-transparent">
+                <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
                   {t('appName')}
                 </span>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                  Bit N Build Hackathon
+                <span className="text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-purple-500/15 text-purple-300 border border-purple-500/25">
+                  Bal Suraksha
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-medium tracking-wide">
+              <p className="text-[11px] text-slate-400 font-medium tracking-wide hidden sm:block">
                 {t('tagline')}
               </p>
             </div>
           </Link>
 
-          {/* Desktop Nav Links */}
-          <nav className="hidden md:flex items-center space-x-1">
+          {/* Public Web Navigation Links */}
+          <nav className="hidden lg:flex items-center space-x-1">
             <Link
               to="/"
-              className={`px-3.5 py-2 rounded-xl text-sm font-medium transition-colors ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
                 isActive('/') ? 'text-white bg-white/10' : 'text-slate-300 hover:text-white hover:bg-white/5'
               }`}
             >
-              {t('navHome')}
+              Home
             </Link>
             <Link
               to="/how-it-works"
-              className={`px-3.5 py-2 rounded-xl text-sm font-medium transition-colors ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
                 isActive('/how-it-works') ? 'text-white bg-white/10' : 'text-slate-300 hover:text-white hover:bg-white/5'
               }`}
             >
-              {t('navHowItWorks')}
+              How It Works
+            </Link>
+            <Link
+              to="/impact"
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
+                isActive('/impact') ? 'text-white bg-white/10' : 'text-slate-300 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              Impact
             </Link>
             <Link
               to="/resources"
-              className={`px-3.5 py-2 rounded-xl text-sm font-medium transition-colors ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
                 isActive('/resources') ? 'text-white bg-white/10' : 'text-slate-300 hover:text-white hover:bg-white/5'
               }`}
             >
-              {t('navResources')}
+              Resources
             </Link>
             <Link
-              to="/track"
-              className={`px-3.5 py-2 rounded-xl text-sm font-medium transition-colors ${
-                isActive('/track') ? 'text-white bg-white/10' : 'text-slate-300 hover:text-white hover:bg-white/5'
+              to="/about"
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
+                isActive('/about') ? 'text-white bg-white/10' : 'text-slate-300 hover:text-white hover:bg-white/5'
               }`}
             >
-              {t('navTrack')}
+              About
             </Link>
           </nav>
 
-          {/* Right Side: Role Selector, Language & CTA */}
-          <div className="hidden lg:flex items-center space-x-4">
+          {/* Right Controls: Language Dropdown, Track Report, Primary CTA */}
+          <div className="hidden md:flex items-center space-x-4">
             
-            {/* Role Demo Switcher */}
-            <div className="bg-slate-900/90 p-1 rounded-xl border border-slate-800 flex items-center space-x-1 text-xs">
-              <button
-                onClick={() => {
-                  setActiveRole('CITIZEN');
-                  navigate('/report');
-                }}
-                className={`px-2.5 py-1.5 rounded-lg font-medium transition-all ${
-                  activeRole === 'CITIZEN' ? 'bg-brand-purple text-white shadow-sm' : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                Citizen
-              </button>
-              <button
-                onClick={() => {
-                  setActiveRole('RESPONDER');
-                  navigate('/responder');
-                }}
-                className={`px-2.5 py-1.5 rounded-lg font-medium transition-all ${
-                  activeRole === 'RESPONDER' ? 'bg-brand-purple text-white shadow-sm' : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                Responder
-              </button>
-              <button
-                onClick={() => {
-                  setActiveRole('ADMIN');
-                  navigate('/admin');
-                }}
-                className={`px-2.5 py-1.5 rounded-lg font-medium transition-all ${
-                  activeRole === 'ADMIN' ? 'bg-brand-purple text-white shadow-sm' : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                Admin
-              </button>
-            </div>
-
             {/* Language Selector */}
-            <div className="relative flex items-center bg-slate-900/90 border border-slate-800 rounded-xl px-2 py-1 text-xs text-slate-300">
+            <div className="relative flex items-center bg-slate-900/90 border border-slate-800 rounded-xl px-2.5 py-1.5 text-xs text-slate-300">
               <Globe className="w-3.5 h-3.5 mr-1.5 text-brand-purple" />
               <select
                 value={language}
@@ -131,21 +146,30 @@ export const Header: React.FC = () => {
               </select>
             </div>
 
+            {/* Track Report Link */}
+            <Link
+              to="/track"
+              className="text-xs font-semibold text-slate-300 hover:text-white transition-colors"
+            >
+              Track Report
+            </Link>
+
             {/* Primary Action Button */}
             <Link
               to="/report"
-              className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-purple to-brand-magenta text-white font-semibold text-sm shadow-glow-purple hover:shadow-glow-magenta hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-purple to-brand-magenta text-white font-bold text-xs shadow-glow-purple hover:shadow-glow-magenta hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
-              <AlertTriangle className="w-4 h-4 text-amber-300 animate-pulse" />
-              <span>{t('btnReportConcern')}</span>
+              <span>REPORT A CONCERN</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
+
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="flex items-center space-x-2 lg:hidden">
+          {/* Mobile Hamburger Button */}
+          <div className="flex items-center space-x-2 md:hidden">
             <Link
               to="/report"
-              className="px-3 py-1.5 rounded-lg bg-brand-purple text-white font-semibold text-xs shadow-sm"
+              className="px-3 py-1.5 rounded-lg bg-brand-purple text-white font-bold text-xs shadow-sm"
             >
               Report
             </Link>
@@ -160,42 +184,56 @@ export const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer Navigation */}
+      {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-slate-900 border-b border-slate-800 px-4 pt-3 pb-6 space-y-3">
+        <div className="md:hidden bg-slate-950/95 border-b border-slate-800 px-4 pt-4 pb-6 space-y-4 animate-fade-in">
           <div className="space-y-1">
             <Link
               to="/"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800"
+              className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-800"
             >
-              {t('navHome')}
+              Home
             </Link>
             <Link
               to="/how-it-works"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800"
+              className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-800"
             >
-              {t('navHowItWorks')}
+              How It Works
+            </Link>
+            <Link
+              to="/impact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-800"
+            >
+              Impact
             </Link>
             <Link
               to="/resources"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800"
+              className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-800"
             >
-              {t('navResources')}
+              Resources
+            </Link>
+            <Link
+              to="/about"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-800"
+            >
+              About
             </Link>
             <Link
               to="/track"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800"
+              className="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-200 hover:bg-slate-800"
             >
-              {t('navTrack')}
+              Track Report
             </Link>
           </div>
 
           <div className="pt-3 border-t border-slate-800 flex items-center justify-between">
-            <div className="text-xs text-slate-400 font-medium">Select Language:</div>
+            <span className="text-xs text-slate-400 font-medium">Select Language:</span>
             <div className="flex space-x-2">
               <button
                 onClick={() => setLanguage('en')}
@@ -218,22 +256,13 @@ export const Header: React.FC = () => {
             </div>
           </div>
 
-          <div className="pt-2 grid grid-cols-2 gap-2">
+          <div className="pt-2 border-t border-slate-800 text-center">
             <Link
               to="/responder"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center space-x-1.5 p-2 rounded-xl bg-slate-800 text-xs font-semibold text-slate-200 border border-slate-700"
+              className="text-xs text-purple-300 hover:text-white font-mono"
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-brand-purple" />
-              <span>Responder Dashboard</span>
-            </Link>
-            <Link
-              to="/admin"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center space-x-1.5 p-2 rounded-xl bg-slate-800 text-xs font-semibold text-slate-200 border border-slate-700"
-            >
-              <LayoutDashboard className="w-3.5 h-3.5 text-brand-magenta" />
-              <span>Admin Analytics</span>
+              Go to Response Center Portal →
             </Link>
           </div>
         </div>
