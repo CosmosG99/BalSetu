@@ -4,7 +4,6 @@ import { useCases } from '../../context/CaseContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
 import {
-  Shield,
   LayoutDashboard,
   Layers,
   AlertTriangle,
@@ -103,9 +102,7 @@ export const ResponderLayout: React.FC<ResponderLayoutProps> = ({ children }) =>
         {/* Top Sidebar Brand */}
         <div className="p-5 border-b border-charcoal-200/80 dark:border-charcoal-800 flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-3 group">
-            <div className="w-9 h-9 rounded-xl bg-teal-700 text-white flex items-center justify-center font-bold shadow-subtle group-hover:scale-105 transition-transform">
-              <Shield className="w-5 h-5" />
-            </div>
+            <img src="/rakshak-mark.svg" alt="Rakshak logo" className="w-9 h-9 object-contain group-hover:scale-105 transition-transform" />
             <div>
               <div className="text-lg font-extrabold tracking-tight text-charcoal-800 dark:text-charcoal-100">
                 RAKSHAK

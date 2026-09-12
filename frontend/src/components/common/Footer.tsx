@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, Lock, Heart, ExternalLink } from 'lucide-react';
+import { Lock, Heart, ExternalLink } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
 export const Footer: React.FC = () => {
@@ -13,9 +13,7 @@ export const Footer: React.FC = () => {
         {/* Column 1: Brand & Disclaimer */}
         <div className="space-y-4 md:col-span-2">
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-forest-900 text-ivory-100 flex items-center justify-center font-bold shadow-subtle">
-              <Shield className="w-5 h-5" />
-            </div>
+            <img src="/rakshak-mark.svg" alt="Rakshak logo" className="w-9 h-9 object-contain" />
             <div>
               <span className="text-xl font-extrabold text-charcoal-800 dark:text-ivory-100 tracking-tight">{t('appName')}</span>
               <p className="text-[11px] text-charcoal-500 font-medium">{t('tagline')}</p>

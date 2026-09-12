@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
-import { Shield, Globe, Menu, X, ArrowRight, Lock, Sun, Moon } from 'lucide-react';
+import { Globe, Menu, X, ArrowRight, Lock, Sun, Moon } from 'lucide-react';
 import { Language } from '../../types';
 
 export const Header: React.FC = () => {
@@ -28,9 +28,7 @@ export const Header: React.FC = () => {
       <header className="sticky top-0 z-40 bg-white/95 dark:bg-charcoal-900/95 backdrop-blur-md border-b border-charcoal-200/80 dark:border-charcoal-800 shadow-subtle transition-colors duration-300">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2.5 group">
-            <div className="w-8 h-8 rounded-xl bg-teal-700 text-white flex items-center justify-center font-bold shadow-subtle">
-              <Shield className="w-4.5 h-4.5" />
-            </div>
+            <img src="/rakshak-mark.svg" alt="Rakshak logo" className="w-8 h-8 object-contain" />
             <span className="text-lg font-extrabold tracking-tight text-charcoal-800 dark:text-charcoal-100">
               {t('appName')} <span className="text-xs text-teal-700 dark:text-teal-400 font-mono font-medium">| Citizen Report</span>
             </span>
@@ -71,9 +69,7 @@ export const Header: React.FC = () => {
           
           {/* RAKSHAK Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 rounded-2xl bg-teal-700 text-white flex items-center justify-center font-bold shadow-subtle group-hover:scale-105 transition-transform">
-              <Shield className="w-5.5 h-5.5" />
-            </div>
+            <img src="/rakshak-mark.svg" alt="Rakshak logo" className="w-10 h-10 object-contain group-hover:scale-105 transition-transform" />
             <div>
               <div className="flex items-center space-x-2">
                 <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-charcoal-800 dark:text-charcoal-100">

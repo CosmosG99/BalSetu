@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
 import {
-  Shield,
   Home,
   Workflow,
   BarChart3,
@@ -81,9 +80,7 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
         {/* -------------------------------------------------- */}
         <div className="p-5 border-b border-charcoal-200/80 dark:border-charcoal-800 flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-3 group" title="Return to Landing Experience">
-            <div className="w-9 h-9 rounded-xl bg-teal-700 text-white flex items-center justify-center font-bold shadow-subtle group-hover:scale-105 transition-transform">
-              <Shield className="w-5 h-5" />
-            </div>
+            <img src="/rakshak-mark.svg" alt="Rakshak logo" className="w-9 h-9 object-contain group-hover:scale-105 transition-transform" />
             <div>
               <div className="text-lg font-extrabold tracking-tight text-charcoal-800 dark:text-charcoal-100 leading-none mb-1">
                 {t('appName')}
@@ -142,7 +139,7 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
               className="group w-full flex items-center justify-between px-4 py-3 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs shadow-subtle hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
               <div className="flex items-center space-x-2">
-                <Shield className="w-4 h-4 text-white" />
+                <img src="/rakshak-mark.svg" alt="Rakshak logo" className="w-4 h-4 object-contain" />
                 <span className="tracking-wide uppercase text-[11px]">{t('btnReportConcern')}</span>
               </div>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -177,9 +174,7 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
         {/* Mobile Header Bar (Visible on mobile viewports < lg) */}
         <header className="lg:hidden sticky top-0 z-30 bg-white/95 dark:bg-charcoal-900/95 backdrop-blur-md border-b border-charcoal-200/80 dark:border-charcoal-800 px-4 py-3 flex items-center justify-between shadow-xs">
           <Link to="/" className="flex items-center space-x-2.5">
-            <div className="w-8 h-8 rounded-xl bg-teal-700 text-white flex items-center justify-center font-bold shadow-subtle">
-              <Shield className="w-4.5 h-4.5" />
-            </div>
+            <img src="/rakshak-mark.svg" alt="Rakshak logo" className="w-8 h-8 object-contain" />
             <span className="text-lg font-extrabold tracking-tight text-charcoal-800 dark:text-charcoal-100">
               {t('appName')}
             </span>
