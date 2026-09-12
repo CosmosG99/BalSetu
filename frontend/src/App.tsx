@@ -5,9 +5,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { DemoProvider } from './context/DemoContext';
 import { CaseProvider } from './context/CaseContext';
 
-import { Header } from './components/common/Header';
-import { Footer } from './components/common/Footer';
-import { OfflineBanner } from './components/common/OfflineBanner';
+import { PublicLayout } from './components/common/PublicLayout';
 
 import { LandingPage } from './pages/LandingPage';
 import { HowItWorksPage } from './pages/HowItWorksPage';
@@ -64,41 +62,34 @@ export const App: React.FC = () => {
                   }
                 />
 
-                {/* Public Website & Citizen App (Standard Header & Footer) */}
+                {/* Public Website & Citizen App (Wrapped in PublicLayout with Fixed Left Sidebar) */}
                 <Route
                   path="/*"
                   element={
-                    <div className="min-h-screen flex flex-col bg-ivory-100 dark:bg-charcoal-950 text-charcoal-800 dark:text-ivory-100 font-sans selection:bg-forest-900/20 selection:text-forest-900 dark:selection:text-white transition-colors duration-300">
-                      <OfflineBanner />
-                      <Header />
-                      
-                      <main className="flex-1">
-                        <Routes>
-                          {/* Public Marketing Website Routes */}
-                          <Route path="/" element={<LandingPage />} />
-                          <Route path="/how-it-works" element={<HowItWorksPage />} />
-                          <Route path="/impact" element={<ImpactPage />} />
-                          <Route path="/about" element={<AboutPage />} />
-                          <Route path="/resources" element={<ResourcesPage />} />
-                          <Route path="/trusted-reporter" element={<TrustedReporterPage />} />
+                    <PublicLayout>
+                      <Routes>
+                        {/* Public Marketing Website Routes */}
+                        <Route path="/" element={<LandingPage />} />
+                        <Route path="/how-it-works" element={<HowItWorksPage />} />
+                        <Route path="/impact" element={<ImpactPage />} />
+                        <Route path="/about" element={<AboutPage />} />
+                        <Route path="/resources" element={<ResourcesPage />} />
+                        <Route path="/trusted-reporter" element={<TrustedReporterPage />} />
 
-                          {/* Citizen Reporting App Routes */}
-                          <Route path="/report" element={<ReportPage />} />
-                          <Route path="/report/review" element={<ReportPage />} />
-                          <Route path="/report/analysis" element={<ReportPage />} />
-                          <Route path="/report/success" element={<ReportPage />} />
+                        {/* Citizen Reporting App Routes */}
+                        <Route path="/report" element={<ReportPage />} />
+                        <Route path="/report/review" element={<ReportPage />} />
+                        <Route path="/report/analysis" element={<ReportPage />} />
+                        <Route path="/report/success" element={<ReportPage />} />
 
-                          {/* Citizen Case Tracking */}
-                          <Route path="/track" element={<TrackPage />} />
-                          <Route path="/track/:caseId" element={<TrackPage />} />
+                        {/* Citizen Case Tracking */}
+                        <Route path="/track" element={<TrackPage />} />
+                        <Route path="/track/:caseId" element={<TrackPage />} />
 
-                          {/* Fallback Redirect */}
-                          <Route path="*" element={<Navigate to="/" replace />} />
-                        </Routes>
-                      </main>
-
-                      <Footer />
-                    </div>
+                        {/* Fallback Redirect */}
+                        <Route path="*" element={<Navigate to="/" replace />} />
+                      </Routes>
+                    </PublicLayout>
                   }
                 />
 
