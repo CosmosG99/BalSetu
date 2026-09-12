@@ -1,13 +1,49 @@
 import React from 'react';
-import { Sparkles, ArrowRight, Users, ShieldCheck, Heart } from 'lucide-react';
+import { Sparkles, ArrowRight, Users, ShieldCheck, Heart, Zap, Cpu, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const ImpactPage: React.FC = () => {
   const metrics = [
-    { label: 'Faster First-Mile Reporting', val: '< 30s', desc: 'Zero account creation friction enables instant observation submission.', color: 'text-accentBlue border-accentBlue/30 bg-accentBlue/10', tag: 'Prototype metric' },
-    { label: 'Structured Case Handoff', val: '100%', desc: 'Unified Case Reference ID bridges bystander observations to dispatch cells.', color: 'text-teal-700 dark:text-teal-400 border-teal-700/30 bg-teal-700/10', tag: 'Prototype metric' },
-    { label: 'Anonymous Community Participation', val: '100%', desc: 'Default privacy protection ensures bystander safety.', color: 'text-accentPurple border-accentPurple/30 bg-accentPurple/10', tag: 'Demo data' },
-    { label: 'Human-in-the-Loop Response', val: '24/7', desc: 'Continuous AI advisory triage supported by human verification.', color: 'text-accentGreen border-accentGreen/30 bg-accentGreen/10', tag: 'Demo data' }
+    {
+      label: 'Faster First-Mile Reporting',
+      val: '< 30s',
+      desc: 'Zero account creation friction enables instant observation submission.',
+      accentText: 'text-accentBlue',
+      borderTop: 'border-t-4 border-accentBlue',
+      badgeColor: 'text-accentBlue border-accentBlue/30 bg-accentBlue/10',
+      icon: Zap,
+      tag: 'Speed Metric'
+    },
+    {
+      label: 'AI-Assisted Advisory Triage',
+      val: '0-100',
+      desc: 'Instant trauma risk scoring and indicator detection to guide human responders.',
+      accentText: 'text-accentPurple',
+      borderTop: 'border-t-4 border-accentPurple',
+      badgeColor: 'text-accentPurple border-accentPurple/30 bg-accentPurple/10',
+      icon: Cpu,
+      tag: 'AI Intelligence'
+    },
+    {
+      label: 'Community Participation',
+      val: '100%',
+      desc: 'Default privacy and face-blur protection ensures safe bystander reporting.',
+      accentText: 'text-accentPink',
+      borderTop: 'border-t-4 border-accentPink',
+      badgeColor: 'text-accentPink border-accentPink/30 bg-accentPink/10',
+      icon: Users,
+      tag: 'Community Trust'
+    },
+    {
+      label: 'Successful Ground Resolution',
+      val: '24/7',
+      desc: 'Continuous coordination connecting bystanders to verified station protection cells.',
+      accentText: 'text-accentGreen',
+      borderTop: 'border-t-4 border-accentGreen',
+      badgeColor: 'text-accentGreen border-accentGreen/30 bg-accentGreen/10',
+      icon: CheckCircle2,
+      tag: 'Safe Reunion'
+    }
   ];
 
   const impactAreas = [
@@ -16,21 +52,24 @@ export const ImpactPage: React.FC = () => {
       sub: 'Empowering Citizens Safely',
       desc: 'Bystanders, passengers, shopkeepers, and station staff can report concerning observations without fear of retaliation or burdensome legal processes.',
       icon: Users,
-      accent: 'border-l-4 border-accentBlue'
+      accent: 'border-l-4 border-accentPink',
+      iconBg: 'bg-accentPink/10 text-accentPink border-accentPink/30'
     },
     {
       title: 'RESPONDERS',
       sub: 'Actionable & Structured Information',
       desc: 'Station protection desks receive structured location tags, trauma indicators, and non-definitive AI advice to conduct targeted physical welfare checks.',
       icon: ShieldCheck,
-      accent: 'border-l-4 border-teal-700'
+      accent: 'border-l-4 border-teal-700',
+      iconBg: 'bg-teal-700/10 text-teal-700 dark:text-teal-400 border-teal-700/30'
     },
     {
       title: 'CHILDREN',
       sub: 'Faster Escalation for Safer Outcomes',
       desc: 'Rapid identification of lost or unaccompanied children during early observation windows reduces risks of distress or exploitation.',
       icon: Heart,
-      accent: 'border-l-4 border-accentCoral'
+      accent: 'border-l-4 border-accentCoral',
+      iconBg: 'bg-accentCoral/10 text-accentCoral border-accentCoral/30'
     }
   ];
 
@@ -51,22 +90,28 @@ export const ImpactPage: React.FC = () => {
         </p>
       </div>
 
-      {/* Target Metric Cards */}
+      {/* Target Metric Cards with Distinct Top Accent Borders & Icons */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {metrics.map((m, idx) => (
-          <div key={idx} className="natural-panel p-6 rounded-3xl space-y-3 shadow-card text-center flex flex-col justify-between">
-            <div className="space-y-2">
-              <div className="text-4xl font-extrabold font-mono tracking-tight text-charcoal-800 dark:text-charcoal-100">{m.val}</div>
-              <h3 className="text-xs font-bold text-charcoal-800 dark:text-charcoal-100 uppercase tracking-wider">{m.label}</h3>
-              <p className="text-xs text-charcoal-600 dark:text-charcoal-400 leading-relaxed">{m.desc}</p>
+        {metrics.map((m, idx) => {
+          const Icon = m.icon;
+          return (
+            <div key={idx} className={`natural-panel p-6 rounded-3xl space-y-3 shadow-card text-center flex flex-col justify-between ${m.borderTop}`}>
+              <div className="space-y-3">
+                <div className={`w-10 h-10 rounded-2xl mx-auto flex items-center justify-center font-bold border ${m.badgeColor}`}>
+                  <Icon className="w-5 h-5" />
+                </div>
+                <div className={`text-4xl font-extrabold font-mono tracking-tight ${m.accentText}`}>{m.val}</div>
+                <h3 className="text-xs font-bold text-charcoal-800 dark:text-charcoal-100 uppercase tracking-wider">{m.label}</h3>
+                <p className="text-xs text-charcoal-600 dark:text-charcoal-400 leading-relaxed">{m.desc}</p>
+              </div>
+              <div className="pt-2">
+                <span className={`inline-block text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border ${m.badgeColor}`}>
+                  {m.tag}
+                </span>
+              </div>
             </div>
-            <div className="pt-2">
-              <span className={`inline-block text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border ${m.color}`}>
-                {m.tag}
-              </span>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* 3 Impact Areas */}
@@ -82,11 +127,11 @@ export const ImpactPage: React.FC = () => {
             return (
               <div key={idx} className={`natural-panel p-6 rounded-3xl space-y-4 shadow-card ${area.accent}`}>
                 <div className="flex items-center space-x-3">
-                  <div className="p-3 rounded-2xl bg-teal-700/10 text-teal-700 dark:text-teal-400 font-bold">
+                  <div className={`p-3 rounded-2xl border font-bold ${area.iconBg}`}>
                     <Icon className="w-6 h-6" />
                   </div>
                   <div>
-                    <span className="text-[10px] font-mono font-bold text-teal-700 dark:text-teal-400 uppercase tracking-wider block">{area.title}</span>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider block">{area.title}</span>
                     <h3 className="text-sm font-bold text-charcoal-800 dark:text-charcoal-100">{area.sub}</h3>
                   </div>
                 </div>
@@ -113,7 +158,7 @@ export const ImpactPage: React.FC = () => {
           </Link>
           <Link
             to="/responder"
-            className="py-3 px-6 rounded-xl bg-teal-800 hover:bg-teal-900 text-white font-bold text-xs border border-teal-500/40 shadow-sm transition-colors"
+            className="py-3 px-6 rounded-xl bg-teal-800 hover:bg-teal-900 text-white font-bold text-xs border border-teal-500/40 shadow-xs transition-colors"
           >
             Responder Portal
           </Link>

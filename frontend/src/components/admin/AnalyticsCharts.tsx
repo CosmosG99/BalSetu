@@ -23,10 +23,10 @@ interface AnalyticsChartsProps {
 export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ data }) => {
   const { isDark } = useTheme();
 
-  const textColor = isDark ? '#9DB0A8' : '#60736D';
-  const tooltipBg = isDark ? '#162722' : '#FFFFFF';
-  const tooltipBorder = isDark ? '#2C4A42' : '#DFE7E3';
-  const tooltipText = isDark ? '#F5F4EE' : '#18332D';
+  const textColor = isDark ? '#A9BBB6' : '#60736D';
+  const tooltipBg = isDark ? '#0D2420' : '#FFFFFF';
+  const tooltipBorder = isDark ? '#1F423B' : '#D0DCD8';
+  const tooltipText = isDark ? '#F5F7F6' : '#071A16';
 
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) => {
@@ -41,13 +41,14 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ data }) => {
     );
   };
 
-  const chartPriorityColors = ['#E8785D', '#E7B84B', '#2B9A82', '#60736D'];
+  // Standardized Semantic Chart Colors: Coral (Critical/High), Amber (Medium), Teal (Low), Blue (Info)
+  const chartPriorityColors = ['#FF654A', '#FF9418', '#F4C95D', '#149B84'];
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       
       {/* Chart 1: Reports Volume Over Time */}
-      <div className="natural-panel p-5 rounded-2xl space-y-4 shadow-sm">
+      <div className="natural-panel p-5 rounded-2xl space-y-4 shadow-card">
         <div className="flex items-center justify-between border-b border-charcoal-200/80 dark:border-charcoal-800 pb-3">
           <h4 className="text-xs font-bold uppercase tracking-wider text-charcoal-800 dark:text-charcoal-100">
             Reports & Resolution Velocity Over Time
@@ -59,12 +60,12 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ data }) => {
             <AreaChart data={data.timelineSeries}>
               <defs>
                 <linearGradient id="colorReports" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#167A68" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#167A68" stopOpacity={0.0} />
+                  <stop offset="5%" stopColor="#4F7CFF" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#4F7CFF" stopOpacity={0.0} />
                 </linearGradient>
                 <linearGradient id="colorResolved" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#8BCDB4" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#8BCDB4" stopOpacity={0.0} />
+                  <stop offset="5%" stopColor="#45C97A" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#45C97A" stopOpacity={0.0} />
                 </linearGradient>
               </defs>
               <XAxis dataKey="time" stroke={textColor} fontSize={11} />
@@ -72,15 +73,15 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ data }) => {
               <Tooltip
                 contentStyle={{ backgroundColor: tooltipBg, borderColor: tooltipBorder, borderRadius: '12px', color: tooltipText, fontSize: '12px' }}
               />
-              <Area type="monotone" dataKey="reports" stroke="#167A68" fillOpacity={1} fill="url(#colorReports)" name="Total Reports" />
-              <Area type="monotone" dataKey="resolved" stroke="#8BCDB4" fillOpacity={1} fill="url(#colorResolved)" name="Resolved Cases" />
+              <Area type="monotone" dataKey="reports" stroke="#4F7CFF" fillOpacity={1} fill="url(#colorReports)" name="Total Reports (Blue)" />
+              <Area type="monotone" dataKey="resolved" stroke="#45C97A" fillOpacity={1} fill="url(#colorResolved)" name="Resolved Cases (Green)" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* Chart 2: Priority Distribution */}
-      <div className="natural-panel p-5 rounded-2xl space-y-4 shadow-sm">
+      <div className="natural-panel p-5 rounded-2xl space-y-4 shadow-card">
         <div className="flex items-center justify-between border-b border-charcoal-200/80 dark:border-charcoal-800 pb-3">
           <h4 className="text-xs font-bold uppercase tracking-wider text-charcoal-800 dark:text-charcoal-100">
             Priority Risk Level Distribution
@@ -97,7 +98,7 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ data }) => {
                 labelLine={false}
                 label={renderCustomizedLabel}
                 outerRadius={85}
-                fill="#167A68"
+                fill="#149B84"
                 dataKey="count"
                 nameKey="priority"
               >
@@ -113,7 +114,7 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ data }) => {
       </div>
 
       {/* Chart 3: Incident Categories */}
-      <div className="natural-panel p-5 rounded-2xl space-y-4 shadow-sm">
+      <div className="natural-panel p-5 rounded-2xl space-y-4 shadow-card">
         <div className="flex items-center justify-between border-b border-charcoal-200/80 dark:border-charcoal-800 pb-3">
           <h4 className="text-xs font-bold uppercase tracking-wider text-charcoal-800 dark:text-charcoal-100">
             Cases by Incident Category
@@ -126,14 +127,14 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ data }) => {
               <XAxis dataKey="category" stroke={textColor} fontSize={10} />
               <YAxis stroke={textColor} fontSize={11} />
               <Tooltip contentStyle={{ backgroundColor: tooltipBg, borderColor: tooltipBorder, borderRadius: '12px', color: tooltipText, fontSize: '12px' }} />
-              <Bar dataKey="count" fill="#E8785D" radius={[6, 6, 0, 0]} name="Report Count" />
+              <Bar dataKey="count" fill="#8B4DE8" radius={[6, 6, 0, 0]} name="Report Count (Purple)" />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* Chart 4: Transit Hub Distribution */}
-      <div className="natural-panel p-5 rounded-2xl space-y-4 shadow-sm">
+      <div className="natural-panel p-5 rounded-2xl space-y-4 shadow-card">
         <div className="flex items-center justify-between border-b border-charcoal-200/80 dark:border-charcoal-800 pb-3">
           <h4 className="text-xs font-bold uppercase tracking-wider text-charcoal-800 dark:text-charcoal-100">
             High-Density Transit Hubs
@@ -146,7 +147,7 @@ export const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ data }) => {
               <XAxis type="number" stroke={textColor} fontSize={11} />
               <YAxis type="category" dataKey="location" stroke={textColor} fontSize={10} width={130} />
               <Tooltip contentStyle={{ backgroundColor: tooltipBg, borderColor: tooltipBorder, borderRadius: '12px', color: tooltipText, fontSize: '12px' }} />
-              <Bar dataKey="count" fill="#167A68" radius={[0, 6, 6, 0]} name="Incident Count" />
+              <Bar dataKey="count" fill="#42C7D9" radius={[0, 6, 6, 0]} name="Incident Count (Cyan)" />
             </BarChart>
           </ResponsiveContainer>
         </div>

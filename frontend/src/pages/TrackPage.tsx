@@ -38,12 +38,12 @@ export const TrackPage: React.FC = () => {
     }, 300);
   };
 
-  const statusTimelineSteps = [
-    { title: 'REPORT RECEIVED', desc: 'Bystander observation submitted securely', color: 'text-teal-700 dark:text-teal-400 bg-teal-700/10 border-teal-700/30', icon: ShieldCheck },
-    { title: 'TRIAGED', desc: 'AI risk assessment & category classification complete', color: 'text-accentPurple bg-accentPurple/10 border-accentPurple/30', icon: Cpu },
-    { title: 'RESPONDER ASSIGNED', desc: 'Platform response team or RPF officer notified', color: 'text-accentViolet bg-accentViolet/10 border-accentViolet/30', icon: UserCheck },
-    { title: 'ACTION IN PROGRESS', desc: 'Ground verification check underway', color: 'text-accentOrange bg-accentOrange/10 border-accentOrange/30', icon: Activity },
-    { title: 'RESOLVED', desc: 'Child secured and safely reunited or supported', color: 'text-accentGreen bg-accentGreen/10 border-accentGreen/30', icon: CheckCircle2 }
+  const stepColorConfigs = [
+    { text: 'text-accentBlue', bg: 'bg-accentBlue', border: 'border-accentBlue/30', badgeBg: 'bg-accentBlue/10', icon: ShieldCheck },
+    { text: 'text-accentPurple', bg: 'bg-accentPurple', border: 'border-accentPurple/30', badgeBg: 'bg-accentPurple/10', icon: Cpu },
+    { text: 'text-accentViolet', bg: 'bg-accentViolet', border: 'border-accentViolet/30', badgeBg: 'bg-accentViolet/10', icon: UserCheck },
+    { text: 'text-accentOrange', bg: 'bg-accentOrange', border: 'border-accentOrange/30', badgeBg: 'bg-accentOrange/10', icon: Activity },
+    { text: 'text-accentGreen', bg: 'bg-accentGreen', border: 'border-accentGreen/30', badgeBg: 'bg-accentGreen/10', icon: CheckCircle2 }
   ];
 
   return (
@@ -51,7 +51,7 @@ export const TrackPage: React.FC = () => {
       
       {/* Search Hero */}
       <div className="text-center space-y-3">
-        <div className="w-12 h-12 rounded-2xl bg-teal-700/10 text-teal-700 dark:text-teal-400 border border-teal-700/20 mx-auto flex items-center justify-center font-bold">
+        <div className="w-12 h-12 rounded-2xl bg-teal-700/10 text-teal-700 dark:text-teal-400 border border-teal-700/20 mx-auto flex items-center justify-center font-bold shadow-xs">
           <Search className="w-6 h-6" />
         </div>
         <h1 className="text-3xl font-extrabold text-charcoal-800 dark:text-charcoal-100">Track a Report</h1>
@@ -68,7 +68,7 @@ export const TrackPage: React.FC = () => {
               onChange={(e) => setInputCaseId(e.target.value)}
               placeholder="e.g. RKS-2026-00421"
               disabled={isSearching}
-              className="w-full pl-4 pr-4 py-3.5 bg-white dark:bg-forest-850 border border-charcoal-200 dark:border-white/10 rounded-xl text-sm font-mono text-charcoal-800 dark:text-charcoal-100 placeholder-charcoal-400 focus:outline-none focus:border-teal-700 shadow-sm disabled:opacity-50"
+              className="w-full pl-4 pr-4 py-3.5 bg-white dark:bg-forest-850 border border-charcoal-200 dark:border-white/10 rounded-xl text-sm font-mono text-charcoal-800 dark:text-charcoal-100 placeholder-charcoal-400 focus:outline-none focus:border-teal-700 shadow-xs disabled:opacity-50"
             />
           </div>
           <button
@@ -107,7 +107,7 @@ export const TrackPage: React.FC = () => {
               <span className="text-[10px] text-charcoal-500 font-mono uppercase">Case Reference ID</span>
               <h2 className="text-2xl font-extrabold text-charcoal-800 dark:text-charcoal-100 font-mono">{activeCase.id}</h2>
               <div className="flex items-center space-x-2 pt-1 text-xs text-charcoal-600 dark:text-charcoal-300">
-                <MapPin className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400" />
+                <MapPin className="w-3.5 h-3.5 text-accentBlue" />
                 <span>Location: {activeCase.report.location}</span>
               </div>
             </div>
@@ -128,34 +128,41 @@ export const TrackPage: React.FC = () => {
           </div>
 
           {/* Privacy Disclaimer Card */}
-          <div className="p-3.5 rounded-xl bg-teal-700/10 dark:bg-teal-500/20 border border-teal-700/20 dark:border-teal-500/30 text-teal-800 dark:text-teal-300 text-xs flex items-center space-x-2">
-            <Lock className="w-4 h-4 text-teal-700 dark:text-teal-400 flex-shrink-0" />
+          <div className="p-3.5 rounded-xl bg-accentCyan/10 border border-accentCyan/30 text-accentCyan text-xs flex items-center space-x-2">
+            <Lock className="w-4 h-4 text-accentCyan flex-shrink-0" />
             <span>Strict privacy mode active. No personal names or identity details are exposed publicly.</span>
           </div>
 
-          {/* Polished Status Timeline */}
+          {/* Polished Status Timeline with Distinct Semantic Accent Colors */}
           <div className="space-y-4 pt-2">
             <h3 className="text-xs font-bold text-charcoal-800 dark:text-charcoal-100 uppercase tracking-wider">
               Resolution Progress & Milestones
             </h3>
 
             <div className="space-y-3">
-              {activeCase.timeline.map((step, idx) => (
-                <div key={step.id || idx} className="p-3.5 rounded-xl bg-white dark:bg-forest-900 border border-charcoal-200/80 dark:border-charcoal-800 flex items-center justify-between shadow-xs">
-                  <div className="flex items-center space-x-3">
-                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs ${step.completed ? 'bg-teal-700 text-white' : 'bg-charcoal-200/70 dark:bg-charcoal-800 text-charcoal-500'}`}>
-                      {step.completed ? <CheckCircle2 className="w-4 h-4" /> : idx + 1}
+              {activeCase.timeline.map((step, idx) => {
+                const colorConfig = stepColorConfigs[idx % stepColorConfigs.length];
+                const Icon = colorConfig.icon;
+
+                return (
+                  <div key={step.id || idx} className={`p-3.5 rounded-xl bg-white dark:bg-forest-900 border ${step.completed ? colorConfig.border : 'border-charcoal-200/80 dark:border-charcoal-800'} flex items-center justify-between shadow-xs transition-all`}>
+                    <div className="flex items-center space-x-3">
+                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-xs ${step.completed ? `${colorConfig.bg} text-white shadow-xs` : 'bg-charcoal-200/70 dark:bg-charcoal-800 text-charcoal-500'}`}>
+                        {step.completed ? <Icon className="w-4 h-4" /> : idx + 1}
+                      </div>
+                      <div>
+                        <div className={`text-xs font-bold ${step.completed ? colorConfig.text : 'text-charcoal-800 dark:text-charcoal-100'}`}>
+                          {step.title}
+                        </div>
+                        <div className="text-[11px] text-charcoal-600 dark:text-charcoal-400">{step.description}</div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-xs font-bold text-charcoal-800 dark:text-charcoal-100">{step.title}</div>
-                      <div className="text-[11px] text-charcoal-600 dark:text-charcoal-400">{step.description}</div>
-                    </div>
+                    <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${step.completed ? `${colorConfig.badgeBg} ${colorConfig.text} ${colorConfig.border}` : 'text-charcoal-500 bg-ivory-100 dark:bg-charcoal-850 border-charcoal-200/50 dark:border-charcoal-800'}`}>
+                      {step.timestamp}
+                    </span>
                   </div>
-                  <span className="text-[10px] font-mono font-bold text-charcoal-500 bg-ivory-100 dark:bg-charcoal-850 px-2 py-0.5 rounded border border-charcoal-200/50 dark:border-charcoal-800">
-                    {step.timestamp}
-                  </span>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 

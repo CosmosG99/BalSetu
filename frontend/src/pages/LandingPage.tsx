@@ -21,7 +21,8 @@ import {
   Layers,
   Activity,
   AlertTriangle,
-  UserCheck
+  UserCheck,
+  Users
 } from 'lucide-react';
 import { RiskBadge } from '../components/common/RiskBadge';
 import { StatusBadge } from '../components/common/StatusBadge';
@@ -39,10 +40,14 @@ export const LandingPage: React.FC = () => {
     {
       num: '01',
       title: 'NOTICE',
-      sub: 'Bystander Observation',
+      subtitle: 'Bystander Observation',
       desc: 'A citizen, railway staff member, or vendor spots a child travelling alone or showing signs of distress at a station.',
       icon: Eye,
-      tag: 'Step 1'
+      tag: 'Step 1',
+      accentColor: 'text-accentCyan',
+      iconBg: 'bg-accentCyan/15 border-accentCyan/30 text-accentCyan',
+      badgeBg: 'bg-accentCyan/10 text-accentCyan border-accentCyan/30',
+      borderHover: 'hover:border-accentCyan/60'
     },
     {
       num: '02',
@@ -50,7 +55,11 @@ export const LandingPage: React.FC = () => {
       subtitle: '30-Second Mobile Submission',
       desc: 'Quick report submitted without creating an account. Optional face-blur photo protection is automatically applied.',
       icon: Send,
-      tag: 'Step 2'
+      tag: 'Step 2',
+      accentColor: 'text-teal-700 dark:text-teal-400',
+      iconBg: 'bg-teal-700/15 text-teal-700 dark:text-teal-400 border-teal-700/30',
+      badgeBg: 'bg-teal-700/10 text-teal-700 dark:text-teal-300 border-teal-700/30',
+      borderHover: 'hover:border-teal-700/60'
     },
     {
       num: '03',
@@ -58,7 +67,11 @@ export const LandingPage: React.FC = () => {
       subtitle: 'Advisory AI Triage',
       desc: 'Rakshak AI assesses trauma risk indicators (0–100 score) and provides human-readable explanations.',
       icon: Cpu,
-      tag: 'Step 3'
+      tag: 'Step 3',
+      accentColor: 'text-accentPurple',
+      iconBg: 'bg-accentPurple/15 text-accentPurple border-accentPurple/30',
+      badgeBg: 'bg-accentPurple/10 text-accentPurple border-accentPurple/30',
+      borderHover: 'hover:border-accentPurple/60'
     },
     {
       num: '04',
@@ -66,7 +79,11 @@ export const LandingPage: React.FC = () => {
       subtitle: 'Smart Dispatch Matrix',
       desc: 'Notifications dispatch simultaneously to platform RPF protection cells, welfare desks, and verified NGO partners.',
       icon: Network,
-      tag: 'Step 4'
+      tag: 'Step 4',
+      accentColor: 'text-accentOrange',
+      iconBg: 'bg-accentOrange/15 text-accentOrange border-accentOrange/30',
+      badgeBg: 'bg-accentOrange/10 text-accentOrange border-accentOrange/30',
+      borderHover: 'hover:border-accentOrange/60'
     },
     {
       num: '05',
@@ -74,7 +91,11 @@ export const LandingPage: React.FC = () => {
       subtitle: 'Ground Welfare Verification',
       desc: 'On-duty responders conduct physical verification, update the live audit log, and facilitate safe reunion.',
       icon: ShieldCheck,
-      tag: 'Step 5'
+      tag: 'Step 5',
+      accentColor: 'text-accentGreen',
+      iconBg: 'bg-accentGreen/15 text-accentGreen border-accentGreen/30',
+      badgeBg: 'bg-accentGreen/10 text-accentGreen border-accentGreen/30',
+      borderHover: 'hover:border-accentGreen/60'
     }
   ];
 
@@ -115,7 +136,7 @@ export const LandingPage: React.FC = () => {
       </div>
 
       {/* ============================================================ */}
-      {/* 1. WEALTH DNA-INSPIRED HERO SECTION                          */}
+      {/* 1. HERO SECTION WITH RICH SEMANTIC ACCENTS                   */}
       {/* ============================================================ */}
       <section className="relative pt-4 pb-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
@@ -123,7 +144,7 @@ export const LandingPage: React.FC = () => {
           {/* Hero Left Column */}
           <div className="lg:col-span-6 space-y-6 text-left">
             
-            <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-teal-700/10 dark:bg-teal-500/20 border border-teal-700/20 dark:border-teal-500/30 text-[11px] font-bold text-teal-800 dark:text-teal-300 shadow-sm">
+            <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-teal-700/10 dark:bg-teal-500/20 border border-teal-700/20 dark:border-teal-500/30 text-[11px] font-bold text-teal-800 dark:text-teal-300 shadow-xs">
               <Sparkles className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400" />
               <span className="uppercase tracking-wider">A SAFER TOMORROW FOR EVERY CHILD</span>
             </div>
@@ -149,30 +170,47 @@ export const LandingPage: React.FC = () => {
 
               <Link
                 to="/how-it-works"
-                className="px-7 py-3.5 rounded-xl bg-white dark:bg-charcoal-900 hover:bg-ivory-100 dark:hover:bg-charcoal-850 text-charcoal-800 dark:text-charcoal-100 font-bold text-sm border border-charcoal-200 dark:border-charcoal-800 transition-all flex items-center justify-center space-x-2 text-center shadow-sm"
+                className="px-7 py-3.5 rounded-xl bg-white dark:bg-charcoal-900 hover:bg-ivory-100 dark:hover:bg-charcoal-850 text-charcoal-800 dark:text-charcoal-100 font-bold text-sm border border-charcoal-200 dark:border-charcoal-800 transition-all flex items-center justify-center space-x-2 text-center shadow-xs"
               >
                 <span>See How It Works</span>
               </Link>
             </div>
 
-            {/* Trust Indicators */}
-            <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-semibold text-charcoal-800 dark:text-charcoal-200">
-              <div className="p-2.5 rounded-xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 flex items-center space-x-1.5 shadow-sm">
-                <CheckCircle2 className="w-4 h-4 text-teal-700 dark:text-teal-400 flex-shrink-0" />
-                <span className="truncate">Anonymous Reporting</span>
+            {/* Trust Indicators with Distinct Semantic Accent Badges */}
+            <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs font-semibold">
+              
+              {/* Protection -> Teal */}
+              <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-teal-700/30 flex items-center space-x-2 shadow-xs text-teal-800 dark:text-teal-300">
+                <div className="p-1 rounded-md bg-teal-700/10 text-teal-700 dark:text-teal-400">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                </div>
+                <span className="truncate text-[11px] font-bold">Protection (Teal)</span>
               </div>
-              <div className="p-2.5 rounded-xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 flex items-center space-x-1.5 shadow-sm">
-                <CheckCircle2 className="w-4 h-4 text-teal-700 dark:text-teal-400 flex-shrink-0" />
-                <span className="truncate">Privacy First</span>
+
+              {/* Community -> Pink */}
+              <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-accentPink/30 flex items-center space-x-2 shadow-xs text-accentPink">
+                <div className="p-1 rounded-md bg-accentPink/10 text-accentPink">
+                  <Users className="w-3.5 h-3.5" />
+                </div>
+                <span className="truncate text-[11px] font-bold">Community (Pink)</span>
               </div>
-              <div className="p-2.5 rounded-xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 flex items-center space-x-1.5 shadow-sm">
-                <CheckCircle2 className="w-4 h-4 text-teal-700 dark:text-teal-400 flex-shrink-0" />
-                <span className="truncate">AI-Assisted Triage</span>
+
+              {/* AI Triage -> Purple */}
+              <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-accentPurple/30 flex items-center space-x-2 shadow-xs text-accentPurple">
+                <div className="p-1 rounded-md bg-accentPurple/10 text-accentPurple">
+                  <Cpu className="w-3.5 h-3.5" />
+                </div>
+                <span className="truncate text-[11px] font-bold">AI Triage (Purple)</span>
               </div>
-              <div className="p-2.5 rounded-xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 flex items-center space-x-1.5 shadow-sm">
-                <CheckCircle2 className="w-4 h-4 text-teal-700 dark:text-teal-400 flex-shrink-0" />
-                <span className="truncate">Coordinated Response</span>
+
+              {/* Location -> Cyan */}
+              <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-accentCyan/30 flex items-center space-x-2 shadow-xs text-accentCyan">
+                <div className="p-1 rounded-md bg-accentCyan/10 text-accentCyan">
+                  <MapPin className="w-3.5 h-3.5" />
+                </div>
+                <span className="truncate text-[11px] font-bold">Location (Cyan)</span>
               </div>
+
             </div>
 
           </div>
@@ -194,7 +232,7 @@ export const LandingPage: React.FC = () => {
                 <div className="space-y-0.5">
                   <div className="flex items-center space-x-2">
                     <span className="font-mono text-xs font-extrabold text-teal-700 dark:text-teal-400">RKS-2026-00421</span>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-coral-500/10 text-coral-600 dark:text-coral-400 border border-coral-500/20">HIGH PRIORITY</span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-accentCoral/15 text-accentCoral border border-accentCoral/30">HIGH PRIORITY</span>
                   </div>
                   <div className="text-xs font-bold text-charcoal-800 dark:text-charcoal-100">Child appears lost & distressed</div>
                   <div className="text-[11px] text-charcoal-600 dark:text-charcoal-400">Mumbai Central Station • Platform 4</div>
@@ -233,19 +271,19 @@ export const LandingPage: React.FC = () => {
             return (
               <div
                 key={step.num}
-                className="natural-panel natural-card-hover p-5 rounded-2xl space-y-3 shadow-card flex flex-col justify-between"
+                className={`natural-panel natural-card-hover p-5 rounded-2xl space-y-3 shadow-card flex flex-col justify-between border border-charcoal-200/80 dark:border-white/10 ${step.borderHover}`}
               >
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-3xl font-extrabold text-teal-700 dark:text-teal-400">{step.num}</span>
-                    <div className="p-2 rounded-xl bg-teal-700/10 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300">
+                    <span className={`font-mono text-3xl font-extrabold ${step.accentColor}`}>{step.num}</span>
+                    <div className={`p-2 rounded-xl border ${step.iconBg}`}>
                       <Icon className="w-4 h-4" />
                     </div>
                   </div>
 
                   <div>
                     <h3 className="text-sm font-bold text-charcoal-800 dark:text-charcoal-100 tracking-tight">{step.title}</h3>
-                    <div className="text-[11px] font-semibold text-teal-700 dark:text-teal-400">{step.subtitle}</div>
+                    <div className={`text-[11px] font-semibold ${step.accentColor}`}>{step.subtitle}</div>
                   </div>
 
                   <p className="text-[11px] text-charcoal-600 dark:text-charcoal-400 leading-relaxed">
@@ -253,8 +291,10 @@ export const LandingPage: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="pt-2 border-t border-charcoal-200/60 dark:border-charcoal-800 text-[10px] font-mono text-charcoal-500 uppercase tracking-wider">
-                  {step.tag}
+                <div className="pt-2 border-t border-charcoal-200/60 dark:border-charcoal-800">
+                  <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-mono font-bold border ${step.badgeBg}`}>
+                    {step.tag}
+                  </span>
                 </div>
               </div>
             );
@@ -263,7 +303,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* ============================================================ */}
-      {/* 3. INSIDE RAKSHAK — SOFTWARE PREVIEW (WEALTH DNA STYLE)     */}
+      {/* 3. INSIDE RAKSHAK — SOFTWARE PREVIEW & KPI METRICS           */}
       {/* ============================================================ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="natural-panel p-6 sm:p-10 rounded-3xl space-y-6 shadow-modal border border-charcoal-200 dark:border-charcoal-800">
@@ -283,7 +323,7 @@ export const LandingPage: React.FC = () => {
                 onClick={() => setActivePreviewTab('queue')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                   activePreviewTab === 'queue'
-                    ? 'bg-teal-700 text-white shadow-sm'
+                    ? 'bg-teal-700 text-white shadow-xs'
                     : 'bg-ivory-100 dark:bg-charcoal-850 text-charcoal-600 dark:text-charcoal-300'
                 }`}
               >
@@ -293,7 +333,7 @@ export const LandingPage: React.FC = () => {
                 onClick={() => setActivePreviewTab('ai')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                   activePreviewTab === 'ai'
-                    ? 'bg-teal-700 text-white shadow-sm'
+                    ? 'bg-teal-700 text-white shadow-xs'
                     : 'bg-ivory-100 dark:bg-charcoal-850 text-charcoal-600 dark:text-charcoal-300'
                 }`}
               >
@@ -306,34 +346,38 @@ export const LandingPage: React.FC = () => {
           <div className="rounded-2xl border border-charcoal-200 dark:border-charcoal-800 bg-ivory-100 dark:bg-charcoal-950 p-4 sm:p-6 space-y-4 shadow-subtle">
             <div className="flex items-center justify-between border-b border-charcoal-200 dark:border-charcoal-800 pb-3">
               <div className="flex items-center space-x-2">
-                <span className="w-3 h-3 rounded-full bg-coral-500" />
-                <span className="w-3 h-3 rounded-full bg-amberGold-500" />
-                <span className="w-3 h-3 rounded-full bg-mint-500" />
+                <span className="w-3 h-3 rounded-full bg-accentCoral" />
+                <span className="w-3 h-3 rounded-full bg-amberGold-600" />
+                <span className="w-3 h-3 rounded-full bg-accentGreen" />
                 <span className="text-xs font-mono font-bold text-charcoal-600 dark:text-charcoal-400 ml-2">rakshak-responder-portal.app</span>
               </div>
-              <span className="text-[10px] font-mono font-bold text-teal-700 dark:text-teal-400 bg-teal-700/10 px-2 py-0.5 rounded">
+              <span className="text-[10px] font-mono font-bold text-teal-700 dark:text-teal-400 bg-teal-700/10 px-2 py-0.5 rounded border border-teal-700/20">
                 SIMULATED PREVIEW
               </span>
             </div>
 
             {activePreviewTab === 'queue' ? (
               <div className="space-y-3">
-                <div className="grid grid-cols-3 gap-3 text-center">
-                  <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800">
-                    <div className="text-xl font-extrabold font-mono text-charcoal-800 dark:text-charcoal-100">24</div>
-                    <div className="text-[10px] font-bold text-charcoal-500 uppercase">Active Cases</div>
+                <div className="grid grid-cols-4 gap-3 text-center">
+                  <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-accentBlue/30 text-accentBlue">
+                    <div className="text-xl font-extrabold font-mono">24</div>
+                    <div className="text-[10px] font-bold uppercase">Active Cases (Blue)</div>
                   </div>
-                  <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800">
-                    <div className="text-xl font-extrabold font-mono text-coral-600">7</div>
-                    <div className="text-[10px] font-bold text-charcoal-500 uppercase">High Priority</div>
+                  <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-accentCoral/30 text-accentCoral">
+                    <div className="text-xl font-extrabold font-mono">7</div>
+                    <div className="text-[10px] font-bold uppercase">High Priority (Coral)</div>
                   </div>
-                  <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800">
-                    <div className="text-xl font-extrabold font-mono text-teal-700 dark:text-teal-400">83</div>
-                    <div className="text-[10px] font-bold text-charcoal-500 uppercase">Resolved</div>
+                  <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-accentPurple/30 text-accentPurple">
+                    <div className="text-xl font-extrabold font-mono">14</div>
+                    <div className="text-[10px] font-bold uppercase">AI Triaged (Purple)</div>
+                  </div>
+                  <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-accentGreen/30 text-accentGreen">
+                    <div className="text-xl font-extrabold font-mono">83</div>
+                    <div className="text-[10px] font-bold uppercase">Resolved (Green)</div>
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 flex items-center justify-between text-xs">
+                <div className="p-3.5 rounded-xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 flex items-center justify-between text-xs">
                   <div className="flex items-center space-x-3">
                     <RiskBadge level="HIGH" score={78} size="sm" />
                     <span className="font-mono font-bold text-teal-700 dark:text-teal-400">RKS-2026-00421</span>
@@ -343,10 +387,15 @@ export const LandingPage: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <div className="p-4 rounded-xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 space-y-2 text-xs">
+              <div className="p-4 rounded-xl bg-white dark:bg-charcoal-900 border border-accentPurple/30 space-y-2 text-xs">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-charcoal-800 dark:text-charcoal-100">AI Risk Indicator Assessment</span>
-                  <span className="font-mono font-bold text-teal-700 dark:text-teal-400">Score: 78/100</span>
+                  <div className="flex items-center space-x-2 text-accentPurple font-bold">
+                    <Cpu className="w-4 h-4" />
+                    <span>AI Risk Indicator Assessment</span>
+                  </div>
+                  <span className="font-mono font-bold text-accentPurple bg-accentPurple/10 px-2 py-0.5 rounded border border-accentPurple/30">
+                    Score: 78/100
+                  </span>
                 </div>
                 <p className="text-charcoal-600 dark:text-charcoal-400">
                   Indicators detected: Unaccompanied minor in high-density transit node during late evening hours without adult supervision.
@@ -376,7 +425,7 @@ export const LandingPage: React.FC = () => {
       {/* ============================================================ */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center space-y-2 mb-8">
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-teal-700/10 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300 text-xs font-bold">
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-accentAmber/15 text-amberGold-700 dark:text-amberGold-400 border border-amberGold-600/30 text-xs font-bold">
             <HelpCircle className="w-3.5 h-3.5" />
             <span>Frequently Asked Questions</span>
           </div>
@@ -389,7 +438,7 @@ export const LandingPage: React.FC = () => {
           {faqs.map((faq, idx) => (
             <div
               key={idx}
-              className="natural-panel rounded-2xl overflow-hidden shadow-sm transition-all"
+              className="natural-panel rounded-2xl overflow-hidden shadow-xs transition-all"
             >
               <button
                 onClick={() => toggleFaq(idx)}
@@ -438,7 +487,7 @@ export const LandingPage: React.FC = () => {
 
             <Link
               to="/track"
-              className="py-3.5 px-8 rounded-xl bg-teal-800 hover:bg-teal-900 text-white font-bold text-sm border border-teal-500/40 shadow-sm transition-all"
+              className="py-3.5 px-8 rounded-xl bg-teal-800 hover:bg-teal-900 text-white font-bold text-sm border border-teal-500/40 shadow-xs transition-all"
             >
               Track Existing Report
             </Link>

@@ -47,15 +47,15 @@ export const MapView: React.FC<MapViewProps> = ({
   };
 
   return (
-    <div className="relative w-full h-[540px] rounded-3xl overflow-hidden bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-white/10 shadow-2xl flex flex-col transition-colors duration-300">
+    <div className="relative w-full h-[540px] rounded-3xl overflow-hidden bg-ivory-100 dark:bg-charcoal-950 border border-charcoal-200 dark:border-charcoal-800 shadow-modal flex flex-col transition-colors duration-300">
       
       {/* Top Map Toolbar */}
       <div className="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
         
-        <div className="pointer-events-auto bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-semibold text-slate-800 dark:text-slate-200 flex items-center space-x-2 shadow-lg">
-          <Navigation className="w-4 h-4 text-brand-purple animate-pulse" />
+        <div className="pointer-events-auto bg-white/95 dark:bg-charcoal-900/95 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-charcoal-200 dark:border-charcoal-800 text-xs font-semibold text-charcoal-800 dark:text-charcoal-100 flex items-center space-x-2 shadow-subtle">
+          <Navigation className="w-4 h-4 text-accentCyan animate-pulse" />
           <span>Transit Hub Incident Radar</span>
-          <span className="bg-brand-purple/20 text-purple-700 dark:text-purple-300 font-mono text-[10px] px-2 py-0.5 rounded-full border border-brand-purple/30">
+          <span className="bg-teal-700/10 text-teal-700 dark:text-teal-300 font-mono text-[10px] px-2 py-0.5 rounded-full border border-teal-700/20">
             {filteredCases.length} Live Clusters
           </span>
         </div>
@@ -63,28 +63,28 @@ export const MapView: React.FC<MapViewProps> = ({
         <div className="pointer-events-auto flex items-center space-x-2">
           <button
             onClick={() => setShowHeatmap(!showHeatmap)}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition-all shadow-md ${
+            className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition-all shadow-xs ${
               showHeatmap
-                ? 'bg-gradient-to-r from-amber-500 to-red-500 text-white shadow-glow-critical'
-                : 'bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-accentCoral text-white shadow-subtle'
+                : 'bg-white/95 dark:bg-charcoal-900/95 text-charcoal-700 dark:text-charcoal-300 border border-charcoal-200 dark:border-charcoal-800 hover:text-teal-700 dark:hover:text-white'
             }`}
           >
             <Flame className="w-3.5 h-3.5" />
             <span>Incident Density</span>
           </button>
 
-          <div className="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-xl px-2 py-1 text-xs text-slate-700 dark:text-slate-300 flex items-center space-x-1 shadow-sm">
-            <Filter className="w-3.5 h-3.5 text-slate-400" />
+          <div className="bg-white/95 dark:bg-charcoal-900/95 border border-charcoal-200 dark:border-charcoal-800 rounded-xl px-2 py-1 text-xs text-charcoal-700 dark:text-charcoal-300 flex items-center space-x-1 shadow-xs">
+            <Filter className="w-3.5 h-3.5 text-charcoal-400" />
             <select
               value={riskFilter}
               onChange={(e) => setRiskFilter(e.target.value)}
-              className="bg-transparent text-slate-900 dark:text-white font-medium focus:outline-none cursor-pointer"
+              className="bg-transparent text-charcoal-800 dark:text-charcoal-100 font-medium focus:outline-none cursor-pointer"
             >
-              <option value="ALL" className="bg-white dark:bg-slate-900">All Risks</option>
-              <option value="CRITICAL" className="bg-white dark:bg-slate-900">Critical Only</option>
-              <option value="HIGH" className="bg-white dark:bg-slate-900">High Priority</option>
-              <option value="MEDIUM" className="bg-white dark:bg-slate-900">Medium Risk</option>
-              <option value="LOW" className="bg-white dark:bg-slate-900">Low Risk</option>
+              <option value="ALL" className="bg-white dark:bg-charcoal-900">All Risks</option>
+              <option value="CRITICAL" className="bg-white dark:bg-charcoal-900">Critical Only</option>
+              <option value="HIGH" className="bg-white dark:bg-charcoal-900">High Priority</option>
+              <option value="MEDIUM" className="bg-white dark:bg-charcoal-900">Medium Risk</option>
+              <option value="LOW" className="bg-white dark:bg-charcoal-900">Low Risk</option>
             </select>
           </div>
         </div>
@@ -92,19 +92,19 @@ export const MapView: React.FC<MapViewProps> = ({
       </div>
 
       {/* Map Visual Canvas */}
-      <div className="relative w-full h-full bg-slate-100 dark:bg-[#0B0F19] overflow-hidden select-none transition-colors duration-300">
+      <div className="relative w-full h-full bg-ivory-100 dark:bg-forest-950 overflow-hidden select-none transition-colors duration-300">
         
         <svg className="absolute inset-0 w-full h-full opacity-30" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'} strokeWidth="1" />
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(7,26,22,0.08)'} strokeWidth="1" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
           
-          <path d="M 50 50 Q 200 150 400 200 T 800 350" fill="none" stroke="#8B5CF6" strokeWidth="2.5" strokeDasharray="6 4" />
-          <path d="M 100 450 Q 300 300 600 250 T 900 100" fill="none" stroke="#3B82F6" strokeWidth="2.5" strokeDasharray="6 4" />
-          <path d="M 200 50 Q 500 200 700 450" fill="none" stroke="#D946EF" strokeWidth="2" strokeDasharray="4 4" />
+          <path d="M 50 50 Q 200 150 400 200 T 800 350" fill="none" stroke="#8B4DE8" strokeWidth="2.5" strokeDasharray="6 4" />
+          <path d="M 100 450 Q 300 300 600 250 T 900 100" fill="none" stroke="#4F7CFF" strokeWidth="2.5" strokeDasharray="6 4" />
+          <path d="M 200 50 Q 500 200 700 450" fill="none" stroke="#42C7D9" strokeWidth="2" strokeDasharray="4 4" />
         </svg>
 
         {showHeatmap && (
@@ -113,10 +113,10 @@ export const MapView: React.FC<MapViewProps> = ({
               const pos = getMarkerPosition(idx, filteredCases.length, c.coordinates);
               const color =
                 c.aiAnalysis.riskLevel === 'CRITICAL'
-                  ? 'rgba(239, 68, 68, 0.45)'
+                  ? 'rgba(255, 101, 74, 0.45)'
                   : c.aiAnalysis.riskLevel === 'HIGH'
-                  ? 'rgba(245, 158, 11, 0.4)'
-                  : 'rgba(59, 130, 246, 0.3)';
+                  ? 'rgba(255, 148, 24, 0.4)'
+                  : 'rgba(79, 124, 255, 0.3)';
               return (
                 <div
                   key={`heat-${c.id}`}
@@ -141,10 +141,10 @@ export const MapView: React.FC<MapViewProps> = ({
           const isHigh = c.aiAnalysis.riskLevel === 'HIGH';
 
           const markerBg = isCritical
-            ? 'bg-red-500 text-white shadow-glow-critical'
+            ? 'bg-accentCoral text-white shadow-card'
             : isHigh
-            ? 'bg-amber-500 text-slate-950'
-            : 'bg-brand-purple text-white';
+            ? 'bg-accentOrange text-white shadow-card'
+            : 'bg-teal-700 text-white shadow-subtle';
 
           return (
             <div
@@ -157,18 +157,18 @@ export const MapView: React.FC<MapViewProps> = ({
               }}
             >
               {(isCritical || isHigh) && (
-                <span className="absolute -inset-2 rounded-full animate-ping bg-red-500/40 opacity-75 pointer-events-none" />
+                <span className="absolute -inset-2 rounded-full animate-ping bg-accentCoral/40 opacity-75 pointer-events-none" />
               )}
 
               <div
                 className={`relative p-2.5 rounded-2xl flex items-center justify-center transition-all duration-300 transform group-hover:scale-125 border-2 border-white/40 ${markerBg} ${
-                  isSelected ? 'scale-125 ring-4 ring-purple-500/40' : ''
+                  isSelected ? 'scale-125 ring-4 ring-teal-700/40' : ''
                 }`}
               >
                 <MapPin className="w-5 h-5" />
               </div>
 
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 whitespace-nowrap bg-white/90 dark:bg-slate-900/90 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 pointer-events-none shadow-md">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 whitespace-nowrap bg-white/95 dark:bg-charcoal-900/95 text-[10px] font-bold px-2 py-0.5 rounded-full border border-charcoal-200 dark:border-charcoal-800 text-charcoal-800 dark:text-charcoal-100 pointer-events-none shadow-xs">
                 {c.report.stationName || c.report.location.split(' ')[0]}
               </div>
             </div>
@@ -176,29 +176,29 @@ export const MapView: React.FC<MapViewProps> = ({
         })}
 
         {activeCase && (
-          <div className="absolute bottom-4 left-4 z-20 max-w-sm w-full glass-panel p-4 rounded-2xl space-y-3 shadow-2xl animate-fade-in">
-            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+          <div className="absolute bottom-4 left-4 z-20 max-w-sm w-full natural-panel p-4 rounded-2xl space-y-3 shadow-modal animate-fade-in border border-charcoal-200 dark:border-charcoal-800">
+            <div className="flex items-center justify-between border-b border-charcoal-200 dark:border-charcoal-800 pb-2">
               <div className="flex items-center space-x-2">
-                <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-300">{activeCase.id}</span>
+                <span className="font-mono text-xs font-bold text-teal-700 dark:text-teal-400">{activeCase.id}</span>
                 <RiskBadge level={activeCase.aiAnalysis.riskLevel} score={activeCase.aiAnalysis.riskScore} size="sm" />
               </div>
               <StatusBadge status={activeCase.status} size="sm" />
             </div>
 
             <div>
-              <h4 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1">{activeCase.report.location}</h4>
-              <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 mt-1">{activeCase.report.description}</p>
+              <h4 className="text-sm font-bold text-charcoal-800 dark:text-charcoal-100 line-clamp-1">{activeCase.report.location}</h4>
+              <p className="text-xs text-charcoal-600 dark:text-charcoal-300 line-clamp-2 mt-1">{activeCase.report.description}</p>
             </div>
 
-            <div className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-between pt-1">
+            <div className="text-[11px] text-charcoal-500 flex items-center justify-between pt-1">
               <span>Reported: {activeCase.report.approxTime || 'Recently'}</span>
-              <span className="text-brand-purple font-medium">{activeCase.report.reporterRole || 'Anonymous'}</span>
+              <span className="text-teal-700 dark:text-teal-400 font-bold">{activeCase.report.reporterRole || 'Anonymous'}</span>
             </div>
 
             <div className="pt-1 flex items-center space-x-2">
               <Link
                 to={`/responder/cases/${activeCase.id}`}
-                className="w-full py-2 px-3 bg-brand-purple hover:bg-brand-purple/90 text-white font-semibold text-xs rounded-xl text-center shadow-sm transition-all"
+                className="w-full py-2 px-3 bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs rounded-xl text-center shadow-subtle transition-all"
               >
                 Inspect Case Details & Actions
               </Link>
