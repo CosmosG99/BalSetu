@@ -254,10 +254,9 @@ export const LandingEntryPage: React.FC = () => {
       {/* ============================================================ */}
       <footer className="relative z-20 max-w-7xl mx-auto w-full px-6 sm:px-8 pb-6 pt-4">
         
-        {/* Synthetic Demo Network Tagline Notice */}
         <div className="text-center pb-3">
           <span className="text-[10px] font-mono font-semibold text-charcoal-400 uppercase tracking-widest bg-white/5 border border-white/10 px-3 py-1 rounded-full">
-            ● DEMO SAFETY NETWORK • SYNTHETIC DATA VISUALIZATION
+            LIVE CHILD SAFETY NETWORK
           </span>
         </div>
 

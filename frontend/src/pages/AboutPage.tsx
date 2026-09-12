@@ -46,7 +46,7 @@ export const AboutPage: React.FC = () => {
           <span>Prototype & Hackathon Scope Disclaimer</span>
         </div>
         <p className="text-charcoal-700 dark:text-ivory-300">
-          This application is a conceptual prototype developed exclusively for the Bit N Build Hackathon under Bal Suraksha (Support Ecosystems). It is NOT an official government application and does NOT claim official connection to Indian Railways, RPF, CHILDLINE, TrackChild, Police, or government databases. All cases and match profiles use 100% synthetic mock data.
+          This application is intended for operational child-safety response workflows and is not an official government database. It is designed to support secure reporting, AI-assisted triage, and responder coordination for real incidents.
         </p>
       </div>
 

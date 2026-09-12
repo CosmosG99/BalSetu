@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCases } from '../../context/CaseContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
-import { DemoModeDropdown } from './DemoModeDropdown';
 import {
   Shield,
   LayoutDashboard,
@@ -251,9 +250,6 @@ export const ResponderLayout: React.FC<ResponderLayoutProps> = ({ children }) =>
               <Bell className="w-4 h-4" />
               <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-coral-600" />
             </button>
-
-            {/* Demo Mode Dropdown */}
-            <DemoModeDropdown />
 
           </div>
 

@@ -1,4 +1,5 @@
 import anthropicClient from '../config/claude.js';
+import { createGroqCompletion } from '../config/groq.js';
 import { translate } from '../middleware/i18n.js';
 
 const SYSTEM_PROMPT = `
@@ -106,8 +107,76 @@ function runHeuristicTriage(report, language = 'en') {
  * @param {Object} report - Standard Report object
  * @returns {Promise<Object>} aiTriage result object
  */
+export async function createGroqSummary(report, triageResult = {}) {
+  if (!process.env.GROQ_API_KEY) return null;
+
+  try {
+    const summaryPrompt = `
+You are the RAKSHAK incident summary assistant.
+Create a short WhatsApp-ready update for a child-safety report.
+
+Return only plain text, no markdown, no JSON, no bullet lists.
+
+Case details:
+- Case ID: ${report.id || 'N/A'}
+- Category: ${report.category || 'General child safety concern'}
+- Location: ${report.location?.addressText || report.location?.zone || 'Unknown'}
+- Description: ${report.description || 'No description provided'}
+- Priority: ${(triageResult.priority || report.priority || 'medium').toUpperCase()}
+- Risk indicators: ${(triageResult.riskIndicators || []).join('; ') || 'Human verification recommended'}
+
+Write a concise, empathetic WhatsApp message that tells the recipient that the report was submitted, gives the case ID, location, and a short summary of what was observed, and recommends that responders verify the situation safely.
+`;
+
+    const textContent = await createGroqCompletion([
+      { role: 'system', content: 'You write clear, concise, human-safe WhatsApp updates for incident reports.' },
+      { role: 'user', content: summaryPrompt }
+    ]);
+
+    return (textContent || '').replace(/```/g, '').trim() || null;
+  } catch (err) {
+    console.warn(`Groq summary generation failed (${err.message}).`);
+    return null;
+  }
+}
+
 export async function runTriage(report) {
   const language = report.language || 'en';
+
+  if (process.env.GROQ_API_KEY) {
+    try {
+      const userMessage = `
+Incident Category: ${report.category}
+Location: ${report.location?.addressText || 'Unknown'} (Zone: ${report.location?.zone || 'Unknown'})
+Has Attached Photo: ${Boolean(report.photoUrl || report.photo)}
+Reporter Source: ${report.source}
+Report Language: ${language}
+
+Incident Description:
+"${report.description}"
+`;
+      const textContent = await createGroqCompletion([
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: userMessage }
+      ]);
+      if (textContent) {
+        const parsed = JSON.parse(textContent.replace(/```json/g, '').replace(/```/g, '').trim());
+        const validPriorities = ['low', 'medium', 'high', 'critical'];
+        return {
+          classification: parsed.classification || 'AI-analyzed child safety report',
+          riskIndicators: Array.isArray(parsed.riskIndicators) ? parsed.riskIndicators : ['Human verification recommended'],
+          recommendedAction: parsed.recommendedAction || 'Dispatch responder for physical verification.',
+          priority: validPriorities.includes(parsed.priority) ? parsed.priority : 'medium',
+          confidence: typeof parsed.confidence === 'number' ? Math.min(Math.max(parsed.confidence, 0.1), 1.0) : 0.85,
+          humanVerificationRequired: true,
+          verifiedBy: null
+        };
+      }
+    } catch (err) {
+      console.warn(`Groq AI call failed (${err.message}). Falling back to heuristic triage.`);
+      return runHeuristicTriage(report, language);
+    }
+  }
 
   if (anthropicClient) {
     try {

@@ -18,16 +18,17 @@ export async function authenticate(req, res, next) {
   }
 
   const token = authHeader.split(' ')[1];
+  const allowDemoTokens = process.env.ALLOW_DEMO_TOKENS === 'true' || process.env.DEMO_MODE === 'true' || process.env.NODE_ENV !== 'production';
 
   try {
     let decoded;
 
     // Check for development / demo tokens
-    if (token === 'demo-responder' || token === 'responder-token') {
+    if (allowDemoTokens && (token === 'demo-responder' || token === 'responder-token')) {
       decoded = { uid: 'usr-resp-01', role: 'responder', email: 'patil@rakshak.org', name: 'Inspector V. Patil' };
-    } else if (token === 'demo-admin' || token === 'admin-token') {
+    } else if (allowDemoTokens && (token === 'demo-admin' || token === 'admin-token')) {
       decoded = { uid: 'usr-admin-01', role: 'admin', email: 'admin@rakshak.org', name: 'Central Admin' };
-    } else if (token === 'demo-superadmin' || token === 'superadmin-token') {
+    } else if (allowDemoTokens && (token === 'demo-superadmin' || token === 'superadmin-token')) {
       decoded = { uid: 'usr-super-01', role: 'superadmin', email: 'superadmin@rakshak.org', name: 'Director SuperAdmin' };
     } else {
       // Verify with Firebase Auth

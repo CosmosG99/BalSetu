@@ -33,6 +33,7 @@ export interface ReportInput {
   location: string;
   locationType: LocationType;
   stationName?: string;
+  coordinates?: { lat: number; lng: number };
   description: string;
   approxAge?: string;
   apparentGender?: string;

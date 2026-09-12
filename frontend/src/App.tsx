@@ -1,8 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
-import { DemoProvider } from './context/DemoContext';
 import { CaseProvider } from './context/CaseContext';
 
 import { PublicLayout } from './components/common/PublicLayout';
@@ -23,12 +22,16 @@ import { ResourcesPage } from './pages/ResourcesPage';
 import { TrustedReporterPage } from './pages/TrustedReporterPage';
 import { ResponderLayout } from './components/responder/ResponderLayout';
 
+const RedirectTrackRoute: React.FC = () => {
+  const location = useLocation();
+  return <Navigate to={`/app${location.pathname}${location.search}`} replace />;
+};
+
 export const App: React.FC = () => {
   return (
     <ThemeProvider>
       <LanguageProvider>
         <CaseProvider>
-          <DemoProvider>
             <Router>
               <Routes>
                 
@@ -101,14 +104,13 @@ export const App: React.FC = () => {
                 <Route path="/resources" element={<Navigate to="/app/resources" replace />} />
                 <Route path="/trusted-reporter" element={<Navigate to="/app/trusted-reporter" replace />} />
                 <Route path="/report/*" element={<Navigate to="/app/report" replace />} />
-                <Route path="/track/*" element={<Navigate to="/app/track" replace />} />
+                <Route path="/track/*" element={<RedirectTrackRoute />} />
 
                 {/* Fallback Redirect to Landing Entry Page */}
                 <Route path="*" element={<Navigate to="/" replace />} />
 
               </Routes>
             </Router>
-          </DemoProvider>
         </CaseProvider>
       </LanguageProvider>
     </ThemeProvider>

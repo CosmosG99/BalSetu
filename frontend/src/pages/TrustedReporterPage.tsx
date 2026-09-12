@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 import { HeartHandshake, CheckCircle2, ShieldCheck, Zap, MapPin, Award, Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { registerReporter } from '../api/operations';
 
 export const TrustedReporterPage: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [role, setRole] = useState('Station Vendor');
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [station, setStation] = useState('Mumbai Central');
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setError(null);
+    try {
+      await registerReporter({ name, phone, type: role === 'NGO Volunteer' ? 'volunteer' : 'transit_worker', zone: station });
+      setSubmitted(true);
+    } catch (err) { setError(err instanceof Error ? err.message : 'Unable to register your application.'); }
   };
 
   return (
@@ -82,6 +89,11 @@ export const TrustedReporterPage: React.FC = () => {
             </div>
 
             <div>
+              <label className="text-slate-700 dark:text-slate-300 font-bold block mb-1">Phone Number</label>
+              <input type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="e.g. +91 98765 43210" className="w-full p-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-brand-purple shadow-sm" />
+            </div>
+
+            <div>
               <label className="text-slate-700 dark:text-slate-300 font-bold block mb-1">Primary Station / Transit Location</label>
               <input
                 type="text"
@@ -93,6 +105,8 @@ export const TrustedReporterPage: React.FC = () => {
               />
             </div>
           </div>
+
+          {error && <p className="text-xs text-red-600">{error}</p>}
 
           <button
             type="submit"

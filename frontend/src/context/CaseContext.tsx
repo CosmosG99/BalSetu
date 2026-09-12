@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { CaseModel, CaseStatus, ReportInput, UserRole } from '../types';
-import { mockBackend } from '../services/mockBackend';
+import * as caseApi from '../api/cases';
 
 interface CaseContextType {
   cases: CaseModel[];
@@ -10,10 +10,11 @@ interface CaseContextType {
   updateReportDraft: (update: Partial<ReportInput>) => void;
   clearReportDraft: () => void;
   submitReport: (report: ReportInput) => Promise<CaseModel>;
-  updateCaseStatus: (caseId: string, status: CaseStatus, responderName?: string) => void;
-  addNoteToCase: (caseId: string, note: string, performer: string) => void;
+  updateCaseStatus: (caseId: string, status: CaseStatus, responderName?: string) => Promise<void>;
+  addNoteToCase: (caseId: string, note: string, performer: string) => Promise<void>;
   getCaseById: (caseId: string) => CaseModel | undefined;
-  refreshCases: () => void;
+  refreshCases: () => Promise<void>;
+  apiError: string | null;
   isOffline: boolean;
   savedOfflineDraft: boolean;
   saveOfflineDraft: () => void;
@@ -34,13 +35,19 @@ export const CaseProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
   const [isOffline, setIsOffline] = useState(false);
   const [savedOfflineDraft, setSavedOfflineDraft] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
 
-  const refreshCases = () => {
-    setCases(mockBackend.getCases());
+  const refreshCases = async () => {
+    try {
+      setCases(await caseApi.listCases());
+      setApiError(null);
+    } catch (error) {
+      setApiError(error instanceof Error ? error.message : 'Unable to load cases.');
+    }
   };
 
   useEffect(() => {
-    refreshCases();
+    void refreshCases();
   }, []);
 
   const updateReportDraft = (update: Partial<ReportInput>) => {
@@ -60,24 +67,24 @@ export const CaseProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const submitReport = async (report: ReportInput): Promise<CaseModel> => {
-    const created = await mockBackend.createReport(report);
-    refreshCases();
+    const created = await caseApi.createReport(report);
+    await refreshCases();
     clearReportDraft();
     return created;
   };
 
-  const updateCaseStatus = (caseId: string, status: CaseStatus, responderName?: string) => {
-    mockBackend.updateStatus(caseId, status, responderName);
-    refreshCases();
+  const updateCaseStatus = async (caseId: string, status: CaseStatus, responderName?: string) => {
+    const updated = await caseApi.updateCase(caseId, status);
+    setCases((previous) => previous.map((item) => item.id === updated.id ? updated : item));
   };
 
-  const addNoteToCase = (caseId: string, note: string, performer: string) => {
-    mockBackend.addInternalNote(caseId, note, performer);
-    refreshCases();
+  const addNoteToCase = async (caseId: string, note: string, performer: string) => {
+    const updated = await caseApi.updateCase(caseId, undefined, note);
+    setCases((previous) => previous.map((item) => item.id === updated.id ? updated : item));
   };
 
   const getCaseById = (caseId: string) => {
-    return mockBackend.getCaseById(caseId);
+    return cases.find((item) => item.id.toUpperCase() === caseId.trim().toUpperCase());
   };
 
   const saveOfflineDraft = () => {
@@ -99,6 +106,7 @@ export const CaseProvider: React.FC<{ children: React.ReactNode }> = ({ children
         addNoteToCase,
         getCaseById,
         refreshCases,
+        apiError,
         isOffline,
         savedOfflineDraft,
         saveOfflineDraft

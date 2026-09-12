@@ -73,7 +73,7 @@ export const CaseSuccessCard: React.FC<CaseSuccessCardProps> = ({ caseData }) =>
       {/* Action Buttons */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
         <Link
-          to={`/track/${caseData.id}`}
+          to={`/app/track/${caseData.id}`}
           className="py-3.5 px-5 rounded-xl bg-brand-purple hover:bg-brand-purple/90 text-white font-bold text-sm shadow-glow-purple flex items-center justify-center space-x-2 transition-all"
         >
           <span>{t('trackMyStatusBtn')}</span>

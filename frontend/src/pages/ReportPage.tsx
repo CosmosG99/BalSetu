@@ -7,7 +7,7 @@ import { LocationPicker } from '../components/citizen/LocationPicker';
 import { EvidenceUploader } from '../components/citizen/EvidenceUploader';
 import { AIAnalysisModal } from '../components/citizen/AIAnalysisModal';
 import { CaseSuccessCard } from '../components/citizen/CaseSuccessCard';
-import { analyzeReportWithAI } from '../services/mockAiService';
+import { previewTriage } from '../api/cases';
 import { ArrowLeft, ArrowRight, Save, PhoneCall, Sparkles, HeartHandshake, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -61,6 +61,7 @@ export const ReportPage: React.FC = () => {
       location: reportDraft.location || 'Mumbai Central Railway Station',
       locationType: reportDraft.locationType || 'RAILWAY_STATION',
       stationName: reportDraft.stationName || 'Mumbai Central',
+      coordinates: reportDraft.coordinates,
       description: reportDraft.description || 'Child appears lost and distressed.',
       approxAge: reportDraft.approxAge,
       apparentGender: reportDraft.apparentGender,
@@ -74,9 +75,12 @@ export const ReportPage: React.FC = () => {
       reporterRole: reportDraft.reporterRole || 'Citizen'
     };
 
-    const aiRes = await analyzeReportWithAI(fullInput);
-    setAiAnalysisResult(aiRes);
-    setIsAnalyzing(false);
+    try {
+      const aiRes = await previewTriage(fullInput);
+      setAiAnalysisResult(aiRes);
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   const handleFinalSubmit = async () => {
@@ -85,6 +89,7 @@ export const ReportPage: React.FC = () => {
       location: reportDraft.location || 'Mumbai Central Railway Station',
       locationType: reportDraft.locationType || 'RAILWAY_STATION',
       stationName: reportDraft.stationName || 'Mumbai Central',
+      coordinates: reportDraft.coordinates,
       description: reportDraft.description || 'Child appears lost and distressed.',
       approxAge: reportDraft.approxAge,
       apparentGender: reportDraft.apparentGender,
@@ -114,154 +119,67 @@ export const ReportPage: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-8">
       
-      {/* Stepper Navigation Header Matching Blueprint */}
+      {/* Minimal top actions remain visible without the extra decorative stepper */}
       {step <= 4 && (
-        <div className="natural-panel p-4 flex flex-wrap items-center justify-between gap-3 shadow-subtle">
-          <div className="flex items-center space-x-2 overflow-x-auto py-1">
-            {stepLabels.map((s, idx) => {
-              const currentIdx = idx + 1;
-              const isCurrent = step === currentIdx;
-              const isPassed = step > currentIdx;
-              return (
-                <div key={s.num} className="flex items-center space-x-2">
-                  <span
-                    className={`flex items-center space-x-1.5 px-3 py-1 rounded-xl text-xs font-mono font-bold transition-all whitespace-nowrap ${
-                      isCurrent
-                        ? 'bg-forest-900 text-white shadow-subtle'
-                        : isPassed
-                        ? 'bg-sage-100 text-forest-900 dark:bg-forest-800/40 dark:text-sage-300'
-                        : 'bg-ivory-100 dark:bg-charcoal-800 text-charcoal-500'
-                    }`}
-                  >
-                    <span className={`w-4 h-4 rounded-full text-[10px] flex items-center justify-center font-bold ${
-                      isCurrent ? 'bg-white text-forest-900' : 'bg-charcoal-200 dark:bg-charcoal-700 text-charcoal-700 dark:text-charcoal-300'
-                    }`}>
-                      {s.num}
-                    </span>
-                    <span>{s.name}</span>
-                  </span>
-                  {idx < stepLabels.length - 1 && <span className="text-charcoal-300 dark:text-charcoal-800">/</span>}
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => saveOfflineDraft()}
-              className="text-xs text-charcoal-700 dark:text-charcoal-300 hover:text-forest-900 flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-ivory-100 dark:bg-charcoal-800 border border-charcoal-200 dark:border-charcoal-700 font-medium transition-colors"
-            >
-              <Save className="w-3.5 h-3.5" />
-              <span>{t('btnSaveExit')}</span>
-            </button>
-            <Link
-              to="/resources"
-              className="text-xs text-terracotta-600 dark:text-terracotta-500 hover:underline flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-terracotta-50 dark:bg-terracotta-600/10 border border-terracotta-200 dark:border-terracotta-600/30 font-bold"
-            >
-              <PhoneCall className="w-3.5 h-3.5" />
-              <span>{t('btnHelpNow')}</span>
-            </Link>
-          </div>
+        <div className="flex justify-end">
+          <button
+            onClick={() => saveOfflineDraft()}
+            className="text-xs text-charcoal-700 dark:text-charcoal-300 hover:text-forest-900 flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-ivory-100 dark:bg-charcoal-800 border border-charcoal-200 dark:border-charcoal-700 font-medium transition-colors"
+          >
+            <Save className="w-3.5 h-3.5" />
+            <span>{t('btnSaveExit')}</span>
+          </button>
         </div>
       )}
 
       {/* STEP 1: WHAT DID YOU NOTICE? (SPLIT BLUEPRINT LAYOUT) */}
       {step === 1 && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* Left Column: Selection Cards */}
-          <div className="lg:col-span-8 natural-panel p-6 sm:p-8 space-y-6 shadow-modal animate-fade-in">
-            <div className="space-y-1">
-              <span className="text-xs font-mono font-bold text-forest-900 dark:text-sage-400 uppercase">STEP 1 OF 5</span>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal-800 dark:text-ivory-100">What did you notice?</h1>
-              <p className="text-xs text-charcoal-500">
-                You don't need to be sure. If something feels wrong, it's okay to report it. Select all that apply:
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {incidentTypesList.map((type) => (
-                <IncidentCard
-                  key={type}
-                  type={type}
-                  selected={(reportDraft.incidentTypes || []).includes(type)}
-                  onToggle={handleToggleIncident}
-                />
-              ))}
-            </div>
-
-            <div className="pt-4 flex items-center justify-between border-t border-charcoal-200/80 dark:border-charcoal-800">
-              <Link
-                to="/"
-                className="py-2.5 px-4 rounded-xl bg-ivory-100 dark:bg-charcoal-800 text-charcoal-700 dark:text-charcoal-300 text-xs font-semibold hover:bg-ivory-200 dark:hover:bg-charcoal-700 transition-colors"
-              >
-                ← Back
-              </Link>
-
-              <button
-                onClick={handleNextStep1}
-                disabled={(reportDraft.incidentTypes || []).length === 0}
-                className="py-3 px-7 rounded-xl bg-forest-900 hover:bg-forest-800 text-white font-bold text-xs shadow-subtle disabled:opacity-50 transition-all flex items-center space-x-2"
-              >
-                <span>Continue</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
+        <div className="max-w-4xl mx-auto natural-panel p-6 sm:p-8 space-y-6 shadow-modal animate-fade-in">
+          <div className="space-y-2">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal-800 dark:text-ivory-100">What did you see?</h1>
+            <p className="text-sm text-charcoal-500">
+              Select the concern that best matches what you noticed. You can report anonymously.
+            </p>
           </div>
 
-          {/* Right Column: Guidance & Next Steps Panel matching Blueprint */}
-          <div className="lg:col-span-4 natural-panel p-6 space-y-6 shadow-modal">
-            <div className="w-10 h-10 rounded-xl bg-forest-900/10 dark:bg-forest-800/30 text-forest-900 dark:text-sage-300 flex items-center justify-center">
-              <HeartHandshake className="w-5 h-5" />
-            </div>
-
-            <div className="space-y-2">
-              <h3 className="text-base font-bold text-charcoal-800 dark:text-ivory-100">Every report can make a difference.</h3>
-              <p className="text-xs text-charcoal-600 dark:text-charcoal-400 leading-relaxed">
-                Your report helps create a safer environment for children in public spaces like railway stations, bus terminals and transit hubs.
-              </p>
-            </div>
-
-            <div className="space-y-3 pt-2 border-t border-charcoal-200/80 dark:border-charcoal-800">
-              <span className="text-xs font-bold text-charcoal-800 dark:text-ivory-100 uppercase tracking-wider block">What happens next?</span>
-              
-              <div className="space-y-2.5 text-xs text-charcoal-700 dark:text-charcoal-300">
-                <div className="flex items-start space-x-2.5">
-                  <span className="w-5 h-5 rounded-full bg-forest-900 text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
-                  <span>You share basic details</span>
-                </div>
-                <div className="flex items-start space-x-2.5">
-                  <span className="w-5 h-5 rounded-full bg-forest-900 text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
-                  <span>We analyze and prioritize the report</span>
-                </div>
-                <div className="flex items-start space-x-2.5">
-                  <span className="w-5 h-5 rounded-full bg-forest-900 text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
-                  <span>It's routed to the appropriate responders</span>
-                </div>
-                <div className="flex items-start space-x-2.5">
-                  <span className="w-5 h-5 rounded-full bg-forest-900 text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">4</span>
-                  <span>You get a case ID to track the status</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-2 text-[11px] text-charcoal-500 flex items-center space-x-1.5 font-medium">
-              <ShieldCheck className="w-3.5 h-3.5 text-forest-900 dark:text-sage-400 flex-shrink-0" />
-              <span>Your identity is protected. You can report anonymously.</span>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {incidentTypesList.map((type) => (
+              <IncidentCard
+                key={type}
+                type={type}
+                selected={(reportDraft.incidentTypes || []).includes(type)}
+                onToggle={handleToggleIncident}
+              />
+            ))}
           </div>
 
+          <div className="pt-4 flex items-center justify-between border-t border-charcoal-200/80 dark:border-charcoal-800">
+            <Link
+              to="/"
+              className="py-2.5 px-4 rounded-xl bg-ivory-100 dark:bg-charcoal-800 text-charcoal-700 dark:text-charcoal-300 text-xs font-semibold hover:bg-ivory-200 dark:hover:bg-charcoal-700 transition-colors"
+            >
+              ← Back
+            </Link>
+
+            <button
+              onClick={handleNextStep1}
+              disabled={(reportDraft.incidentTypes || []).length === 0}
+              className="py-3 px-7 rounded-xl bg-forest-900 hover:bg-forest-800 text-white font-bold text-xs shadow-subtle disabled:opacity-50 transition-all flex items-center space-x-2"
+            >
+              <span>Continue</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       )}
 
       {/* STEP 2: WHERE DID YOU NOTICE IT? */}
       {step === 2 && (
         <div className="max-w-3xl mx-auto natural-panel p-6 sm:p-8 space-y-6 shadow-modal animate-fade-in">
-          <div className="space-y-1">
-            <span className="text-xs font-mono font-bold text-forest-900 dark:text-sage-400 uppercase">STEP 2 OF 5</span>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal-800 dark:text-ivory-100">Where did you notice it?</h1>
-            <p className="text-xs text-charcoal-500">
-              Enter the station name, platform number, or select a high-footfall transit hub.
+          <div className="space-y-2">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal-800 dark:text-ivory-100">Where did it happen?</h1>
+            <p className="text-sm text-charcoal-500">
+              Type the station, landmark, or address and pick the best match.
             </p>
           </div>
 
@@ -269,8 +187,8 @@ export const ReportPage: React.FC = () => {
             location={reportDraft.location || ''}
             locationType={reportDraft.locationType || 'RAILWAY_STATION'}
             stationName={reportDraft.stationName}
-            onChangeLocation={(loc, type, station) =>
-              updateReportDraft({ location: loc, locationType: type, stationName: station })
+            onChangeLocation={(loc, type, station, coordinates) =>
+              updateReportDraft({ location: loc, locationType: type, stationName: station, coordinates })
             }
           />
 
@@ -298,11 +216,10 @@ export const ReportPage: React.FC = () => {
       {/* STEP 3: WHAT DID YOU SEE? */}
       {step === 3 && (
         <div className="max-w-3xl mx-auto natural-panel p-6 sm:p-8 space-y-6 shadow-modal animate-fade-in">
-          <div className="space-y-1">
-            <span className="text-xs font-mono font-bold text-forest-900 dark:text-sage-400 uppercase">STEP 3 OF 5</span>
+          <div className="space-y-2">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal-800 dark:text-ivory-100">What did you see?</h1>
-            <p className="text-xs text-charcoal-500">
-              Describe what caught your attention. Optional photo evidence will be blurred automatically.
+            <p className="text-sm text-charcoal-500">
+              Describe what caught your attention. Optional photo evidence can be uploaded from your device.
             </p>
           </div>
 
@@ -353,10 +270,9 @@ export const ReportPage: React.FC = () => {
       {step === 4 && (
         <div className="max-w-3xl mx-auto natural-panel p-6 sm:p-8 space-y-6 shadow-modal animate-fade-in">
           <div className="border-b border-charcoal-200/80 dark:border-charcoal-800 pb-3 space-y-1">
-            <span className="text-xs font-mono font-bold text-forest-900 dark:text-sage-400 uppercase">STEP 4 OF 5</span>
             <h1 className="text-2xl font-extrabold text-charcoal-800 dark:text-ivory-100">Review Summary</h1>
             <p className="text-xs text-charcoal-500">
-              Check details before securely initiating AI triage and responder routing.
+              Check the details before submitting the report for review.
             </p>
           </div>
 

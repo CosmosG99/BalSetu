@@ -3,9 +3,10 @@ import { db, COLLECTIONS, currentTimestamp, generateCaseId } from '../models/db.
 import { CreateReportSchema, SyncReportsSchema } from '../models/schemas.js';
 import { validate } from '../middleware/validate.js';
 import { reportsRateLimiter } from '../middleware/rateLimit.js';
-import { runTriage } from '../services/triage.js';
+import { runTriage, createGroqSummary } from '../services/triage.js';
 import { autoRouteCase } from '../services/routing.js';
 import { recordAuditLog } from '../middleware/auditLog.js';
+import { sendWhatsAppMessage } from '../config/twilio.js';
 
 const router = Router();
 
@@ -60,7 +61,7 @@ async function processReportCreation(reportInput) {
       addressText: location.addressText,
       zone: location.zone
     },
-    photoUrl: photoUrl || photo || null,
+    photoUrl: null,
     status: 'new',
     priority: null,
     aiTriage: null,
@@ -119,6 +120,19 @@ async function processReportCreation(reportInput) {
     entityId: caseId
   });
 
+  // 7. Send a brief Groq-generated summary over WhatsApp when configured.
+  try {
+    const summaryRecipient = process.env.WHATSAPP_SUMMARY_TO || process.env.TWILIO_WHATSAPP_NUMBER;
+    if (summaryRecipient && process.env.GROQ_API_KEY) {
+      const summaryText = await createGroqSummary(reportDoc, reportDoc.aiTriage || { priority: 'medium' });
+      if (summaryText) {
+        await sendWhatsAppMessage(summaryRecipient, summaryText);
+      }
+    }
+  } catch (summaryError) {
+    console.warn(`WhatsApp summary send failed: ${summaryError.message}`);
+  }
+
   return {
     caseId,
     isDuplicate: false,
@@ -136,6 +150,7 @@ router.post('/', reportsRateLimiter, validate(CreateReportSchema), async (req, r
     return res.status(result.isDuplicate ? 200 : 201).json({
       caseId: result.caseId,
       status: result.isDuplicate ? 'existing' : 'created',
+      report: result.report,
       message: result.isDuplicate
         ? 'Report with this clientReportId was already registered.'
         : 'Report registered successfully and routed for triage.'
@@ -182,6 +197,21 @@ router.post('/sync', reportsRateLimiter, validate(SyncReportsSchema), async (req
         message: error.message || 'Failed to synchronize reports'
       }
     });
+  }
+});
+
+/**
+ * POST /api/reports/triage-preview
+ * Runs the same advisory triage used at intake without persisting a case.
+ * This lets the citizen UI show the assessment before final submission.
+ */
+router.post('/triage-preview', reportsRateLimiter, validate(CreateReportSchema), async (req, res) => {
+  try {
+    const { category, description, location, photoUrl, photo, anonymous = true, language = 'en', source = 'web' } = req.body;
+    const triage = await runTriage({ category, description, location, photoUrl: photoUrl || photo || null, anonymous, language, source });
+    return res.status(200).json({ triage });
+  } catch (error) {
+    return res.status(500).json({ error: { code: 'TRIAGE_PREVIEW_FAILED', message: error.message || 'Unable to prepare triage preview.' } });
   }
 });
 

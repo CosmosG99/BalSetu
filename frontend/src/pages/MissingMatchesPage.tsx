@@ -1,22 +1,37 @@
 import React, { useState } from 'react';
 import { MissingChildProfile } from '../types';
-import { searchPotentialMatches, INITIAL_SYNTHETIC_MISSING_CHILDREN } from '../services/mockMatchService';
+import { runMatching, verifyMatch } from '../api/operations';
+import { useCases } from '../context/CaseContext';
 import { useLanguage } from '../context/LanguageContext';
 import { Users, Search, AlertTriangle, ShieldCheck, Sparkles, Cpu } from 'lucide-react';
 
 export const MissingMatchesPage: React.FC = () => {
   const { t } = useLanguage();
+  const { cases } = useCases();
   const [searching, setSearching] = useState(false);
-  const [results, setResults] = useState<MissingChildProfile[]>(INITIAL_SYNTHETIC_MISSING_CHILDREN);
+  const [results, setResults] = useState<(MissingChildProfile & { matchId: string })[]>([]);
+  const [selectedCaseId, setSelectedCaseId] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const [selectedPhoto] = useState<string>(
     'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=400&q=80'
   );
 
   const handleRunSearch = async () => {
-    setSearching(true);
-    const matches = await searchPotentialMatches(selectedPhoto);
-    setResults(matches);
-    setSearching(false);
+    if (!selectedCaseId) { setError('Select a case before running a matching search.'); return; }
+    setSearching(true); setError(null);
+    try {
+      const response = await runMatching(selectedCaseId);
+      setResults(response.candidates.map((match: any) => {
+        const record = match.missingChildRecord || {};
+        return { matchId: match.id, id: record.id || match.missingChildRecordId, caseRef: record.id || match.missingChildRecordId, syntheticName: 'Potential match record', age: record.ageApprox || 0, gender: 'Protected', photoUrl: record.photoUrl || selectedPhoto, lastKnownLocation: record.lastSeenLocation?.addressText || 'Protected responder record', missingSince: '', description: 'Human verification is required before any action.', similarityScore: Math.round((match.similarityScore || 0) * 100) };
+      }));
+    } catch (err) { setError(err instanceof Error ? err.message : 'Matching could not be completed.'); }
+    finally { setSearching(false); }
+  };
+
+  const handleVerify = async (matchId: string) => {
+    try { await verifyMatch(matchId, 'confirmed'); setResults((items) => items.filter((item) => item.matchId !== matchId)); }
+    catch (err) { setError(err instanceof Error ? err.message : 'Verification could not be saved.'); }
   };
 
   return (
@@ -62,6 +77,12 @@ export const MissingMatchesPage: React.FC = () => {
           </span>
         </div>
 
+        <select value={selectedCaseId} onChange={(event) => setSelectedCaseId(event.target.value)} className="w-full p-3 rounded-xl border border-charcoal-200 dark:border-charcoal-800 bg-white dark:bg-charcoal-950 text-xs">
+          <option value="">Select a responder case</option>
+          {cases.map((caseItem) => <option key={caseItem.id} value={caseItem.id}>{caseItem.id} — {caseItem.report.location}</option>)}
+        </select>
+        {error && <p className="text-xs text-terracotta-600">{error}</p>}
+
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <div className="w-24 h-24 rounded-2xl overflow-hidden bg-ivory-200 dark:bg-charcoal-950 border border-accentPurple/40 flex-shrink-0 shadow-subtle">
             <img src={selectedPhoto} alt="Search query avatar" className="w-full h-full object-cover" />
@@ -69,7 +90,7 @@ export const MissingMatchesPage: React.FC = () => {
 
           <div className="space-y-2 flex-1 text-xs">
             <p className="text-charcoal-700 dark:text-charcoal-300 leading-relaxed">
-              Query image representation generated. Ready to perform vector similarity lookup against synthetic database.
+              Query image representation generated. Ready to perform similarity lookup against the current responder record set.
             </p>
             <button
               onClick={handleRunSearch}
@@ -124,7 +145,7 @@ export const MissingMatchesPage: React.FC = () => {
                   </div>
                 </div>
 
-                <button className="w-full py-2 px-3 rounded-xl bg-ivory-100 hover:bg-ivory-200 dark:bg-charcoal-850 dark:hover:bg-charcoal-800 text-charcoal-800 dark:text-charcoal-100 font-bold text-xs border border-charcoal-200 dark:border-charcoal-700 transition-colors flex items-center justify-center space-x-1.5 shadow-xs cursor-pointer">
+                <button onClick={() => handleVerify(item.matchId)} className="w-full py-2 px-3 rounded-xl bg-ivory-100 hover:bg-ivory-200 dark:bg-charcoal-850 dark:hover:bg-charcoal-800 text-charcoal-800 dark:text-charcoal-100 font-bold text-xs border border-charcoal-200 dark:border-charcoal-700 transition-colors flex items-center justify-center space-x-1.5 shadow-xs cursor-pointer">
                   <ShieldCheck className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400" />
                   <span>{t('verifySimilarityBtn')}</span>
                 </button>

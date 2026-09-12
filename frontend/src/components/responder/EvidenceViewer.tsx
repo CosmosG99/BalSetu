@@ -30,7 +30,7 @@ export const EvidenceViewer: React.FC<EvidenceViewerProps> = ({
           <Lock className="w-4 h-4 text-brand-purple" />
           <span>Restricted Evidence Viewer</span>
         </div>
-        <span className="text-[10px] text-amber-600 dark:text-amber-400 font-mono">Synthetic Media</span>
+        <span className="text-[10px] text-amber-600 dark:text-amber-400 font-mono">Protected media</span>
       </div>
 
       {!hidden ? (

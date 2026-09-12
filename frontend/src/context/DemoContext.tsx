@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { ReportInput } from '../types';
+import { resetDemo } from '../api/operations';
 
 export interface DemoScenario {
   id: string;
@@ -83,7 +84,7 @@ interface DemoContextType {
   activeDemoScenario: DemoScenario | null;
   loadScenario: (scenarioId: string) => ReportInput;
   clearDemoScenario: () => void;
-  resetDemoDataset: () => void;
+  resetDemoDataset: () => Promise<void>;
 }
 
 const DemoContext = createContext<DemoContextType | undefined>(undefined);
@@ -101,8 +102,8 @@ export const DemoProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setActiveDemoScenario(null);
   };
 
-  const resetDemoDataset = () => {
-    localStorage.removeItem('rakshak_cases_db_v1');
+  const resetDemoDataset = async () => {
+    await resetDemo();
     window.location.reload();
   };
 

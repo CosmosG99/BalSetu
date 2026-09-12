@@ -241,7 +241,12 @@ let isLiveFirebase = false;
 
 // Attempt live Firebase initialization if credentials or emulator are configured
 try {
-  if (process.env.FIRESTORE_EMULATOR_HOST || (process.env.FIREBASE_PROJECT_ID && process.env.FIREBASE_PRIVATE_KEY)) {
+  const hasProjectId = Boolean(process.env.FIREBASE_PROJECT_ID);
+  const hasClientEmail = Boolean(process.env.FIREBASE_CLIENT_EMAIL);
+  const hasPrivateKey = Boolean(process.env.FIREBASE_PRIVATE_KEY);
+  const hasEmulator = Boolean(process.env.FIRESTORE_EMULATOR_HOST);
+
+  if (hasEmulator || (hasProjectId && hasClientEmail && hasPrivateKey)) {
     if (!admin.apps.length) {
       if (process.env.FIRESTORE_EMULATOR_HOST) {
         admin.initializeApp({ projectId: process.env.FIREBASE_PROJECT_ID || 'rakshak-demo' });
@@ -259,12 +264,12 @@ try {
     db = admin.firestore();
     auth = admin.auth();
     isLiveFirebase = true;
-    console.log('✅ Firebase Admin connected (Live/Emulator mode)');
+    console.log(`[RAKSHAK] Firebase Admin connected (Live/Emulator mode) project=${process.env.FIREBASE_PROJECT_ID || 'unknown'} storageBucket=${process.env.FIREBASE_STORAGE_BUCKET || 'not-set'}`);
   } else {
     throw new Error('No Firebase credentials provided');
   }
 } catch (err) {
-  console.log(`ℹ️ Running in resilient In-Memory Firestore mode (${err.message})`);
+  console.log(`[RAKSHAK] Running in resilient In-Memory Firestore mode. Firebase not configured: project=${hasProjectId ? 'yes' : 'no'}, clientEmail=${hasClientEmail ? 'yes' : 'no'}, privateKey=${hasPrivateKey ? 'yes' : 'no'}, emulator=${hasEmulator ? 'yes' : 'no'}`);
   db = inMemoryDb;
   auth = {
     verifyIdToken: async (token) => {

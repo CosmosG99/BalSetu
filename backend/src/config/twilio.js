@@ -10,9 +10,12 @@ let twilioClient = null;
 
 if (accountSid && authToken && accountSid.startsWith('AC')) {
   twilioClient = twilio(accountSid, authToken);
-  console.log('✅ Twilio WhatsApp client initialized');
+  console.log(`[RAKSHAK] Twilio WhatsApp client initialized for sender ${whatsappFrom}.`);
 } else {
-  console.log('ℹ️ Twilio credentials not configured. WhatsApp messaging will log to console in demo mode.');
+  console.log('[RAKSHAK] Twilio credentials not configured. WhatsApp messaging will use mock console logging in demo mode.');
+  if (!accountSid) console.log('[RAKSHAK] Missing TWILIO_ACCOUNT_SID');
+  if (!authToken) console.log('[RAKSHAK] Missing TWILIO_AUTH_TOKEN');
+  if (!whatsappFrom) console.log('[RAKSHAK] Missing TWILIO_WHATSAPP_NUMBER');
 }
 
 /**

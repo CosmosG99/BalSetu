@@ -9,7 +9,7 @@ interface QRCardProps {
 
 export const QRCard: React.FC<QRCardProps> = ({ caseId, size = 160 }) => {
   const [copied, setCopied] = useState(false);
-  const trackUrl = `${window.location.origin}/track/${caseId}`;
+  const trackUrl = `${window.location.origin}/app/track/${caseId}`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(trackUrl);
@@ -83,7 +83,7 @@ export const QRCard: React.FC<QRCardProps> = ({ caseId, size = 160 }) => {
         </div>
 
         <Link
-          to={`/track/${caseId}`}
+          to={`/app/track/${caseId}`}
           className="w-full inline-flex items-center justify-center space-x-2 py-2 px-3 bg-brand-purple/15 hover:bg-brand-purple/25 text-brand-purple dark:text-purple-200 border border-brand-purple/35 rounded-xl text-xs font-bold transition-all"
         >
           <span>Open Tracking Page</span>

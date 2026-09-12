@@ -27,14 +27,12 @@ export const SmartRoutingCard: React.FC<SmartRoutingCardProps> = ({ routing, loc
             <Network className="w-4 h-4" />
           </div>
           <div>
-            <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Simulated Smart Response Routing</h4>
+            <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Smart Response Routing</h4>
             <p className="text-[11px] text-slate-500 dark:text-slate-400">Automated triage matrix matching for transit node</p>
           </div>
         </div>
 
-        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-500/10 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-500/30">
-          Simulated Network Integration
-        </span>
+        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-500/10 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-500/30">Response network</span>
       </div>
 
       {/* Explanation Banner */}

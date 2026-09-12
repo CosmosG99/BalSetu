@@ -15,7 +15,7 @@ const router = Router();
  */
 router.post('/reset', authenticate, requireRole('admin', 'superadmin'), async (req, res) => {
   try {
-    const isDemoMode = process.env.DEMO_MODE === 'true' || process.env.NODE_ENV === 'development';
+    const isDemoMode = process.env.DEMO_MODE === 'true' || (process.env.NODE_ENV || 'development') === 'development';
 
     if (!isDemoMode) {
       return res.status(403).json({

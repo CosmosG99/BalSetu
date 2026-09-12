@@ -490,7 +490,7 @@ function Tooltip({
     >
       <div className="bg-charcoal-950/95 backdrop-blur-md border border-charcoal-700 rounded-xl px-4 py-3 shadow-modal text-left min-w-[180px]">
         <div className="text-[10px] font-bold uppercase tracking-wider text-charcoal-400 mb-1">
-          DEMO ALERT
+          LIVE ALERT
         </div>
         <div className="text-xs font-bold text-white mb-1.5">{alert.label}</div>
         <div className="space-y-1 text-[11px]">
@@ -557,7 +557,7 @@ export const SafetyGlobe: React.FC = () => {
       {/* Bottom label */}
       <div className="absolute bottom-3 left-0 right-0 text-center">
         <span className="inline-block text-[9px] font-mono font-bold text-teal-600/60 dark:text-teal-500/50 bg-charcoal-950/50 backdrop-blur-sm px-3 py-1 rounded-full border border-teal-700/20">
-          DEMO SAFETY NETWORK • SYNTHETIC DATA VISUALIZATION
+          LIVE SAFETY NETWORK • OPERATIONAL RESPONSE VIEW
         </span>
       </div>
     </div>
