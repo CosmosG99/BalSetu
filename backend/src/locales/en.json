@@ -1,0 +1,37 @@
+{
+  "whatsapp": {
+    "welcome": "Welcome to RAKSHAK Child Safety Helpline. Your report can protect a vulnerable child.\n\nPlease select the incident category by replying with a number:\n1. Lost Child\n2. Unaccompanied Child\n3. Trafficking Concern\n4. Abuse Concern\n5. Other",
+    "prompt_category": "Please enter a valid option number (1 to 5).",
+    "prompt_description": "Thank you. Please describe what you observed in detail (appearance, clothing, approximate age, behavior, direction of movement).",
+    "prompt_location": "Please share the location or landmark (e.g., Platform 3, Mumbai Central Railway Station or share your WhatsApp location pin).",
+    "prompt_photo": "If you have a clear photo of the child or surroundings, please send it now. Otherwise, reply 'skip' to proceed without a photo.",
+    "case_created": "Case successfully registered! Your anonymous/confidential Case ID is: {caseId}\n\nOur verified response network has been alerted. You can track this case anytime by replying 'STATUS {caseId}'. Thank you for being a vigilant guardian.",
+    "status_prefix": "Case {caseId} Status: {status}.\nCategory: {category}.\nLast Update: {lastUpdate}."
+  },
+  "status": {
+    "new": "New",
+    "under_review": "Under Review",
+    "assigned": "Assigned to Responder",
+    "escalated": "Escalated",
+    "resolved": "Resolved",
+    "closed": "Closed"
+  },
+  "priority": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "critical": "Critical"
+  },
+  "notifications": {
+    "new_case": "New child safety case reported: {caseId} in {zone}",
+    "assignment": "You have been assigned to case {caseId} ({priority} priority)",
+    "status_update": "Case {caseId} status updated to {status}",
+    "escalation": "URGENT: Case {caseId} has been escalated for immediate intervention"
+  },
+  "actions": {
+    "verify_ground": "Human verification required. Dispatch nearest transit safety volunteer or ground team for physical welfare check.",
+    "alert_station_desk": "Human verification required. Alert Railway Police / Station Child Help Desk immediately.",
+    "monitor_perimeter": "Human verification required. Coordinate with local CCTV operators and transit security to maintain observation.",
+    "escalate_childline": "Human verification required. Immediate priority welfare intervention. Escalate to Child Welfare Committee / 1098."
+  }
+}

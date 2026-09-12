@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "tsc --noEmit",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "backend:dev": "npm --prefix backend run dev",
+    "backend:start": "npm --prefix backend start",
+    "backend:seed": "npm --prefix backend run seed",
+    "backend:test": "npm --prefix backend test"
   },
   "dependencies": {
     "framer-motion": "^11.18.2",

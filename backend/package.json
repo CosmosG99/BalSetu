@@ -1,0 +1,33 @@
+{
+  "name": "rakshak-backend",
+  "version": "1.0.0",
+  "description": "RAKSHAK child-safety incident reporting and case-management backend",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js",
+    "seed": "node src/scripts/seedDemo.js",
+    "test": "node test-flow.js"
+  },
+  "keywords": [
+    "child-safety",
+    "rakshak",
+    "case-management",
+    "triage",
+    "hackathon"
+  ],
+  "author": "Rakshak Team",
+  "license": "ISC",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "firebase-admin": "^13.1.0",
+    "twilio": "^5.4.5",
+    "uuid": "^11.1.0",
+    "zod": "^3.24.2"
+  }
+}
