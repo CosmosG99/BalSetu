@@ -35,7 +35,7 @@ export const EvidenceUploader: React.FC<EvidenceUploaderProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       
       {/* Critical Safety Notice */}
       <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-200 flex items-start space-x-3 text-xs">
@@ -53,7 +53,7 @@ export const EvidenceUploader: React.FC<EvidenceUploaderProps> = ({
         </label>
 
         {!photoUrl ? (
-          <div className="border-2 border-dashed border-slate-300 dark:border-slate-800 rounded-2xl p-6 text-center space-y-3 bg-white/70 dark:bg-slate-900/50 hover:border-brand-purple/50 transition-all">
+          <div className="border-2 border-dashed border-slate-300 dark:border-slate-800 rounded-2xl p-4 sm:p-6 text-center space-y-3 bg-white/70 dark:bg-slate-900/50 hover:border-brand-purple/50 transition-all">
             <div className="w-12 h-12 rounded-full bg-brand-purple/10 dark:bg-brand-purple/20 text-brand-purple mx-auto flex items-center justify-center">
               <Camera className="w-6 h-6" />
             </div>
@@ -65,7 +65,7 @@ export const EvidenceUploader: React.FC<EvidenceUploaderProps> = ({
             <button
               type="button"
               onClick={() => inputRef.current?.click()}
-              className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl border border-slate-300 dark:border-slate-700 transition-all inline-flex items-center space-x-2"
+              className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl border border-slate-300 dark:border-slate-700 transition-all inline-flex items-center justify-center space-x-2 min-h-[44px]"
             >
               <Camera className="w-3.5 h-3.5 text-brand-purple" />
               <span>Upload Photo</span>
@@ -73,8 +73,8 @@ export const EvidenceUploader: React.FC<EvidenceUploaderProps> = ({
             {error && <p className="text-[11px] text-red-600">{error}</p>}
           </div>
         ) : (
-          <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 flex items-center justify-between shadow-sm">
-            <div className="flex items-center space-x-3">
+          <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
+            <div className="flex items-center space-x-3 w-full sm:w-auto">
               <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-950 flex-shrink-0">
                 <img
                   src={photoUrl}
@@ -103,7 +103,7 @@ export const EvidenceUploader: React.FC<EvidenceUploaderProps> = ({
             <button
               type="button"
               onClick={() => onChangePhoto(undefined)}
-              className="p-2 text-slate-400 hover:text-red-500 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="p-2.5 text-slate-400 hover:text-red-500 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors self-end sm:self-auto"
               title="Remove image"
             >
               <Trash2 className="w-4 h-4" />

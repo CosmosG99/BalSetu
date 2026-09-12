@@ -117,7 +117,7 @@ export const ReportPage: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-8">
+    <div className="max-w-6xl mx-auto px-3 sm:px-6 py-4 sm:py-8 space-y-6 sm:space-y-8">
       
       {/* Minimal top actions remain visible without the extra decorative stepper */}
       {step <= 4 && (
@@ -134,7 +134,7 @@ export const ReportPage: React.FC = () => {
 
       {/* STEP 1: WHAT DID YOU NOTICE? (SPLIT BLUEPRINT LAYOUT) */}
       {step === 1 && (
-        <div className="max-w-4xl mx-auto natural-panel p-6 sm:p-8 space-y-6 shadow-modal animate-fade-in">
+        <div className="max-w-4xl mx-auto natural-panel p-4 sm:p-8 space-y-5 sm:space-y-6 shadow-modal animate-fade-in">
           <div className="space-y-2">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal-800 dark:text-ivory-100">What did you see?</h1>
             <p className="text-sm text-charcoal-500">
@@ -153,10 +153,10 @@ export const ReportPage: React.FC = () => {
             ))}
           </div>
 
-          <div className="pt-4 flex items-center justify-between border-t border-charcoal-200/80 dark:border-charcoal-800">
+          <div className="pt-4 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-charcoal-200/80 dark:border-charcoal-800">
             <Link
               to="/"
-              className="py-2.5 px-4 rounded-xl bg-ivory-100 dark:bg-charcoal-800 text-charcoal-700 dark:text-charcoal-300 text-xs font-semibold hover:bg-ivory-200 dark:hover:bg-charcoal-700 transition-colors"
+              className="py-2.5 px-4 rounded-xl bg-ivory-100 dark:bg-charcoal-800 text-charcoal-700 dark:text-charcoal-300 text-xs font-semibold hover:bg-ivory-200 dark:hover:bg-charcoal-700 transition-colors text-center"
             >
               ← Back
             </Link>
@@ -164,7 +164,7 @@ export const ReportPage: React.FC = () => {
             <button
               onClick={handleNextStep1}
               disabled={(reportDraft.incidentTypes || []).length === 0}
-              className="py-3 px-7 rounded-xl bg-forest-900 hover:bg-forest-800 text-white font-bold text-xs shadow-subtle disabled:opacity-50 transition-all flex items-center space-x-2"
+              className="py-3 px-7 rounded-xl bg-forest-900 hover:bg-forest-800 text-white font-bold text-xs shadow-subtle disabled:opacity-50 transition-all flex items-center justify-center space-x-2 w-full sm:w-auto"
             >
               <span>Continue</span>
               <ArrowRight className="w-4 h-4" />
@@ -175,7 +175,7 @@ export const ReportPage: React.FC = () => {
 
       {/* STEP 2: WHERE DID YOU NOTICE IT? */}
       {step === 2 && (
-        <div className="max-w-3xl mx-auto natural-panel p-6 sm:p-8 space-y-6 shadow-modal animate-fade-in">
+        <div className="max-w-3xl mx-auto natural-panel p-4 sm:p-8 space-y-5 sm:space-y-6 shadow-modal animate-fade-in">
           <div className="space-y-2">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal-800 dark:text-ivory-100">Where did it happen?</h1>
             <p className="text-sm text-charcoal-500">
@@ -192,10 +192,10 @@ export const ReportPage: React.FC = () => {
             }
           />
 
-          <div className="pt-4 flex items-center justify-between border-t border-charcoal-200/80 dark:border-charcoal-800">
+          <div className="pt-4 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-charcoal-200/80 dark:border-charcoal-800">
             <button
               onClick={() => setStep(1)}
-              className="py-2.5 px-4 rounded-xl bg-ivory-100 dark:bg-charcoal-800 text-charcoal-700 dark:text-charcoal-300 text-xs font-semibold hover:bg-ivory-200 dark:hover:bg-charcoal-700 flex items-center space-x-1"
+              className="py-2.5 px-4 rounded-xl bg-ivory-100 dark:bg-charcoal-800 text-charcoal-700 dark:text-charcoal-300 text-xs font-semibold hover:bg-ivory-200 dark:hover:bg-charcoal-700 flex items-center justify-center space-x-1"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back</span>
@@ -204,7 +204,7 @@ export const ReportPage: React.FC = () => {
             <button
               onClick={handleNextStep2}
               disabled={!reportDraft.location || reportDraft.location.trim().length === 0}
-              className="py-3 px-7 rounded-xl bg-forest-900 hover:bg-forest-800 text-white font-bold text-xs shadow-subtle disabled:opacity-50 transition-all flex items-center space-x-2"
+              className="py-3 px-7 rounded-xl bg-forest-900 hover:bg-forest-800 text-white font-bold text-xs shadow-subtle disabled:opacity-50 transition-all flex items-center justify-center space-x-2 w-full sm:w-auto"
             >
               <span>Continue</span>
               <ArrowRight className="w-4 h-4" />
@@ -215,7 +215,7 @@ export const ReportPage: React.FC = () => {
 
       {/* STEP 3: WHAT DID YOU SEE? */}
       {step === 3 && (
-        <div className="max-w-3xl mx-auto natural-panel p-6 sm:p-8 space-y-6 shadow-modal animate-fade-in">
+        <div className="max-w-3xl mx-auto natural-panel p-4 sm:p-8 space-y-5 sm:space-y-6 shadow-modal animate-fade-in">
           <div className="space-y-2">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal-800 dark:text-ivory-100">What did you see?</h1>
             <p className="text-sm text-charcoal-500">
@@ -245,10 +245,10 @@ export const ReportPage: React.FC = () => {
             onChangeAnonymous={(anonymous) => updateReportDraft({ isAnonymous: anonymous })}
           />
 
-          <div className="pt-4 flex items-center justify-between border-t border-charcoal-200/80 dark:border-charcoal-800">
+          <div className="pt-4 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-charcoal-200/80 dark:border-charcoal-800">
             <button
               onClick={() => setStep(2)}
-              className="py-2.5 px-4 rounded-xl bg-ivory-100 dark:bg-charcoal-800 text-charcoal-700 dark:text-charcoal-300 text-xs font-semibold hover:bg-ivory-200 dark:hover:bg-charcoal-700 flex items-center space-x-1"
+              className="py-2.5 px-4 rounded-xl bg-ivory-100 dark:bg-charcoal-800 text-charcoal-700 dark:text-charcoal-300 text-xs font-semibold hover:bg-ivory-200 dark:hover:bg-charcoal-700 flex items-center justify-center space-x-1"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back</span>
@@ -257,7 +257,7 @@ export const ReportPage: React.FC = () => {
             <button
               onClick={handleReviewStep}
               disabled={!reportDraft.description || reportDraft.description.trim().length === 0}
-              className="py-3 px-7 rounded-xl bg-forest-900 hover:bg-forest-800 text-white font-bold text-xs shadow-subtle disabled:opacity-50 transition-all flex items-center space-x-2"
+              className="py-3 px-7 rounded-xl bg-forest-900 hover:bg-forest-800 text-white font-bold text-xs shadow-subtle disabled:opacity-50 transition-all flex items-center justify-center space-x-2 w-full sm:w-auto"
             >
               <span>Continue</span>
               <ArrowRight className="w-4 h-4" />
@@ -268,7 +268,7 @@ export const ReportPage: React.FC = () => {
 
       {/* STEP 4: REVIEW REPORT */}
       {step === 4 && (
-        <div className="max-w-3xl mx-auto natural-panel p-6 sm:p-8 space-y-6 shadow-modal animate-fade-in">
+        <div className="max-w-3xl mx-auto natural-panel p-4 sm:p-8 space-y-5 sm:space-y-6 shadow-modal animate-fade-in">
           <div className="border-b border-charcoal-200/80 dark:border-charcoal-800 pb-3 space-y-1">
             <h1 className="text-2xl font-extrabold text-charcoal-800 dark:text-ivory-100">Review Summary</h1>
             <p className="text-xs text-charcoal-500">
@@ -299,17 +299,17 @@ export const ReportPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="pt-4 flex items-center justify-between border-t border-charcoal-200/80 dark:border-charcoal-800">
+          <div className="pt-4 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-charcoal-200/80 dark:border-charcoal-800">
             <button
               onClick={() => setStep(3)}
-              className="py-2.5 px-4 rounded-xl bg-ivory-100 dark:bg-charcoal-800 text-charcoal-700 dark:text-charcoal-300 text-xs font-semibold hover:bg-ivory-200 dark:hover:bg-charcoal-700"
+              className="py-2.5 px-4 rounded-xl bg-ivory-100 dark:bg-charcoal-800 text-charcoal-700 dark:text-charcoal-300 text-xs font-semibold hover:bg-ivory-200 dark:hover:bg-charcoal-700 text-center"
             >
               Edit Details
             </button>
 
             <button
               onClick={handleTriggerAITriage}
-              className="py-3 px-7 rounded-xl bg-forest-900 hover:bg-forest-800 text-white font-bold text-xs shadow-subtle hover:scale-105 transition-all flex items-center space-x-2"
+              className="py-3 px-7 rounded-xl bg-forest-900 hover:bg-forest-800 text-white font-bold text-xs shadow-subtle hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center space-x-2 w-full sm:w-auto"
             >
               <Sparkles className="w-4 h-4 text-sage-300" />
               <span>Submit Securely</span>

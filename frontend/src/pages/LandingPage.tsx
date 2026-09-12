@@ -143,7 +143,7 @@ export const LandingPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
           {/* Hero Left Column */}
-          <div className="lg:col-span-6 space-y-6 text-left">
+          <div className="lg:col-span-6 space-y-6 text-left animate-fade-up">
             
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-charcoal-800 dark:text-charcoal-100 tracking-tight leading-[1.15]">
               Turn a moment <br className="hidden sm:block" />
@@ -173,38 +173,22 @@ export const LandingPage: React.FC = () => {
             </div>
 
             {/* Trust Indicators with Distinct Semantic Accent Badges */}
-            <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs font-semibold">
+            <div className="pt-4 grid grid-cols-2 gap-2.5 text-xs font-semibold">
               
               {/* Protection -> Teal */}
-              <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-teal-700/30 flex items-center space-x-2 shadow-xs text-teal-800 dark:text-teal-300">
+              <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-teal-700/30 flex items-center space-x-2 shadow-xs text-teal-800 dark:text-teal-300 animate-float-soft">
                 <div className="p-1 rounded-md bg-teal-700/10 text-teal-700 dark:text-teal-400">
                   <ShieldCheck className="w-3.5 h-3.5" />
                 </div>
-                <span className="truncate text-[11px] font-bold">Protection (Teal)</span>
-              </div>
-
-              {/* Community -> Pink */}
-              <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-accentPink/30 flex items-center space-x-2 shadow-xs text-accentPink">
-                <div className="p-1 rounded-md bg-accentPink/10 text-accentPink">
-                  <Users className="w-3.5 h-3.5" />
-                </div>
-                <span className="truncate text-[11px] font-bold">Community (Pink)</span>
+                <span className="truncate text-[11px] font-bold">Protection</span>
               </div>
 
               {/* AI Triage -> Purple */}
-              <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-accentPurple/30 flex items-center space-x-2 shadow-xs text-accentPurple">
+              <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-accentPurple/30 flex items-center space-x-2 shadow-xs text-accentPurple animate-float-soft delay-150">
                 <div className="p-1 rounded-md bg-accentPurple/10 text-accentPurple">
                   <Cpu className="w-3.5 h-3.5" />
                 </div>
-                <span className="truncate text-[11px] font-bold">AI Triage (Purple)</span>
-              </div>
-
-              {/* Location -> Cyan */}
-              <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-accentCyan/30 flex items-center space-x-2 shadow-xs text-accentCyan">
-                <div className="p-1 rounded-md bg-accentCyan/10 text-accentCyan">
-                  <MapPin className="w-3.5 h-3.5" />
-                </div>
-                <span className="truncate text-[11px] font-bold">Location (Cyan)</span>
+                <span className="truncate text-[11px] font-bold">AI Triage</span>
               </div>
 
             </div>
@@ -213,7 +197,7 @@ export const LandingPage: React.FC = () => {
 
           {/* Hero Right Column: Prominent Child Safety Photo Visual */}
           <div className="lg:col-span-6 relative">
-            <div className="relative rounded-3xl overflow-hidden border border-charcoal-200 dark:border-charcoal-800 shadow-modal bg-charcoal-900">
+            <div className="relative rounded-3xl overflow-hidden border border-charcoal-200 dark:border-charcoal-800 shadow-modal bg-charcoal-900 animate-float-soft">
               
               <img
                 src="/hero_child_safety.png"
@@ -224,7 +208,7 @@ export const LandingPage: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/85 via-charcoal-950/20 to-transparent" />
 
               {/* Embedded Floating Case Status Pill */}
-              <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-white/95 dark:bg-charcoal-900/95 backdrop-blur-md border border-charcoal-200 dark:border-charcoal-800 shadow-card flex items-center justify-between">
+              <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-white/95 dark:bg-charcoal-900/95 backdrop-blur-md border border-charcoal-200 dark:border-charcoal-800 shadow-card flex items-center justify-between animate-fade-up">
                 <div className="space-y-0.5">
                   <div className="flex items-center space-x-2">
                     <span className="font-mono text-xs font-extrabold text-teal-700 dark:text-teal-400">RKS-2026-00421</span>
