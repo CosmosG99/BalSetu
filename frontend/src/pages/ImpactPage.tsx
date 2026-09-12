@@ -80,7 +80,7 @@ export const ImpactPage: React.FC = () => {
       <div className="text-center space-y-4 max-w-3xl mx-auto">
         <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-teal-700/10 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-700/20 dark:border-teal-500/30 text-xs font-semibold">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Impact Framework</span>
+          <span>Impact</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-extrabold text-charcoal-800 dark:text-charcoal-100">
           Small moments of awareness can create meaningful protection.

@@ -61,7 +61,7 @@ export const ResourcesPage: React.FC = () => {
       <div className="text-center space-y-3 max-w-3xl mx-auto">
         <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-accentPurple/10 text-accentPurple border border-accentPurple/30 text-xs font-semibold">
           <BookOpen className="w-3.5 h-3.5" />
-          <span>Child & Bystander Education</span>
+          <span>Resources & Education</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-extrabold text-charcoal-800 dark:text-charcoal-100">Safety Resource Center</h1>
         <p className="text-sm text-charcoal-600 dark:text-charcoal-300">

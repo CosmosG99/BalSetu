@@ -109,11 +109,6 @@ export const LandingEntryPage: React.FC = () => {
         <div className="lg:col-span-6 space-y-6 text-left animate-fade-in">
           
           {/* Hero Eyebrow Pill */}
-          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-teal-500/10 border border-teal-400/30 text-teal-300 text-xs font-extrabold shadow-subtle">
-            <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
-            <span className="uppercase tracking-wider">A SAFER TOMORROW TOGETHER</span>
-          </div>
-
           {/* Hero Impactful Heading */}
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.08]">
             Stronger <br />
@@ -256,7 +251,7 @@ export const LandingEntryPage: React.FC = () => {
         
         <div className="text-center pb-3">
           <span className="text-[10px] font-mono font-semibold text-charcoal-400 uppercase tracking-widest bg-white/5 border border-white/10 px-3 py-1 rounded-full">
-            LIVE CHILD SAFETY NETWORK
+            NETWORK OVERVIEW
           </span>
         </div>
 

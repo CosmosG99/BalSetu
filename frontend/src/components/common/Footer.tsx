@@ -27,7 +27,7 @@ export const Footer: React.FC = () => {
           </p>
 
           <div className="p-3.5 rounded-2xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 text-[11px] text-charcoal-600 dark:text-charcoal-400 space-y-1 shadow-sm">
-            <div className="font-bold text-amberGold-600 dark:text-amberGold-500">⚠️ Hackathon Concept & Simulated Integrations</div>
+            <div className="font-bold text-amberGold-600 dark:text-amberGold-500">⚠️ Operational Notice</div>
             <p>
               {t('footerPrototypeNotice')}
             </p>

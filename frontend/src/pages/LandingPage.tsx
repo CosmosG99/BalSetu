@@ -145,11 +145,6 @@ export const LandingPage: React.FC = () => {
           {/* Hero Left Column */}
           <div className="lg:col-span-6 space-y-6 text-left">
             
-            <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-teal-700/10 dark:bg-teal-500/20 border border-teal-700/20 dark:border-teal-500/30 text-[11px] font-bold text-teal-800 dark:text-teal-300 shadow-xs">
-              <Sparkles className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400" />
-              <span className="uppercase tracking-wider">A SAFER TOMORROW FOR EVERY CHILD</span>
-            </div>
-
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-charcoal-800 dark:text-charcoal-100 tracking-tight leading-[1.15]">
               Turn a moment <br className="hidden sm:block" />
               of concern into a <br className="hidden sm:block" />

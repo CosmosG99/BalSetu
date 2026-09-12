@@ -238,7 +238,7 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
             ) : (
               <div className="flex items-center space-x-2 text-charcoal-600 dark:text-charcoal-400 font-semibold">
                 <span className="w-2 h-2 rounded-full bg-teal-600 dark:bg-teal-400 animate-pulse" />
-                <span className="text-[11px] uppercase tracking-wider text-teal-700 dark:text-teal-400 font-extrabold">RAKSHAK Active Network</span>
+                <span className="text-[11px] text-teal-700 dark:text-teal-400 font-extrabold">Operational Response Network</span>
               </div>
             )}
           </div>
