@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCases } from '../context/CaseContext';
 import { useLanguage } from '../context/LanguageContext';
-import { Search, Lock, CheckCircle2, Circle, MapPin, AlertCircle, ArrowRight, ShieldCheck, Clock, Cpu, UserCheck, Activity } from 'lucide-react';
+import { Search, Lock, CheckCircle2, MapPin, AlertCircle, ArrowRight, ShieldCheck, Cpu, UserCheck, Activity, Loader2 } from 'lucide-react';
 import { StatusBadge } from '../components/common/StatusBadge';
 import { RiskBadge } from '../components/common/RiskBadge';
 
@@ -13,13 +13,29 @@ export const TrackPage: React.FC = () => {
   const { getCaseById } = useCases();
 
   const [inputCaseId, setInputCaseId] = useState(paramCaseId || 'RKS-2026-00421');
-  const activeCase = paramCaseId ? getCaseById(paramCaseId) : getCaseById(inputCaseId);
+  const [isSearching, setIsSearching] = useState(false);
+
+  // Clean case ID search
+  const normalizedCaseId = (paramCaseId || inputCaseId || '').trim().toUpperCase();
+  const activeCase = getCaseById(normalizedCaseId);
+
+  useEffect(() => {
+    if (paramCaseId) {
+      setInputCaseId(paramCaseId);
+    }
+  }, [paramCaseId]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (inputCaseId.trim()) {
-      navigate(`/track/${inputCaseId.trim().toUpperCase()}`);
-    }
+    if (!inputCaseId.trim()) return;
+
+    setIsSearching(true);
+    const cleaned = inputCaseId.trim().toUpperCase();
+
+    setTimeout(() => {
+      setIsSearching(false);
+      navigate(`/track/${cleaned}`);
+    }, 300);
   };
 
   const statusTimelineSteps = [
@@ -43,7 +59,7 @@ export const TrackPage: React.FC = () => {
           Enter your unique Case Reference ID to check real-time resolution progress.
         </p>
 
-        {/* Large Central Tracking Component */}
+        {/* Large Central Tracking Form */}
         <form onSubmit={handleSearch} className="flex flex-col sm:flex-row items-center gap-2 max-w-lg mx-auto pt-2">
           <div className="relative flex-1 w-full">
             <input
@@ -51,22 +67,39 @@ export const TrackPage: React.FC = () => {
               value={inputCaseId}
               onChange={(e) => setInputCaseId(e.target.value)}
               placeholder="e.g. RKS-2026-00421"
-              className="w-full pl-4 pr-4 py-3.5 bg-white dark:bg-forest-850 border border-charcoal-200 dark:border-white/10 rounded-xl text-sm font-mono text-charcoal-800 dark:text-charcoal-100 placeholder-charcoal-400 focus:outline-none focus:border-teal-700 shadow-sm"
+              disabled={isSearching}
+              className="w-full pl-4 pr-4 py-3.5 bg-white dark:bg-forest-850 border border-charcoal-200 dark:border-white/10 rounded-xl text-sm font-mono text-charcoal-800 dark:text-charcoal-100 placeholder-charcoal-400 focus:outline-none focus:border-teal-700 shadow-sm disabled:opacity-50"
             />
           </div>
           <button
             type="submit"
-            className="w-full sm:w-auto py-3.5 px-6 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs shadow-card flex items-center justify-center space-x-1.5 transition-all"
+            disabled={isSearching || !inputCaseId.trim()}
+            className="w-full sm:w-auto py-3.5 px-6 rounded-xl bg-teal-700 hover:bg-teal-800 disabled:opacity-50 text-white font-bold text-xs shadow-card flex items-center justify-center space-x-2 transition-all cursor-pointer"
           >
-            <span>TRACK REPORT</span>
-            <ArrowRight className="w-4 h-4" />
+            {isSearching ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Looking up...</span>
+              </>
+            ) : (
+              <>
+                <span>TRACK REPORT</span>
+                <ArrowRight className="w-4 h-4" />
+              </>
+            )}
           </button>
         </form>
       </div>
 
       {/* Case Details Display */}
-      {activeCase ? (
-        <div className="natural-panel p-6 sm:p-8 rounded-3xl space-y-6 shadow-modal border border-charcoal-200/80 dark:border-white/10">
+      {isSearching ? (
+        <div className="natural-panel p-12 rounded-3xl text-center space-y-3 shadow-card">
+          <Loader2 className="w-8 h-8 text-teal-700 dark:text-teal-400 animate-spin mx-auto" />
+          <div className="text-sm font-bold text-charcoal-800 dark:text-charcoal-100">Looking up your report...</div>
+          <div className="text-xs text-charcoal-500 font-mono">Querying case store for "{inputCaseId.trim().toUpperCase()}"</div>
+        </div>
+      ) : activeCase ? (
+        <div className="natural-panel p-6 sm:p-8 rounded-3xl space-y-6 shadow-modal border border-charcoal-200/80 dark:border-white/10 animate-fade-in">
           
           {/* Header Strip */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-charcoal-200/80 dark:border-charcoal-800 pb-4 gap-3">
@@ -85,6 +118,15 @@ export const TrackPage: React.FC = () => {
             </div>
           </div>
 
+          {/* Incident Summary Card */}
+          <div className="p-4 rounded-2xl bg-ivory-100/70 dark:bg-forest-900 border border-charcoal-200/70 dark:border-charcoal-800 space-y-2 text-xs">
+            <div className="font-bold text-charcoal-800 dark:text-charcoal-100">Incident Category: {activeCase.report.incidentTypes.join(', ')}</div>
+            <p className="text-charcoal-600 dark:text-charcoal-300">{activeCase.report.description}</p>
+            <div className="text-[11px] font-mono text-charcoal-500 pt-1">
+              Reporter: {activeCase.report.reporterRole || 'Anonymous Bystander'} • Time: {activeCase.report.approxTime || 'Recent'}
+            </div>
+          </div>
+
           {/* Privacy Disclaimer Card */}
           <div className="p-3.5 rounded-xl bg-teal-700/10 dark:bg-teal-500/20 border border-teal-700/20 dark:border-teal-500/30 text-teal-800 dark:text-teal-300 text-xs flex items-center space-x-2">
             <Lock className="w-4 h-4 text-teal-700 dark:text-teal-400 flex-shrink-0" />
@@ -98,18 +140,20 @@ export const TrackPage: React.FC = () => {
             </h3>
 
             <div className="space-y-3">
-              {statusTimelineSteps.map((step, idx) => (
-                <div key={idx} className="p-3.5 rounded-xl bg-ivory-100/60 dark:bg-forest-900 border border-charcoal-200/60 dark:border-charcoal-800 flex items-center justify-between">
+              {activeCase.timeline.map((step, idx) => (
+                <div key={step.id || idx} className="p-3.5 rounded-xl bg-white dark:bg-forest-900 border border-charcoal-200/80 dark:border-charcoal-800 flex items-center justify-between shadow-xs">
                   <div className="flex items-center space-x-3">
-                    <div className={`p-2 rounded-lg border ${step.color}`}>
-                      <step.icon className="w-4 h-4" />
+                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs ${step.completed ? 'bg-teal-700 text-white' : 'bg-charcoal-200/70 dark:bg-charcoal-800 text-charcoal-500'}`}>
+                      {step.completed ? <CheckCircle2 className="w-4 h-4" /> : idx + 1}
                     </div>
                     <div>
                       <div className="text-xs font-bold text-charcoal-800 dark:text-charcoal-100">{step.title}</div>
-                      <div className="text-[11px] text-charcoal-600 dark:text-charcoal-400">{step.desc}</div>
+                      <div className="text-[11px] text-charcoal-600 dark:text-charcoal-400">{step.description}</div>
                     </div>
                   </div>
-                  <span className="text-[10px] font-mono font-bold text-teal-700 dark:text-teal-400">Step 0{idx + 1}</span>
+                  <span className="text-[10px] font-mono font-bold text-charcoal-500 bg-ivory-100 dark:bg-charcoal-850 px-2 py-0.5 rounded border border-charcoal-200/50 dark:border-charcoal-800">
+                    {step.timestamp}
+                  </span>
                 </div>
               ))}
             </div>
@@ -119,9 +163,9 @@ export const TrackPage: React.FC = () => {
       ) : (
         <div className="natural-panel p-8 rounded-3xl text-center space-y-3 shadow-card">
           <AlertCircle className="w-10 h-10 text-amberGold-600 mx-auto" />
-          <h3 className="text-lg font-bold text-charcoal-800 dark:text-charcoal-100">No Case Found for "{paramCaseId || inputCaseId}"</h3>
+          <h3 className="text-lg font-bold text-charcoal-800 dark:text-charcoal-100">No Case Found for "{normalizedCaseId}"</h3>
           <p className="text-xs text-charcoal-600 dark:text-charcoal-400">
-            Please check the case reference string and try again. Sample case format: RKS-2026-00421.
+            Please check the case reference string and try again. Sample case formats: RKS-2026-00421 or RB-2026-10482.
           </p>
         </div>
       )}
