@@ -78,7 +78,7 @@ function latLngToVec3(lat: number, lng: number, radius: number): THREE.Vector3 {
 }
 
 /* ================================================================
-   2. DARK DIGITAL BASE EARTH (DARK INTERIOR)
+   2. DIGITAL BASE EARTH WITH ILLUMINATED LANDMASS SHAPE
    ================================================================ */
 function DarkEarthBase({ radius }: { radius: number }) {
   const topoTexture = useLoader(THREE.TextureLoader, '/earth-topology.png');
@@ -87,7 +87,7 @@ function DarkEarthBase({ radius }: { radius: number }) {
     return new THREE.ShaderMaterial({
       uniforms: {
         topoMap: { value: topoTexture },
-        lightDir: { value: new THREE.Vector3(1.0, 0.5, 1.0).normalize() },
+        lightDir: { value: new THREE.Vector3(1.0, 0.6, 1.2).normalize() },
       },
       vertexShader: `
         varying vec2 vUv;
@@ -108,15 +108,24 @@ function DarkEarthBase({ radius }: { radius: number }) {
           vec4 topo = texture2D(topoMap, vUv);
           float lum = dot(topo.rgb, vec3(0.299, 0.587, 0.114));
 
-          // Dark interior colors (#06151D base)
-          vec3 darkOcean = vec3(0.024, 0.075, 0.095); // #061318 deep ocean
-          vec3 darkLand  = vec3(0.040, 0.130, 0.115); // #0A211D dark land
+          // Dark teal ocean (#061F1F) vs visible dark emerald landmass (#145247)
+          vec3 darkOcean = vec3(0.035, 0.120, 0.120); // #091F1F
+          vec3 darkLand  = vec3(0.080, 0.320, 0.280); // #145247
+          vec3 landGlow  = vec3(0.120, 0.520, 0.450); // #1E8573
 
-          float landMask = smoothstep(0.12, 0.35, lum);
+          float landMask = smoothstep(0.08, 0.28, lum);
+          float coastMask = smoothstep(0.15, 0.32, lum) * (1.0 - smoothstep(0.32, 0.50, lum));
+
           vec3 baseColor = mix(darkOcean, darkLand, landMask);
+          baseColor = mix(baseColor, landGlow, coastMask * 0.6 + lum * landMask * 0.4);
 
-          float diff = max(dot(vNormal, lightDir), 0.18);
-          gl_FragColor = vec4(baseColor * diff, 1.0);
+          // Front-facing camera lighting boost so land is clearly visible across front face
+          vec3 viewDir = vec3(0.0, 0.0, 1.0);
+          float frontFacing = max(dot(vNormal, viewDir), 0.0);
+          float diff = max(dot(vNormal, lightDir), 0.40);
+          float lighting = clamp(diff * 0.6 + frontFacing * 0.5, 0.45, 1.0);
+
+          gl_FragColor = vec4(baseColor * lighting, 1.0);
         }
       `,
     });
@@ -130,7 +139,7 @@ function DarkEarthBase({ radius }: { radius: number }) {
 }
 
 /* ================================================================
-   3. DOTTED CONTINENT PARTICLES (DENSE DIGITAL HALFTONE SURFACE)
+   3. HIGH-CONTRAST DOTTED CONTINENT PARTICLES
    ================================================================ */
 function DottedContinents({ radius }: { radius: number }) {
   const [geometry, setGeometry] = useState<THREE.BufferGeometry | null>(null);
@@ -154,10 +163,10 @@ function DottedContinents({ radius }: { radius: number }) {
       const sizes: number[] = [];
 
       // Dense lat/lng sampling for halftone continental dots
-      for (let lat = -84; lat <= 84; lat += 1.2) {
+      for (let lat = -84; lat <= 84; lat += 1.0) {
         const radLat = (lat * Math.PI) / 180;
         const cosLat = Math.cos(radLat);
-        const lngStep = 1.2 / Math.max(0.2, cosLat);
+        const lngStep = 1.0 / Math.max(0.2, cosLat);
 
         for (let lng = -180; lng < 180; lng += lngStep) {
           const u = (lng + 180) / 360;
@@ -171,28 +180,29 @@ function DottedContinents({ radius }: { radius: number }) {
           const b = imgData.data[idx + 2];
           const bright = (r + g + b) / 3;
 
-          if (bright > 40) {
-            // Land point: render crisp particle dot
-            const vec = latLngToVec3(lat, lng, radius + 0.006);
+          if (bright > 35) {
+            // Land point: render crisp bright particle dot
+            const vec = latLngToVec3(lat, lng, radius + 0.007);
             positions.push(vec.x, vec.y, vec.z);
 
-            const isHighland = bright > 110;
-            const isCoast = bright > 40 && bright < 75;
+            const isHighland = bright > 95;
+            const isMidland  = bright > 55 && bright <= 95;
 
-            let col = new THREE.Color('#2dd4bf'); // bright teal default
-            if (isHighland) col = new THREE.Color('#38bdf8'); // bright cyan
-            else if (isCoast) col = new THREE.Color('#10b981'); // emerald
+            // Bright Vibrant Teal / Cyan Palette for clear continent readability
+            let col = new THREE.Color('#38BDF8'); // #38BDF8 bright cyan default
+            if (isHighland) col = new THREE.Color('#5EEAD4'); // #5EEAD4 glowing mint
+            else if (isMidland) col = new THREE.Color('#2DD4BF'); // #2DD4BF bright teal
 
             colors.push(col.r, col.g, col.b);
-            sizes.push(isHighland ? 0.030 : 0.024);
+            sizes.push(isHighland ? 0.046 : isMidland ? 0.040 : 0.034);
           } else {
-            // Ocean point: sparse dark teal dots for high-tech digital grid feel
-            if (Math.random() < 0.04) {
+            // Ocean point: subtle dark teal dots for grid context
+            if (Math.random() < 0.03) {
               const vec = latLngToVec3(lat, lng, radius + 0.003);
               positions.push(vec.x, vec.y, vec.z);
-              const oceanCol = new THREE.Color('#083935');
+              const oceanCol = new THREE.Color('#0D4B43');
               colors.push(oceanCol.r, oceanCol.g, oceanCol.b);
-              sizes.push(0.014);
+              sizes.push(0.018);
             }
           }
         }
@@ -209,7 +219,7 @@ function DottedContinents({ radius }: { radius: number }) {
   const shaderMaterial = useMemo(() => {
     return new THREE.ShaderMaterial({
       uniforms: {
-        uLightDir: { value: new THREE.Vector3(1.0, 0.5, 1.0).normalize() },
+        uLightDir: { value: new THREE.Vector3(1.0, 0.6, 1.2).normalize() },
       },
       vertexShader: `
         attribute float aSize;
@@ -221,7 +231,7 @@ function DottedContinents({ radius }: { radius: number }) {
           vColor = aColor;
           vWorldPos = (modelMatrix * vec4(position, 1.0)).xyz;
           vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = aSize * (360.0 / -mvPosition.z);
+          gl_PointSize = aSize * (500.0 / -mvPosition.z);
           gl_Position = projectionMatrix * mvPosition;
         }
       `,
@@ -235,12 +245,16 @@ function DottedContinents({ radius }: { radius: number }) {
           float dist = length(coord);
           if (dist > 0.5) discard;
 
-          float alpha = smoothstep(0.5, 0.15, dist);
+          float alpha = smoothstep(0.5, 0.10, dist);
 
           vec3 normal = normalize(vWorldPos);
-          float diff = max(dot(normal, uLightDir), 0.22);
+          vec3 viewDir = vec3(0.0, 0.0, 1.0);
+          float frontFacing = max(dot(normal, viewDir), 0.0);
+          float diff = max(dot(normal, uLightDir), 0.50);
 
-          gl_FragColor = vec4(vColor * diff, alpha * 0.95);
+          float brightness = clamp(diff * 0.6 + frontFacing * 0.55, 0.60, 1.0);
+
+          gl_FragColor = vec4(vColor * brightness, alpha * 0.98);
         }
       `,
       transparent: true,
@@ -261,7 +275,7 @@ function NetworkNodes({ radius }: { radius: number }) {
   const geometry = useMemo(() => {
     const positions: number[] = [];
     NETWORK_NODES.forEach((node) => {
-      const vec = latLngToVec3(node.lat, node.lng, radius + 0.008);
+      const vec = latLngToVec3(node.lat, node.lng, radius + 0.009);
       positions.push(vec.x, vec.y, vec.z);
     });
     const geom = new THREE.BufferGeometry();
@@ -272,9 +286,9 @@ function NetworkNodes({ radius }: { radius: number }) {
   const material = useMemo(() => {
     return new THREE.PointsMaterial({
       color: new THREE.Color('#38bdf8'),
-      size: 0.04,
+      size: 0.052,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.95,
       blending: THREE.AdditiveBlending,
     });
   }, []);
@@ -289,9 +303,9 @@ function AtmosphereGlow({ radius }: { radius: number }) {
   const shaderMaterial = useMemo(() => {
     return new THREE.ShaderMaterial({
       uniforms: {
-        glowColor: { value: new THREE.Color('#1a8c73') },
-        coefficient: { value: 0.65 },
-        power: { value: 3.5 },
+        glowColor: { value: new THREE.Color('#26c7a7') },
+        coefficient: { value: 0.70 },
+        power: { value: 3.0 },
       },
       vertexShader: `
         varying vec3 vNormal;
@@ -313,7 +327,7 @@ function AtmosphereGlow({ radius }: { radius: number }) {
 
         void main() {
           float intensity = pow(coefficient - dot(vNormal, vPositionNormal), power);
-          gl_FragColor = vec4(glowColor, intensity * 0.75);
+          gl_FragColor = vec4(glowColor, intensity * 0.85);
         }
       `,
       side: THREE.BackSide,
@@ -331,7 +345,7 @@ function AtmosphereGlow({ radius }: { radius: number }) {
 }
 
 /* ================================================================
-   6. RED ALERT HOTSPOT — ATTACHED TO GLOBE & STAGGERED PULSE
+   6. RED ALERT HOTSPOT — HIGH CONTRAST CORAL/RED STAGGERED PULSE
    ================================================================ */
 function AlertHotspot({
   alert,
@@ -348,9 +362,8 @@ function AlertHotspot({
   const coreRef = useRef<THREE.Mesh>(null!);
   const glowRef = useRef<THREE.Mesh>(null!);
   const ringRef = useRef<THREE.Mesh>(null!);
-  const position = useMemo(() => latLngToVec3(alert.lat, alert.lng, radius + 0.012), [alert, radius]);
+  const position = useMemo(() => latLngToVec3(alert.lat, alert.lng, radius + 0.015), [alert, radius]);
 
-  // Staggered animation phase
   const phaseOffset = useMemo(() => (alert.id * 0.75) % (Math.PI * 2), [alert.id]);
 
   const { camera, size } = useThree();
@@ -361,18 +374,18 @@ function AlertHotspot({
 
     if (coreRef.current) {
       const mat = coreRef.current.material as THREE.MeshBasicMaterial;
-      mat.opacity = 0.8 + 0.2 * pulse;
-      coreRef.current.scale.setScalar(0.85 + 0.25 * pulse);
+      mat.opacity = 0.88 + 0.12 * pulse;
+      coreRef.current.scale.setScalar(0.95 + 0.25 * pulse);
     }
     if (glowRef.current) {
       const mat = glowRef.current.material as THREE.MeshBasicMaterial;
-      mat.opacity = 0.15 + 0.15 * pulse;
-      glowRef.current.scale.setScalar(1.0 + 0.5 * pulse);
+      mat.opacity = 0.25 + 0.2 * pulse;
+      glowRef.current.scale.setScalar(1.0 + 0.6 * pulse);
     }
     if (ringRef.current) {
       const mat = ringRef.current.material as THREE.MeshBasicMaterial;
-      mat.opacity = 0.12 + 0.22 * pulse;
-      ringRef.current.scale.setScalar(1.0 + 0.9 * pulse);
+      mat.opacity = 0.18 + 0.25 * pulse;
+      ringRef.current.scale.setScalar(1.0 + 1.0 * pulse);
     }
   });
 
@@ -397,19 +410,19 @@ function AlertHotspot({
     [onLeave]
   );
 
-  const coreColor = alert.priority === 'High' ? '#ff2244' : alert.priority === 'Medium' ? '#ff5555' : '#ff7777';
+  const coreColor = alert.priority === 'High' ? '#FF2233' : alert.priority === 'Medium' ? '#FF554D' : '#FF7770';
 
   return (
     <group ref={groupRef} position={position}>
       {/* Outer pulse ring */}
       <mesh ref={ringRef}>
-        <sphereGeometry args={[0.045, 12, 12]} />
-        <meshBasicMaterial color="#ff4444" transparent opacity={0.15} depthWrite={false} />
+        <sphereGeometry args={[0.048, 12, 12]} />
+        <meshBasicMaterial color="#FF554D" transparent opacity={0.20} depthWrite={false} />
       </mesh>
       {/* Mid glow */}
       <mesh ref={glowRef}>
-        <sphereGeometry args={[0.032, 12, 12]} />
-        <meshBasicMaterial color="#ff5555" transparent opacity={0.25} depthWrite={false} />
+        <sphereGeometry args={[0.035, 12, 12]} />
+        <meshBasicMaterial color="#FF2233" transparent opacity={0.35} depthWrite={false} />
       </mesh>
       {/* Core point */}
       <mesh
@@ -417,8 +430,8 @@ function AlertHotspot({
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
       >
-        <sphereGeometry args={[0.018, 12, 12]} />
-        <meshBasicMaterial color={coreColor} transparent opacity={0.95} />
+        <sphereGeometry args={[0.022, 12, 12]} />
+        <meshBasicMaterial color={coreColor} transparent opacity={0.98} />
       </mesh>
     </group>
   );
@@ -439,8 +452,8 @@ function ConnectionArc({
   color: string;
 }) {
   const lineObj = useMemo(() => {
-    const start = latLngToVec3(from.lat, from.lng, radius + 0.01);
-    const end = latLngToVec3(to.lat, to.lng, radius + 0.01);
+    const start = latLngToVec3(from.lat, from.lng, radius + 0.012);
+    const end = latLngToVec3(to.lat, to.lng, radius + 0.012);
     const mid = start.clone().add(end).multiplyScalar(0.5);
 
     const midLen = mid.length();
@@ -453,7 +466,7 @@ function ConnectionArc({
     const mat = new THREE.LineBasicMaterial({
       color: new THREE.Color(color),
       transparent: true,
-      opacity: 0.35,
+      opacity: 0.45,
     });
     return new THREE.Line(geom, mat);
   }, [from, to, radius, color]);
@@ -467,9 +480,9 @@ function ConnectionArc({
 function OrbitalArcs({ radius }: { radius: number }) {
   const arcs = useMemo(() => {
     const configs = [
-      { r: radius * 1.18, tiltX: 0.45, tiltZ: 0.2,  color: '#2dd4bf', opacity: 0.35 },
-      { r: radius * 1.25, tiltX: -0.6, tiltZ: -0.3, color: '#38bdf8', opacity: 0.30 },
-      { r: radius * 1.32, tiltX: 0.9,  tiltZ: 0.7,  color: '#c084fc', opacity: 0.20 },
+      { r: radius * 1.18, tiltX: 0.45, tiltZ: 0.2,  color: '#2dd4bf', opacity: 0.40 },
+      { r: radius * 1.25, tiltX: -0.6, tiltZ: -0.3, color: '#38bdf8', opacity: 0.35 },
+      { r: radius * 1.32, tiltX: 0.9,  tiltZ: 0.7,  color: '#c084fc', opacity: 0.25 },
     ];
 
     return configs.map((cfg, idx) => {
@@ -523,9 +536,9 @@ function GlobeScene({
 
   return (
     <>
-      {/* Lights for 3D depth */}
-      <ambientLight intensity={0.15} color="#1a6e5c" />
-      <directionalLight position={[4, 2, 5]} intensity={1.2} color="#e0fff8" />
+      {/* Directional & Ambient Lighting for rich 3D depth */}
+      <ambientLight intensity={0.30} color="#1a6e5c" />
+      <directionalLight position={[4, 3, 5]} intensity={1.5} color="#e0fff8" />
 
       {/* Atmospheric outer glow rim */}
       <AtmosphereGlow radius={GLOBE_RADIUS} />
@@ -533,12 +546,12 @@ function GlobeScene({
       {/* Orbital arcs around globe silhouette */}
       <OrbitalArcs radius={GLOBE_RADIUS} />
 
-      {/* Rotating 3D World (Dark Earth + Dotted Continents + Alert Hotspots + Arcs) */}
+      {/* Rotating 3D World */}
       <group ref={rotatingGroupRef}>
-        {/* Dark interior base sphere */}
+        {/* Base Earth with visible dark emerald landmass shape */}
         <DarkEarthBase radius={GLOBE_RADIUS} />
 
-        {/* Dotted halftone particle continents */}
+        {/* High-contrast halftone particle dots for visible continents */}
         <DottedContinents radius={GLOBE_RADIUS} />
 
         {/* Network connectivity nodes */}
