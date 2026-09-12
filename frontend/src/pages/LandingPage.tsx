@@ -128,31 +128,31 @@ export const LandingPage: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-24 pb-20 overflow-x-hidden">
+    <div className="space-y-14 pb-12 overflow-x-hidden">
       
       {/* ============================================================ */}
       {/* 1. HERO SECTION WITH RICH SEMANTIC ACCENTS                   */}
       {/* ============================================================ */}
-      <section className="relative pt-4 pb-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <section className="relative pt-8 pb-6 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           
           {/* Hero Left Column */}
-          <div className="lg:col-span-6 space-y-6 text-left animate-fade-up">
+          <div className="lg:col-span-6 space-y-8 lg:space-y-10 text-left animate-fade-up lg:pb-4">
             
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-charcoal-800 dark:text-charcoal-100 tracking-tight leading-[1.15]">
+            <h1 className="max-w-[900px] text-[3.25rem] sm:text-[4.4rem] lg:text-[6.8rem] font-black text-charcoal-800 dark:text-charcoal-100 tracking-[-0.08em] leading-[0.78]">
               Turn a moment <br className="hidden sm:block" />
               of concern into a <br className="hidden sm:block" />
               <span className="text-teal-700 dark:text-teal-400">moment of protection.</span>
             </h1>
 
-            <p className="text-base text-charcoal-600 dark:text-charcoal-400 max-w-xl leading-relaxed">
+            <p className="text-sm sm:text-base text-charcoal-600 dark:text-charcoal-400 max-w-xl leading-relaxed">
               Rakshak connects citizens who notice vulnerable or lost children in public transit hubs with an advisory AI-assisted ground response network — quickly, safely, and anonymously.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
               <Link
                 to="/report"
-                className="px-7 py-3.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-sm shadow-card hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center space-x-2"
+                className="px-6 py-3 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-sm shadow-card hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center space-x-2"
               >
                 <span>REPORT A CONCERN</span>
                 <ArrowRight className="w-4 h-4" />
@@ -160,7 +160,7 @@ export const LandingPage: React.FC = () => {
 
               <Link
                 to="/how-it-works"
-                className="px-7 py-3.5 rounded-xl bg-white dark:bg-charcoal-900 hover:bg-ivory-100 dark:hover:bg-charcoal-850 text-charcoal-800 dark:text-charcoal-100 font-bold text-sm border border-charcoal-200 dark:border-charcoal-800 transition-all flex items-center justify-center space-x-2 text-center shadow-xs"
+                className="px-6 py-3 rounded-xl bg-white dark:bg-charcoal-900 hover:bg-ivory-100 dark:hover:bg-charcoal-850 text-charcoal-800 dark:text-charcoal-100 font-bold text-sm border border-charcoal-200 dark:border-charcoal-800 transition-all flex items-center justify-center space-x-2 text-center shadow-xs"
               >
                 <span>See How It Works</span>
               </Link>
@@ -176,7 +176,7 @@ export const LandingPage: React.FC = () => {
               <img
                 src="/hero_child_safety.png"
                 alt="Community transit officer safely guiding a child"
-                className="w-full h-[440px] object-cover"
+                className="w-full h-[360px] sm:h-[420px] lg:h-[500px] object-cover"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/85 via-charcoal-950/20 to-transparent" />
