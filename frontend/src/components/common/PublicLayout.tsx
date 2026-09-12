@@ -153,16 +153,6 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
           {/* 4. RESPONDER ACCESS & LANDING FRONT DOOR LINK    */}
           {/* -------------------------------------------------- */}
           <div className="pt-2 space-y-1 border-t border-charcoal-200/60 dark:border-charcoal-800/60">
-            <Link
-              to="/"
-              className="flex items-center justify-between px-3 py-2 rounded-lg text-[11px] font-semibold text-charcoal-600 hover:text-teal-700 dark:text-charcoal-400 dark:hover:text-teal-300 transition-colors"
-            >
-              <div className="flex items-center space-x-2">
-                <Sparkles className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400" />
-                <span>Landing Entry Experience</span>
-              </div>
-              <ExternalLink className="w-3 h-3" />
-            </Link>
 
             <Link
               to="/responder"
