@@ -78,7 +78,7 @@ function latLngToVec3(lat: number, lng: number, radius: number): THREE.Vector3 {
 }
 
 /* ================================================================
-   2. REALISTIC 3D EARTH SPHERE (SATELLITE ALBEDO + SPECULAR + NORMAL)
+   2. REALISTIC 3D EARTH SPHERE
    ================================================================ */
 function RealisticEarthSphere({ radius }: { radius: number }) {
   const dayMap = useLoader(THREE.TextureLoader, '/earth-day.jpg');
@@ -110,10 +110,9 @@ function RealisticCloudLayer({ radius }: { radius: number }) {
   const cloudGroupRef = useRef<THREE.Group>(null!);
   const cloudsMap = useLoader(THREE.TextureLoader, '/earth-clouds.png');
 
-  // Clouds rotate slightly faster than Earth (~35 seconds per revolution)
-  useFrame(({ clock }) => {
+  useFrame((_, delta) => {
     if (cloudGroupRef.current) {
-      cloudGroupRef.current.rotation.y = clock.getElapsedTime() * ((Math.PI * 2) / 35);
+      cloudGroupRef.current.rotation.y += ((Math.PI * 2) / 36) * delta;
     }
   });
 
@@ -137,7 +136,7 @@ function RealisticCloudLayer({ radius }: { radius: number }) {
 }
 
 /* ================================================================
-   4. ATMOSPHERIC OUTER RIM GLOW (INTEGRATION WITH RAKSHAK TEAL)
+   4. ATMOSPHERIC OUTER RIM GLOW
    ================================================================ */
 function AtmosphereGlow({ radius }: { radius: number }) {
   const shaderMaterial = useMemo(() => {
@@ -178,14 +177,14 @@ function AtmosphereGlow({ radius }: { radius: number }) {
   }, []);
 
   return (
-    <mesh material={shaderMaterial} scale={[1.12, 1.12, 1.12]}>
+    <mesh material={shaderMaterial} scale={[1.10, 1.10, 1.10]}>
       <sphereGeometry args={[radius, 48, 48]} />
     </mesh>
   );
 }
 
 /* ================================================================
-   5. NETWORK CONNECTIVITY NODES (SECONDARY DIGITAL ACCENT)
+   5. NETWORK CONNECTIVITY NODES (SECONDARY ACCENT)
    ================================================================ */
 function NetworkNodes({ radius }: { radius: number }) {
   const geometry = useMemo(() => {
@@ -233,7 +232,6 @@ function AlertHotspot({
   const position = useMemo(() => latLngToVec3(alert.lat, alert.lng, radius + 0.025), [alert, radius]);
 
   const phaseOffset = useMemo(() => (alert.id * 0.75) % (Math.PI * 2), [alert.id]);
-
   const { camera, size } = useThree();
 
   useFrame(({ clock }) => {
@@ -343,82 +341,81 @@ function ConnectionArc({
 }
 
 /* ================================================================
-   8. SUBTLE ORBITAL ARCS SURROUNDING THE GLOBE
-   ================================================================ */
-function OrbitalArcs({ radius }: { radius: number }) {
-  const arcs = useMemo(() => {
-    const configs = [
-      { r: radius * 1.18, tiltX: 0.45, tiltZ: 0.2,  color: '#2dd4bf', opacity: 0.35 },
-      { r: radius * 1.25, tiltX: -0.6, tiltZ: -0.3, color: '#38bdf8', opacity: 0.30 },
-      { r: radius * 1.32, tiltX: 0.9,  tiltZ: 0.7,  color: '#c084fc', opacity: 0.20 },
-    ];
-
-    return configs.map((cfg, idx) => {
-      const points: THREE.Vector3[] = [];
-      const segments = 128;
-      for (let i = 0; i <= segments; i++) {
-        const theta = (i / segments) * Math.PI * 2;
-        points.push(new THREE.Vector3(Math.cos(theta) * cfg.r, 0, Math.sin(theta) * cfg.r));
-      }
-      const geom = new THREE.BufferGeometry().setFromPoints(points);
-      const mat = new THREE.LineBasicMaterial({
-        color: new THREE.Color(cfg.color),
-        transparent: true,
-        opacity: cfg.opacity,
-      });
-      const line = new THREE.Line(geom, mat);
-      line.rotation.x = cfg.tiltX;
-      line.rotation.z = cfg.tiltZ;
-      return { key: idx, line };
-    });
-  }, [radius]);
-
-  return (
-    <>
-      {arcs.map((arc) => (
-        <primitive key={arc.key} object={arc.line} />
-      ))}
-    </>
-  );
-}
-
-/* ================================================================
-   9. MAIN ROTATING GLOBE SCENE
+   8. MAIN ROTATING GLOBE SCENE WITH DRAG & AUTO-ROTATION
    ================================================================ */
 function GlobeScene({
   onAlertHover,
   onAlertLeave,
+  isDragging,
+  dragDelta,
 }: {
   onAlertHover: (alert: AlertPoint, screenPos: { x: number; y: number }) => void;
   onAlertLeave: () => void;
+  isDragging: boolean;
+  dragDelta: { x: number; y: number };
 }) {
   const rotatingEarthGroupRef = useRef<THREE.Group>(null!);
-  const GLOBE_RADIUS = 1.55;
+  const velocityRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const idleTimerRef = useRef<number>(0);
+  const GLOBE_RADIUS = 1.35; // Safe radius to prevent any frustum clipping
 
-  // Continuous rotation: ~28 seconds per revolution for Earth surface + attached nodes
-  useFrame(({ clock }) => {
-    if (rotatingEarthGroupRef.current) {
-      rotatingEarthGroupRef.current.rotation.y = clock.getElapsedTime() * ((Math.PI * 2) / 28);
+  // Frame animation loop: handle Drag, Inertia, & Auto-rotation
+  useFrame((_, delta) => {
+    if (!rotatingEarthGroupRef.current) return;
+
+    if (isDragging) {
+      // User is dragging: apply drag deltas directly
+      const rotY = dragDelta.x * 0.006;
+      const rotX = dragDelta.y * 0.004;
+
+      rotatingEarthGroupRef.current.rotation.y += rotY;
+      rotatingEarthGroupRef.current.rotation.x = THREE.MathUtils.clamp(
+        rotatingEarthGroupRef.current.rotation.x + rotX,
+        -0.5,
+        0.5
+      );
+
+      // Track rotational velocity for inertia
+      velocityRef.current = { x: rotY, y: rotX };
+      idleTimerRef.current = 0;
+    } else {
+      // User released: apply inertia decay
+      if (Math.abs(velocityRef.current.x) > 0.0001 || Math.abs(velocityRef.current.y) > 0.0001) {
+        rotatingEarthGroupRef.current.rotation.y += velocityRef.current.x;
+        rotatingEarthGroupRef.current.rotation.x = THREE.MathUtils.clamp(
+          rotatingEarthGroupRef.current.rotation.x + velocityRef.current.y,
+          -0.5,
+          0.5
+        );
+        velocityRef.current.x *= 0.93;
+        velocityRef.current.y *= 0.93;
+      }
+
+      idleTimerRef.current += delta;
+
+      // Resume smooth auto-rotation after 0.6s idle time
+      if (idleTimerRef.current > 0.6) {
+        rotatingEarthGroupRef.current.rotation.y += ((Math.PI * 2) / 28) * delta;
+        // Slowly return vertical tilt back to center
+        rotatingEarthGroupRef.current.rotation.x *= 0.97;
+      }
     }
   });
 
   return (
     <>
-      {/* Directional & Ambient Lighting for realistic 3D sphere shading */}
-      <ambientLight intensity={0.45} color="#d4f0ec" />
-      <directionalLight position={[5, 3, 5]} intensity={1.5} color="#ffffff" />
+      {/* Lighting for realistic 3D Earth shading */}
+      <ambientLight intensity={0.50} color="#d4f0ec" />
+      <directionalLight position={[5, 3, 5]} intensity={1.6} color="#ffffff" />
       <directionalLight position={[-4, -2, -3]} intensity={0.25} color="#10332c" />
 
       {/* Atmospheric outer glow rim */}
       <AtmosphereGlow radius={GLOBE_RADIUS} />
 
-      {/* Orbital arcs around globe silhouette */}
-      <OrbitalArcs radius={GLOBE_RADIUS} />
-
       {/* Cloud Layer (rotates independently) */}
       <RealisticCloudLayer radius={GLOBE_RADIUS} />
 
-      {/* Rotating 3D World (Earth Surface + Incident Points + Arcs) */}
+      {/* Rotating 3D Earth World */}
       <group ref={rotatingEarthGroupRef}>
         {/* Realistic NASA Blue Marble Earth Sphere */}
         <RealisticEarthSphere radius={GLOBE_RADIUS} />
@@ -453,7 +450,7 @@ function GlobeScene({
 }
 
 /* ================================================================
-   10. FALLBACK & TOOLTIP OVERLAY
+   9. FALLBACK & TOOLTIP OVERLAY
    ================================================================ */
 function LoadingFallback() {
   return (
@@ -512,12 +509,41 @@ function Tooltip({
 }
 
 /* ================================================================
-   EXPORTED COMPONENT
+   10. EXPORTED COMPONENT — DRAGGABLE, AUTO-ROTATING, FULLY VISIBLE
    ================================================================ */
 export const InteractiveGlobe3D: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hoveredAlert, setHoveredAlert] = useState<AlertPoint | null>(null);
   const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+
+  // Drag interaction state
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragDelta, setDragDelta] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const lastPointerRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    setIsDragging(true);
+    lastPointerRef.current = { x: e.clientX, y: e.clientY };
+    setDragDelta({ x: 0, y: 0 });
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+  }, []);
+
+  const handlePointerMove = useCallback(
+    (e: React.PointerEvent) => {
+      if (!isDragging) return;
+      const dx = e.clientX - lastPointerRef.current.x;
+      const dy = e.clientY - lastPointerRef.current.y;
+      lastPointerRef.current = { x: e.clientX, y: e.clientY };
+      setDragDelta({ x: dx, y: dy });
+    },
+    [isDragging]
+  );
+
+  const handlePointerUp = useCallback((e: React.PointerEvent) => {
+    setIsDragging(false);
+    setDragDelta({ x: 0, y: 0 });
+    (e.target as HTMLElement).releasePointerCapture?.(e.pointerId);
+  }, []);
 
   const handleAlertHover = useCallback((alert: AlertPoint, screenPos: { x: number; y: number }) => {
     setHoveredAlert(alert);
@@ -529,10 +555,19 @@ export const InteractiveGlobe3D: React.FC = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full h-full min-h-[460px] flex items-center justify-center pointer-events-auto">
+    <div
+      ref={containerRef}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+      className={`relative w-full h-full min-h-[460px] flex items-center justify-center pointer-events-auto touch-none select-none ${
+        isDragging ? 'cursor-grabbing' : 'cursor-grab'
+      }`}
+    >
       <Suspense fallback={<LoadingFallback />}>
         <Canvas
-          camera={{ position: [0, 0, 4.0], fov: 45 }}
+          camera={{ position: [0, 0, 4.4], fov: 45 }}
           dpr={[1, 1.5]}
           gl={{
             antialias: true,
@@ -544,6 +579,8 @@ export const InteractiveGlobe3D: React.FC = () => {
           <GlobeScene
             onAlertHover={handleAlertHover}
             onAlertLeave={handleAlertLeave}
+            isDragging={isDragging}
+            dragDelta={dragDelta}
           />
         </Canvas>
       </Suspense>

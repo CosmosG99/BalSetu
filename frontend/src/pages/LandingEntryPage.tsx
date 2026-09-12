@@ -143,16 +143,16 @@ export const LandingEntryPage: React.FC = () => {
 
         </div>
 
-        {/* Right Column: Interactive 3D Globe + Character Hero + Floating Alert Cards */}
+        {/* Right Column: Interactive 3D Globe + Floating Alert Cards */}
         <div
-          className="lg:col-span-6 relative flex items-center justify-center"
+          className="lg:col-span-6 relative flex items-center justify-center overflow-visible"
           style={{
-            transform: `translate3d(${mousePos.x * 0.5}px, ${mousePos.y * 0.5}px, 0px)`,
+            transform: `translate3d(${mousePos.x * 0.3}px, ${mousePos.y * 0.3}px, 0px)`,
             transition: 'transform 0.2s ease-out'
           }}
         >
           {/* 1. Interactive 3D Canvas Globe Background */}
-          <div className="w-full max-w-[540px] aspect-square relative flex items-center justify-center">
+          <div className="w-full max-w-[560px] aspect-square relative flex items-center justify-center overflow-visible">
             
             <InteractiveGlobe3D />
 
