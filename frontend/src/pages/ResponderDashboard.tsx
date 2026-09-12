@@ -6,16 +6,18 @@ import { MetricCard } from '../components/admin/MetricCard';
 import { RiskBadge } from '../components/common/RiskBadge';
 import { StatusBadge } from '../components/common/StatusBadge';
 import { MapView } from '../components/map/MapView';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import {
   AlertTriangle,
   FileText,
   CheckCircle2,
   Layers,
   ArrowRight,
+  Shield,
   Activity,
-  UserCheck
+  MapPin,
+  Clock
 } from 'lucide-react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export const ResponderDashboard: React.FC = () => {
   const { t } = useLanguage();
@@ -44,26 +46,80 @@ export const ResponderDashboard: React.FC = () => {
     filteredCases = cases.filter((c) => c.assignedResponder);
   }
 
+  const highestPriorityCase = cases.find((c) => c.aiAnalysis.riskLevel === 'HIGH' || c.aiAnalysis.riskLevel === 'CRITICAL') || cases[0];
+
   return (
     <div className="space-y-8 animate-fade-in">
       
-      {/* Greeting Header matching Blueprint */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="space-y-1">
-          <div className="flex items-center space-x-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-forest-600 dark:bg-sage-400 animate-ping" />
-            <span className="text-[11px] font-mono font-bold text-forest-900 dark:text-sage-300 uppercase">Response Command Active</span>
+      {/* Eye-Catching Wealth DNA-Inspired Hero/Overview Command Panel */}
+      <div className="natural-panel p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-teal-700 via-teal-800 to-charcoal-900 text-white shadow-modal relative overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+          
+          <div className="lg:col-span-7 space-y-4">
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold text-mint-200">
+              <span className="w-2 h-2 rounded-full bg-mint-200 animate-pulse" />
+              <span>LIVE INCIDENT STREAM • 24/7 STATION PROTECTION</span>
+            </div>
+
+            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+              Coordinated Child Protection & Triage Command
+            </h1>
+
+            <p className="text-xs sm:text-sm text-teal-100/90 leading-relaxed max-w-xl">
+              Real-time bystander observations are processed through advisory AI triage and routed directly to platform responders and welfare desks.
+            </p>
+
+            <div className="flex flex-wrap gap-3 pt-2">
+              <Link
+                to="/report"
+                className="px-5 py-2.5 rounded-xl bg-white text-teal-900 font-extrabold text-xs shadow-card hover:bg-ivory-100 transition-all flex items-center space-x-1.5"
+              >
+                <span>Report New Concern</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+
+              <Link
+                to="/responder/map"
+                className="px-5 py-2.5 rounded-xl bg-teal-800/80 hover:bg-teal-800 text-white font-bold text-xs border border-teal-500/40 shadow-sm transition-all flex items-center space-x-1.5"
+              >
+                <span>Open Transit Map</span>
+              </Link>
+            </div>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-charcoal-800 dark:text-ivory-100">
-            Good evening, Response Team.
-          </h1>
-          <p className="text-xs text-charcoal-500">
-            Here's what needs attention today.
-          </p>
+
+          {/* Right Highlight Box: Live Active Case Snapshot */}
+          {highestPriorityCase && (
+            <div className="lg:col-span-5 bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl space-y-3 shadow-card">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-mono font-bold text-mint-200 uppercase tracking-wider">HIGHEST PRIORITY ALERT</span>
+                <RiskBadge level={highestPriorityCase.aiAnalysis.riskLevel} score={highestPriorityCase.aiAnalysis.riskScore} size="sm" />
+              </div>
+
+              <div>
+                <div className="font-mono text-sm font-extrabold text-white">{highestPriorityCase.id}</div>
+                <div className="text-xs font-bold text-white line-clamp-1">{highestPriorityCase.report.incidentTypes.join(', ')}</div>
+                <div className="text-[11px] text-teal-100 flex items-center space-x-1 mt-1">
+                  <MapPin className="w-3 h-3 text-mint-200 flex-shrink-0" />
+                  <span className="truncate">{highestPriorityCase.report.location}</span>
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-white/10 flex items-center justify-between">
+                <StatusBadge status={highestPriorityCase.status} size="sm" />
+                <button
+                  onClick={() => navigate(`/responder/cases/${highestPriorityCase.id}`)}
+                  className="px-3 py-1 rounded-lg bg-white text-teal-900 font-bold text-[11px] hover:bg-ivory-100 transition-colors"
+                >
+                  Inspect Case →
+                </button>
+              </div>
+            </div>
+          )}
+
         </div>
       </div>
 
-      {/* Top 4 KPI Metrics Row matching Blueprint */}
+      {/* Top 4 KPI Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
           title="ACTIVE CASES"
@@ -96,37 +152,45 @@ export const ResponderDashboard: React.FC = () => {
         />
       </div>
 
-      {/* Priority Queue Operational Table matching Blueprint */}
+      {/* Priority Queue Operational Table */}
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <h2 className="text-xl font-extrabold text-charcoal-800 dark:text-ivory-100">Priority Queue</h2>
-            <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-terracotta-600/15 text-terracotta-700 dark:text-terracotta-500 border border-terracotta-600/30">
-              {filteredCases.length} Cases
-            </span>
+        <div className="flex items-center justify-between border-b border-charcoal-200 dark:border-charcoal-800 pb-3">
+          <div>
+            <h2 className="text-lg font-extrabold text-charcoal-800 dark:text-charcoal-100 flex items-center space-x-2">
+              <span>Priority Incident Triage Queue</span>
+              <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-teal-700/10 text-teal-700 dark:text-teal-400 font-bold">
+                {filteredCases.length} Cases
+              </span>
+            </h2>
+            <p className="text-xs text-charcoal-600 dark:text-charcoal-400">
+              Live operational list ordered by AI-assisted urgency score.
+            </p>
           </div>
 
-          <div className="flex items-center space-x-1 bg-ivory-100 dark:bg-charcoal-900 p-1 rounded-xl border border-charcoal-200 dark:border-charcoal-800 text-xs">
+          <div className="flex items-center space-x-2">
             <button
               onClick={() => setViewMode('table')}
-              className={`px-3 py-1 rounded-lg font-bold transition-colors ${
-                viewMode === 'table' ? 'bg-forest-900 text-white shadow-sm' : 'text-charcoal-600 dark:text-charcoal-400 hover:text-charcoal-900 dark:hover:text-white'
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                viewMode === 'table'
+                  ? 'bg-teal-700 text-white shadow-sm'
+                  : 'bg-white dark:bg-charcoal-900 text-charcoal-600 border border-charcoal-200 dark:border-charcoal-800'
               }`}
             >
-              Compact Table
+              Table View
             </button>
             <button
               onClick={() => setViewMode('cards')}
-              className={`px-3 py-1 rounded-lg font-bold transition-colors ${
-                viewMode === 'cards' ? 'bg-forest-900 text-white shadow-sm' : 'text-charcoal-600 dark:text-charcoal-400 hover:text-charcoal-900 dark:hover:text-white'
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                viewMode === 'cards'
+                  ? 'bg-teal-700 text-white shadow-sm'
+                  : 'bg-white dark:bg-charcoal-900 text-charcoal-600 border border-charcoal-200 dark:border-charcoal-800'
               }`}
             >
-              Rich Cards
+              Card View
             </button>
           </div>
         </div>
 
-        {/* Priority Table View */}
         {viewMode === 'table' ? (
           <CaseTable cases={filteredCases} />
         ) : (
@@ -135,68 +199,33 @@ export const ResponderDashboard: React.FC = () => {
               <div
                 key={c.id}
                 onClick={() => navigate(`/responder/cases/${c.id}`)}
-                className="natural-panel natural-card-hover p-5 space-y-3 cursor-pointer flex flex-col justify-between"
+                className="natural-panel natural-card-hover p-5 rounded-2xl space-y-4 cursor-pointer shadow-sm flex flex-col justify-between"
               >
-                <div className="space-y-2.5">
+                <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono font-extrabold text-sm text-forest-900 dark:text-sage-300">{c.id}</span>
+                    <span className="font-mono text-xs font-extrabold text-teal-700 dark:text-teal-400">{c.id}</span>
                     <RiskBadge level={c.aiAnalysis.riskLevel} score={c.aiAnalysis.riskScore} size="sm" />
                   </div>
 
-                  <div className="flex items-center justify-between text-xs">
-                    <StatusBadge status={c.status} size="sm" />
-                    <span className="text-charcoal-500 font-mono text-[11px]">{c.report.approxTime || 'Recent'}</span>
+                  <div>
+                    <h3 className="text-sm font-bold text-charcoal-800 dark:text-charcoal-100">{c.report.incidentTypes.join(', ')}</h3>
+                    <p className="text-xs text-charcoal-600 dark:text-charcoal-400 line-clamp-2 mt-1">{c.report.description}</p>
                   </div>
 
-                  <div>
-                    <h4 className="text-sm font-bold text-charcoal-800 dark:text-ivory-100 line-clamp-1">{c.report.location}</h4>
-                    <p className="text-xs text-charcoal-600 dark:text-charcoal-400 line-clamp-2 mt-1">{c.report.description}</p>
+                  <div className="flex items-center space-x-1 text-xs text-charcoal-600 dark:text-charcoal-400">
+                    <MapPin className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400 flex-shrink-0" />
+                    <span className="truncate">{c.report.location}</span>
                   </div>
                 </div>
 
                 <div className="pt-3 border-t border-charcoal-200/80 dark:border-charcoal-800 flex items-center justify-between text-xs">
-                  <span className="text-charcoal-500 font-mono text-[11px] truncate">
-                    Assigned: <strong className="text-charcoal-800 dark:text-ivory-100">{c.assignedResponder || 'Unassigned'}</strong>
-                  </span>
-                  <button className="px-3 py-1.5 rounded-lg bg-forest-900/10 dark:bg-forest-800/30 text-forest-900 dark:text-sage-300 font-bold border border-forest-900/20 transition-colors flex items-center space-x-1">
-                    <span>Open Case</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                  <StatusBadge status={c.status} size="sm" />
+                  <span className="font-bold text-teal-700 dark:text-teal-400">Inspect →</span>
                 </div>
               </div>
             ))}
           </div>
         )}
-      </div>
-
-      {/* Map Preview & Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-2">
-        <div className="lg:col-span-2 space-y-3">
-          <h3 className="text-xs font-bold text-charcoal-800 dark:text-ivory-100 uppercase tracking-wider">Live Transit Map Preview</h3>
-          <MapView cases={cases.slice(0, 8)} interactive={false} />
-        </div>
-
-        <div className="natural-panel p-5 space-y-4">
-          <div className="flex items-center justify-between border-b border-charcoal-200/80 dark:border-charcoal-800 pb-2">
-            <h3 className="text-xs font-bold text-charcoal-800 dark:text-ivory-100 uppercase tracking-wider flex items-center space-x-1.5">
-              <Activity className="w-4 h-4 text-forest-900 dark:text-sage-300" />
-              <span>Recent Dispatch Stream</span>
-            </h3>
-            <span className="text-[10px] text-charcoal-500 font-mono">Live</span>
-          </div>
-
-          <div className="space-y-3 max-h-96 overflow-y-auto pr-1 text-xs">
-            {cases.slice(0, 6).flatMap((c) => c.auditLogs).slice(0, 8).map((log) => (
-              <div key={log.id} className="p-3 rounded-xl bg-ivory-50 dark:bg-charcoal-950 border border-charcoal-200/80 dark:border-charcoal-800 space-y-1 shadow-sm">
-                <div className="flex items-center justify-between font-mono text-[10px]">
-                  <span className="font-bold text-forest-900 dark:text-sage-300">{log.action}</span>
-                  <span className="text-charcoal-500">{log.timestamp}</span>
-                </div>
-                <p className="text-charcoal-700 dark:text-charcoal-300 text-[11px]">{log.details}</p>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
 
     </div>

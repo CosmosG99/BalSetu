@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCases } from '../../context/CaseContext';
 import { useLanguage } from '../../context/LanguageContext';
@@ -39,6 +39,18 @@ export const ResponderLayout: React.FC<ResponderLayoutProps> = ({ children }) =>
 
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const activeCount = cases.filter((c) => c.status !== 'RESOLVED').length;
   const priorityCount = cases.filter(
@@ -186,16 +198,22 @@ export const ResponderLayout: React.FC<ResponderLayoutProps> = ({ children }) =>
               <Menu className="w-5 h-5" />
             </button>
 
-            {/* Search Input */}
-            <form onSubmit={handleSearchSubmit} className="relative w-64 sm:w-80">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-charcoal-500" />
+            {/* Search Input with Ctrl+K shortcut badge */}
+            <form onSubmit={handleSearchSubmit} className="relative w-64 sm:w-80 flex items-center">
+              <Search className="w-4 h-4 absolute left-3 text-charcoal-500" />
               <input
+                ref={searchInputRef}
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search cases, locations..."
-                className="w-full pl-9 pr-4 py-2 bg-ivory-100/80 dark:bg-charcoal-950 border border-charcoal-200 dark:border-charcoal-800 rounded-xl text-xs text-charcoal-800 dark:text-charcoal-100 placeholder-charcoal-500 focus:outline-none focus:border-teal-700 dark:focus:border-teal-500 transition-colors"
+                className="w-full pl-9 pr-14 py-2 bg-ivory-100/80 dark:bg-charcoal-950 border border-charcoal-200 dark:border-charcoal-800 rounded-xl text-xs text-charcoal-800 dark:text-charcoal-100 placeholder-charcoal-500 focus:outline-none focus:border-teal-700 dark:focus:border-teal-500 transition-colors"
               />
+              <div className="absolute right-2.5 pointer-events-none">
+                <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono font-bold text-charcoal-500 bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 rounded shadow-xs">
+                  ⌘K
+                </kbd>
+              </div>
             </form>
           </div>
 

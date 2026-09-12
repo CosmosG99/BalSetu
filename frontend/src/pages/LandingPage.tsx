@@ -16,7 +16,12 @@ import {
   ChevronUp,
   Zap,
   HelpCircle,
-  FileText
+  FileText,
+  MapPin,
+  Layers,
+  Activity,
+  AlertTriangle,
+  UserCheck
 } from 'lucide-react';
 import { RiskBadge } from '../components/common/RiskBadge';
 import { StatusBadge } from '../components/common/StatusBadge';
@@ -24,45 +29,53 @@ import { StatusBadge } from '../components/common/StatusBadge';
 export const LandingPage: React.FC = () => {
   const { t } = useLanguage();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [activePreviewTab, setActivePreviewTab] = useState<'queue' | 'ai' | 'map'>('queue');
 
   const toggleFaq = (idx: number) => {
     setOpenFaq(openFaq === idx ? null : idx);
   };
 
-  const workflowSteps = [
+  const narrativeSteps = [
     {
       num: '01',
-      titleKey: 'stepNoticeTitle',
-      subKey: 'stepNoticeSub',
-      descKey: 'stepNoticeDesc',
+      title: 'NOTICE',
+      sub: 'Bystander Observation',
+      desc: 'A citizen, railway staff member, or vendor spots a child travelling alone or showing signs of distress at a station.',
       icon: Eye,
-      mockDesc: 'Platform 4 • Child alone near ticket counter'
+      tag: 'Step 1'
     },
     {
       num: '02',
-      titleKey: 'stepReportTitle',
-      subKey: 'stepReportSub',
-      descKey: 'stepReportDesc',
+      title: 'REPORT',
+      subtitle: '30-Second Mobile Submission',
+      desc: 'Quick report submitted without creating an account. Optional face-blur photo protection is automatically applied.',
       icon: Send,
-      mockDesc: 'Case ID: RKS-2026-00421 • Anonymous = ON'
+      tag: 'Step 2'
     },
     {
       num: '03',
-      titleKey: 'stepRespondTitle',
-      subKey: 'stepRespondSub',
-      descKey: 'stepRespondDesc',
+      title: 'ASSESS',
+      subtitle: 'Advisory AI Triage',
+      desc: 'Rakshak AI assesses trauma risk indicators (0–100 score) and provides human-readable explanations.',
+      icon: Cpu,
+      tag: 'Step 3'
+    },
+    {
+      num: '04',
+      title: 'ROUTE',
+      subtitle: 'Smart Dispatch Matrix',
+      desc: 'Notifications dispatch simultaneously to platform RPF protection cells, welfare desks, and verified NGO partners.',
+      icon: Network,
+      tag: 'Step 4'
+    },
+    {
+      num: '05',
+      title: 'RESPOND',
+      subtitle: 'Ground Welfare Verification',
+      desc: 'On-duty responders conduct physical verification, update the live audit log, and facilitate safe reunion.',
       icon: ShieldCheck,
-      mockDesc: 'Officer R. Sharma assigned • Welfare check active'
+      tag: 'Step 5'
     }
-  ];
-
-  const productCapabilities = [
-    { titleKey: 'cap30sTitle', descKey: 'cap30sDesc', icon: Zap, color: 'text-teal-700 dark:text-teal-300' },
-    { titleKey: 'capAiTitle', descKey: 'capAiDesc', icon: Cpu, color: 'text-coral-600 dark:text-coral-400' },
-    { titleKey: 'capIdTitle', descKey: 'capIdDesc', icon: FileText, color: 'text-teal-800 dark:text-teal-400' },
-    { titleKey: 'capRoutingTitle', descKey: 'capRoutingDesc', icon: Network, color: 'text-amberGold-600' },
-    { titleKey: 'capTrackingTitle', descKey: 'capTrackingDesc', icon: Lock, color: 'text-teal-700 dark:text-teal-300' },
-    { titleKey: 'capResponseTitle', descKey: 'capResponseDesc', icon: ShieldCheck, color: 'text-mint-600' }
   ];
 
   const faqs = [
@@ -93,16 +106,16 @@ export const LandingPage: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-20 pb-20 overflow-x-hidden">
+    <div className="space-y-24 pb-20 overflow-x-hidden">
       
-      {/* Privacy Guarantee Top Strip */}
+      {/* Privacy Guarantee Top Banner */}
       <div className="bg-teal-700/10 dark:bg-teal-500/20 border-b border-teal-700/20 dark:border-teal-500/30 text-teal-800 dark:text-teal-300 text-xs py-2.5 px-4 text-center flex items-center justify-center space-x-2 font-semibold">
         <Lock className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400" />
         <span>{t('heroAnonBadge')} • {t('heroPrivacyBadge')} • {t('heroHumanBadge')}</span>
       </div>
 
       {/* ============================================================ */}
-      {/* 1. ASYMMETRIC HERO SECTION (MATCHING BLUEPRINT)              */}
+      {/* 1. WEALTH DNA-INSPIRED HERO SECTION                          */}
       {/* ============================================================ */}
       <section className="relative pt-4 pb-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
@@ -142,7 +155,7 @@ export const LandingPage: React.FC = () => {
               </Link>
             </div>
 
-            {/* Trust Indicators at Bottom of Left Column */}
+            {/* Trust Indicators */}
             <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-semibold text-charcoal-800 dark:text-charcoal-200">
               <div className="p-2.5 rounded-xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 flex items-center space-x-1.5 shadow-sm">
                 <CheckCircle2 className="w-4 h-4 text-teal-700 dark:text-teal-400 flex-shrink-0" />
@@ -164,7 +177,7 @@ export const LandingPage: React.FC = () => {
 
           </div>
 
-          {/* Hero Right Column: Dedicated Child Safety Hero Image */}
+          {/* Hero Right Column: Prominent Child Safety Photo Visual */}
           <div className="lg:col-span-6 relative">
             <div className="relative rounded-3xl overflow-hidden border border-charcoal-200 dark:border-charcoal-800 shadow-modal bg-charcoal-900">
               
@@ -174,9 +187,9 @@ export const LandingPage: React.FC = () => {
                 className="w-full h-[440px] object-cover"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/80 via-charcoal-950/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/85 via-charcoal-950/20 to-transparent" />
 
-              {/* Integrated Subtle Case Example Badge */}
+              {/* Embedded Floating Case Status Pill */}
               <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-white/95 dark:bg-charcoal-900/95 backdrop-blur-md border border-charcoal-200 dark:border-charcoal-800 shadow-card flex items-center justify-between">
                 <div className="space-y-0.5">
                   <div className="flex items-center space-x-2">
@@ -199,46 +212,49 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* ============================================================ */}
-      {/* 2. 3-STEP WORKFLOW SECTION                                   */}
+      {/* 2. PRODUCT STORYTELLING NARRATIVE (01 to 05)                */}
       {/* ============================================================ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-10 space-y-2">
+        <div className="text-center max-w-3xl mx-auto mb-12 space-y-2">
           <span className="text-xs font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400">
-            {t('processSub')}
+            Coordinated Protection Lifecycle
           </span>
           <h2 className="text-3xl font-extrabold text-charcoal-800 dark:text-charcoal-100 tracking-tight">
-            {t('processTitle')}
+            From Observation to Safe Reunion
           </h2>
+          <p className="text-xs sm:text-sm text-charcoal-600 dark:text-charcoal-400">
+            How Rakshak coordinates bystanders, AI triage, and ground responders seamlessly.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {workflowSteps.map((step) => {
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          {narrativeSteps.map((step) => {
             const Icon = step.icon;
             return (
               <div
                 key={step.num}
-                className="natural-panel natural-card-hover p-6 rounded-3xl space-y-4 shadow-card flex flex-col justify-between"
+                className="natural-panel natural-card-hover p-5 rounded-2xl space-y-3 shadow-card flex flex-col justify-between"
               >
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-2xl bg-teal-700/10 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300 flex items-center justify-center font-bold">
-                      <Icon className="w-6 h-6" />
+                    <span className="font-mono text-3xl font-extrabold text-teal-700 dark:text-teal-400">{step.num}</span>
+                    <div className="p-2 rounded-xl bg-teal-700/10 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300">
+                      <Icon className="w-4 h-4" />
                     </div>
-                    <span className="font-mono text-2xl font-extrabold text-teal-700 dark:text-teal-400">{step.num}</span>
                   </div>
 
                   <div>
-                    <h3 className="text-lg font-bold text-charcoal-800 dark:text-charcoal-100">{t(step.titleKey)}</h3>
-                    <p className="text-xs font-semibold text-teal-700 dark:text-teal-400">{t(step.subKey)}</p>
+                    <h3 className="text-sm font-bold text-charcoal-800 dark:text-charcoal-100 tracking-tight">{step.title}</h3>
+                    <div className="text-[11px] font-semibold text-teal-700 dark:text-teal-400">{step.subtitle}</div>
                   </div>
 
-                  <p className="text-xs text-charcoal-600 dark:text-charcoal-400 leading-relaxed">
-                    {t(step.descKey)}
+                  <p className="text-[11px] text-charcoal-600 dark:text-charcoal-400 leading-relaxed">
+                    {step.desc}
                   </p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-ivory-200/60 dark:bg-charcoal-850 border border-charcoal-200 dark:border-charcoal-800 text-[11px] font-mono text-charcoal-700 dark:text-charcoal-300">
-                  {step.mockDesc}
+                <div className="pt-2 border-t border-charcoal-200/60 dark:border-charcoal-800 text-[10px] font-mono text-charcoal-500 uppercase tracking-wider">
+                  {step.tag}
                 </div>
               </div>
             );
@@ -247,31 +263,111 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* ============================================================ */}
-      {/* 3. CAPABILITIES GRID                                         */}
+      {/* 3. INSIDE RAKSHAK — SOFTWARE PREVIEW (WEALTH DNA STYLE)     */}
       {/* ============================================================ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="natural-panel p-8 sm:p-12 rounded-3xl space-y-8 shadow-modal">
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-charcoal-800 dark:text-charcoal-100">
-              Built Specifically for Transit Safety
-            </h2>
-            <p className="text-xs sm:text-sm text-charcoal-600 dark:text-charcoal-400">
-              Engineered to operate seamlessly during high-pressure, time-sensitive observations at railway stations and bus terminals.
-            </p>
+        <div className="natural-panel p-6 sm:p-10 rounded-3xl space-y-6 shadow-modal border border-charcoal-200 dark:border-charcoal-800">
+          
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-charcoal-200/80 dark:border-charcoal-800 pb-4">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400 block">
+                SOFTWARE PREVIEW
+              </span>
+              <h2 className="text-2xl font-extrabold text-charcoal-800 dark:text-charcoal-100">
+                Inside the Responder Command Center
+              </h2>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setActivePreviewTab('queue')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                  activePreviewTab === 'queue'
+                    ? 'bg-teal-700 text-white shadow-sm'
+                    : 'bg-ivory-100 dark:bg-charcoal-850 text-charcoal-600 dark:text-charcoal-300'
+                }`}
+              >
+                Queue Overview
+              </button>
+              <button
+                onClick={() => setActivePreviewTab('ai')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                  activePreviewTab === 'ai'
+                    ? 'bg-teal-700 text-white shadow-sm'
+                    : 'bg-ivory-100 dark:bg-charcoal-850 text-charcoal-600 dark:text-charcoal-300'
+                }`}
+              >
+                AI Triage Matrix
+              </button>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {productCapabilities.map((cap, i) => {
-              const Icon = cap.icon;
-              return (
-                <div key={i} className="p-5 rounded-2xl bg-ivory-100/70 dark:bg-charcoal-850 border border-charcoal-200/70 dark:border-charcoal-800 space-y-2 shadow-sm">
-                  <Icon className={`w-6 h-6 ${cap.color}`} />
-                  <h4 className="text-sm font-bold text-charcoal-800 dark:text-charcoal-100">{t(cap.titleKey)}</h4>
-                  <p className="text-xs text-charcoal-600 dark:text-charcoal-400 leading-relaxed">{t(cap.descKey)}</p>
+          {/* Simulated App Shell Preview */}
+          <div className="rounded-2xl border border-charcoal-200 dark:border-charcoal-800 bg-ivory-100 dark:bg-charcoal-950 p-4 sm:p-6 space-y-4 shadow-subtle">
+            <div className="flex items-center justify-between border-b border-charcoal-200 dark:border-charcoal-800 pb-3">
+              <div className="flex items-center space-x-2">
+                <span className="w-3 h-3 rounded-full bg-coral-500" />
+                <span className="w-3 h-3 rounded-full bg-amberGold-500" />
+                <span className="w-3 h-3 rounded-full bg-mint-500" />
+                <span className="text-xs font-mono font-bold text-charcoal-600 dark:text-charcoal-400 ml-2">rakshak-responder-portal.app</span>
+              </div>
+              <span className="text-[10px] font-mono font-bold text-teal-700 dark:text-teal-400 bg-teal-700/10 px-2 py-0.5 rounded">
+                SIMULATED PREVIEW
+              </span>
+            </div>
+
+            {activePreviewTab === 'queue' ? (
+              <div className="space-y-3">
+                <div className="grid grid-cols-3 gap-3 text-center">
+                  <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800">
+                    <div className="text-xl font-extrabold font-mono text-charcoal-800 dark:text-charcoal-100">24</div>
+                    <div className="text-[10px] font-bold text-charcoal-500 uppercase">Active Cases</div>
+                  </div>
+                  <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800">
+                    <div className="text-xl font-extrabold font-mono text-coral-600">7</div>
+                    <div className="text-[10px] font-bold text-charcoal-500 uppercase">High Priority</div>
+                  </div>
+                  <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800">
+                    <div className="text-xl font-extrabold font-mono text-teal-700 dark:text-teal-400">83</div>
+                    <div className="text-[10px] font-bold text-charcoal-500 uppercase">Resolved</div>
+                  </div>
                 </div>
-              );
-            })}
+
+                <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 flex items-center justify-between text-xs">
+                  <div className="flex items-center space-x-3">
+                    <RiskBadge level="HIGH" score={78} size="sm" />
+                    <span className="font-mono font-bold text-teal-700 dark:text-teal-400">RKS-2026-00421</span>
+                    <span className="font-bold text-charcoal-800 dark:text-charcoal-100">Child lost near platform 4</span>
+                  </div>
+                  <StatusBadge status="ROUTED" size="sm" />
+                </div>
+              </div>
+            ) : (
+              <div className="p-4 rounded-xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 space-y-2 text-xs">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-charcoal-800 dark:text-charcoal-100">AI Risk Indicator Assessment</span>
+                  <span className="font-mono font-bold text-teal-700 dark:text-teal-400">Score: 78/100</span>
+                </div>
+                <p className="text-charcoal-600 dark:text-charcoal-400">
+                  Indicators detected: Unaccompanied minor in high-density transit node during late evening hours without adult supervision.
+                </p>
+                <div className="text-[11px] font-mono text-charcoal-500 pt-1">
+                  Note: AI provides advisory recommendations only. Human verification required before taking official ground action.
+                </div>
+              </div>
+            )}
           </div>
+
+          <div className="text-center pt-2">
+            <Link
+              to="/responder"
+              className="inline-flex items-center space-x-2 px-6 py-3 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs shadow-card transition-all"
+            >
+              <span>EXPLORE FULL RESPONDER PORTAL</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
         </div>
       </section>
 
