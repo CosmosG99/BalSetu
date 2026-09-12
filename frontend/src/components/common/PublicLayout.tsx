@@ -16,7 +16,8 @@ import {
   X,
   Lock,
   ExternalLink,
-  Sparkles
+  Sparkles,
+  PanelLeftOpen
 } from 'lucide-react';
 import { Language } from '../../types';
 import { OfflineBanner } from './OfflineBanner';
@@ -31,13 +32,15 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
   const { toggleTheme, isDark } = useTheme();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const currentPath = location.pathname;
+  const isLandingPage = currentPath === '/app' || currentPath === '/app/';
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(isLandingPage);
 
-  // Close mobile drawer on route change
+  // Close mobile drawer on route change, and auto-collapse the sidebar on the landing page
   useEffect(() => {
     setMobileMenuOpen(false);
-  }, [location.pathname]);
-
-  const currentPath = location.pathname;
+    setSidebarCollapsed(isLandingPage);
+  }, [location.pathname, isLandingPage]);
 
   const navItems = [
     { label: t('navHome'), path: '/app', icon: Home, exact: true },
@@ -72,24 +75,14 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
       {/* ================================================== */}
       <aside
         className={`fixed top-0 bottom-0 left-0 z-50 w-64 bg-white dark:bg-charcoal-900 border-r border-charcoal-200/80 dark:border-charcoal-800 flex flex-col justify-between transition-transform duration-300 shadow-subtle ${
-          mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+          mobileMenuOpen || !sidebarCollapsed ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* -------------------------------------------------- */}
         {/* 1. SIDEBAR BRANDING LOGO                           */}
         {/* -------------------------------------------------- */}
         <div className="p-5 border-b border-charcoal-200/80 dark:border-charcoal-800 flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-3 group" title="Return to Landing Experience">
-            <img src="/rakshak-mark.svg" alt="Rakshak logo" className="w-9 h-9 object-contain group-hover:scale-105 transition-transform" />
-            <div>
-              <div className="text-lg font-extrabold tracking-tight text-charcoal-800 dark:text-charcoal-100 leading-none mb-1">
-                {t('appName')}
-              </div>
-              <div className="text-[10px] font-medium text-teal-700 dark:text-teal-400 tracking-wide uppercase">
-                Protect. Connect. Respond.
-              </div>
-            </div>
-          </Link>
+          <div className="flex-1" />
 
           {/* Close button for mobile menu */}
           <button
@@ -169,16 +162,11 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
       {/* ================================================== */}
       {/* MAIN RIGHT CONTENT AREA (Offset by Sidebar Width)  */}
       {/* ================================================== */}
-      <div className="flex-1 lg:pl-64 flex flex-col min-w-0">
+      <div className={`flex-1 ${sidebarCollapsed ? '' : 'lg:pl-64'} flex flex-col min-w-0`}>
         
         {/* Mobile Header Bar (Visible on mobile viewports < lg) */}
         <header className="lg:hidden sticky top-0 z-30 bg-white/95 dark:bg-charcoal-900/95 backdrop-blur-md border-b border-charcoal-200/80 dark:border-charcoal-800 px-4 py-3 flex items-center justify-between shadow-xs">
-          <Link to="/" className="flex items-center space-x-2.5">
-            <img src="/rakshak-mark.svg" alt="Rakshak logo" className="w-8 h-8 object-contain" />
-            <span className="text-lg font-extrabold tracking-tight text-charcoal-800 dark:text-charcoal-100">
-              {t('appName')}
-            </span>
-          </Link>
+          <div className="flex-1" />
 
           <div className="flex items-center space-x-2">
             {/* Language Selector Dropdown */}
@@ -223,20 +211,7 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
 
         {/* Desktop Top Utility Header Bar (Language & Theme in Top-Right) */}
         <header className="hidden lg:flex sticky top-0 z-30 bg-white/80 dark:bg-charcoal-900/80 backdrop-blur-md border-b border-charcoal-200/80 dark:border-charcoal-800 px-8 py-3 items-center justify-between shadow-xs transition-colors duration-300">
-          {/* Left Context Info (Report flow encrypted indicator if on /report) */}
-          <div className="flex items-center space-x-3 text-xs">
-            {isReportFlow ? (
-              <div className="flex items-center space-x-2 text-charcoal-600 dark:text-charcoal-400 font-medium">
-                <Lock className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400" />
-                <span>{t('encryptedNotice')}</span>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-2 text-charcoal-600 dark:text-charcoal-400 font-semibold">
-                <span className="w-2 h-2 rounded-full bg-teal-600 dark:bg-teal-400 animate-pulse" />
-                <span className="text-[11px] text-teal-700 dark:text-teal-400 font-extrabold">Operational Response Network</span>
-              </div>
-            )}
-          </div>
+          <div className="flex-1" />
 
           {/* Top-Right Utility Area (Language Selector + Theme Toggle) */}
           <div className="flex items-center space-x-3">
@@ -268,6 +243,17 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
         </header>
 
         <OfflineBanner />
+
+        {sidebarCollapsed && (
+          <button
+            onClick={() => setSidebarCollapsed(false)}
+            className="hidden lg:flex fixed left-4 top-1/2 -translate-y-1/2 z-40 items-center gap-2 rounded-full border border-charcoal-200/80 bg-white/95 px-3 py-2 text-[11px] font-bold text-charcoal-700 shadow-subtle transition-all hover:border-teal-700/40 hover:text-teal-700"
+            aria-label="Expand navigation sidebar"
+          >
+            <PanelLeftOpen className="w-4 h-4" />
+            <span>Expand</span>
+          </button>
+        )}
 
         {/* Main Content Body */}
         <main className="flex-1">

@@ -130,12 +130,6 @@ export const LandingPage: React.FC = () => {
   return (
     <div className="space-y-24 pb-20 overflow-x-hidden">
       
-      {/* Privacy Guarantee Top Banner */}
-      <div className="bg-teal-700/10 dark:bg-teal-500/20 border-b border-teal-700/20 dark:border-teal-500/30 text-teal-800 dark:text-teal-300 text-xs py-2.5 px-4 text-center flex items-center justify-center space-x-2 font-semibold">
-        <Lock className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400" />
-        <span>{t('heroAnonBadge')} • {t('heroPrivacyBadge')} • {t('heroHumanBadge')}</span>
-      </div>
-
       {/* ============================================================ */}
       {/* 1. HERO SECTION WITH RICH SEMANTIC ACCENTS                   */}
       {/* ============================================================ */}
@@ -172,26 +166,6 @@ export const LandingPage: React.FC = () => {
               </Link>
             </div>
 
-            {/* Trust Indicators with Distinct Semantic Accent Badges */}
-            <div className="pt-4 grid grid-cols-2 gap-2.5 text-xs font-semibold">
-              
-              {/* Protection -> Teal */}
-              <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-teal-700/30 flex items-center space-x-2 shadow-xs text-teal-800 dark:text-teal-300 animate-float-soft">
-                <div className="p-1 rounded-md bg-teal-700/10 text-teal-700 dark:text-teal-400">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                </div>
-                <span className="truncate text-[11px] font-bold">Protection</span>
-              </div>
-
-              {/* AI Triage -> Purple */}
-              <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-accentPurple/30 flex items-center space-x-2 shadow-xs text-accentPurple animate-float-soft delay-150">
-                <div className="p-1 rounded-md bg-accentPurple/10 text-accentPurple">
-                  <Cpu className="w-3.5 h-3.5" />
-                </div>
-                <span className="truncate text-[11px] font-bold">AI Triage</span>
-              </div>
-
-            </div>
 
           </div>
 

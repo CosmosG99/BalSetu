@@ -27,12 +27,27 @@ const RedirectTrackRoute: React.FC = () => {
   return <Navigate to={`/app${location.pathname}${location.search}`} replace />;
 };
 
+const ScrollToTop: React.FC = () => {
+  const location = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'auto'
+    });
+  }, [location.pathname]);
+
+  return null;
+};
+
 export const App: React.FC = () => {
   return (
     <ThemeProvider>
       <LanguageProvider>
         <CaseProvider>
             <Router>
+              <ScrollToTop />
               <Routes>
                 
                 {/* 1. FRONT DOOR ENTRY LANDING PAGE (No Left Sidebar) */}
