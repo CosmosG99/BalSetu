@@ -7,7 +7,7 @@ interface MetricCardProps {
   change?: string;
   isPositive?: boolean;
   icon: any;
-  accentColor?: 'purple' | 'amber' | 'critical' | 'emerald' | 'blue';
+  accentColor?: 'forest' | 'terracotta' | 'amber' | 'sage' | 'purple';
 }
 
 export const MetricCard: React.FC<MetricCardProps> = ({
@@ -16,37 +16,42 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   change,
   isPositive = true,
   icon: Icon,
-  accentColor = 'purple'
+  accentColor = 'forest'
 }) => {
   const accentStyles = {
-    purple: 'bg-brand-purple/15 text-brand-purple border-brand-purple/30',
-    amber: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30',
-    critical: 'bg-red-500/15 text-red-600 dark:text-red-400 border-red-500/30',
-    emerald: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
-    blue: 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border-blue-500/30'
+    forest: 'bg-forest-900/10 text-forest-900 dark:text-sage-300 border-forest-900/20',
+    terracotta: 'bg-terracotta-600/15 text-terracotta-700 dark:text-terracotta-500 border-terracotta-600/30',
+    amber: 'bg-amberGold-600/15 text-amberGold-700 dark:text-amberGold-500 border-amberGold-600/30',
+    sage: 'bg-sage-600/20 text-forest-950 dark:text-sage-200 border-sage-600/30',
+    purple: 'bg-forest-900/10 text-forest-900 dark:text-sage-300 border-forest-900/20'
   };
 
   return (
-    <div className="glass-panel p-5 rounded-2xl flex items-start justify-between">
-      <div className="space-y-2">
-        <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">{title}</span>
-        <div className="text-3xl font-extrabold text-slate-900 dark:text-white font-mono">{value}</div>
-        {change && (
-          <div className="flex items-center space-x-1 text-xs font-medium">
-            {isPositive ? (
-              <TrendingUp className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-            ) : (
-              <TrendingDown className="w-3.5 h-3.5 text-red-600 dark:text-red-400" />
-            )}
-            <span className={isPositive ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}>{change}</span>
-            <span className="text-slate-500 text-[11px]">vs previous cycle</span>
-          </div>
-        )}
+    <div className="natural-panel p-5 flex items-center justify-between shadow-subtle">
+      <div className="flex items-center space-x-3.5">
+        <div className={`p-3 rounded-xl border ${accentStyles[accentColor]}`}>
+          <Icon className="w-5 h-5" />
+        </div>
+        <div className="space-y-0.5">
+          <div className="text-2xl font-extrabold text-charcoal-800 dark:text-ivory-100 font-mono tracking-tight">{value}</div>
+          <span className="text-[11px] font-bold uppercase tracking-wider text-charcoal-500 block">{title}</span>
+        </div>
       </div>
 
-      <div className={`p-3 rounded-2xl border ${accentStyles[accentColor]} shadow-sm`}>
-        <Icon className="w-6 h-6" />
-      </div>
+      {change && (
+        <div className={`flex items-center space-x-1 text-[11px] font-mono font-bold px-2 py-1 rounded-lg ${
+          isPositive
+            ? 'bg-forest-900/10 text-forest-900 dark:bg-forest-800/30 dark:text-sage-300'
+            : 'bg-terracotta-600/10 text-terracotta-700 dark:text-terracotta-500'
+        }`}>
+          {isPositive ? (
+            <TrendingUp className="w-3 h-3" />
+          ) : (
+            <TrendingDown className="w-3 h-3" />
+          )}
+          <span>{change}</span>
+        </div>
+      )}
     </div>
   );
 };

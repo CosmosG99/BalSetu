@@ -13,51 +13,51 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'md' })
 
   const configs: Record<CaseStatus, { bg: string; text: string; border: string; icon: any; labelKey: string }> = {
     NEW: {
-      bg: 'bg-purple-500/15 dark:bg-purple-500/20',
-      text: 'text-purple-700 dark:text-purple-300',
-      border: 'border-purple-500/30',
+      bg: 'bg-forest-900/10 dark:bg-forest-800/20',
+      text: 'text-forest-900 dark:text-sage-300',
+      border: 'border-forest-900/30',
       icon: FileText,
       labelKey: 'statusNew'
     },
     TRIAGED: {
-      bg: 'bg-indigo-500/15 dark:bg-indigo-500/20',
-      text: 'text-indigo-700 dark:text-indigo-300',
-      border: 'border-indigo-500/30',
+      bg: 'bg-sage-600/15 dark:bg-sage-600/20',
+      text: 'text-forest-900 dark:text-sage-300',
+      border: 'border-sage-600/30',
       icon: Clock,
       labelKey: 'statusTriaged'
     },
     UNDER_REVIEW: {
-      bg: 'bg-amber-500/15 dark:bg-amber-500/20',
-      text: 'text-amber-700 dark:text-amber-300',
-      border: 'border-amber-500/30',
+      bg: 'bg-amberGold-600/15 dark:bg-amberGold-600/20',
+      text: 'text-amberGold-700 dark:text-amberGold-500',
+      border: 'border-amberGold-600/30',
       icon: Eye,
       labelKey: 'statusReview'
     },
     ROUTED: {
-      bg: 'bg-blue-500/15 dark:bg-blue-500/20',
-      text: 'text-blue-700 dark:text-blue-300',
-      border: 'border-blue-500/30',
+      bg: 'bg-forest-900/15 dark:bg-forest-800/30',
+      text: 'text-forest-900 dark:text-ivory-100',
+      border: 'border-forest-900/40',
       icon: Send,
       labelKey: 'statusRouted'
     },
     ASSIGNED: {
-      bg: 'bg-cyan-500/15 dark:bg-cyan-500/20',
-      text: 'text-cyan-700 dark:text-cyan-300',
-      border: 'border-cyan-500/30',
+      bg: 'bg-sage-600/20 dark:bg-sage-600/30',
+      text: 'text-forest-950 dark:text-ivory-100',
+      border: 'border-sage-600/40',
       icon: UserCheck,
       labelKey: 'statusAssigned'
     },
     INTERVENTION: {
-      bg: 'bg-red-500/15 dark:bg-red-500/20',
-      text: 'text-red-700 dark:text-red-300',
-      border: 'border-red-500/30',
+      bg: 'bg-terracotta-600/15 dark:bg-terracotta-600/20',
+      text: 'text-terracotta-700 dark:text-terracotta-500',
+      border: 'border-terracotta-600/40',
       icon: ShieldCheck,
       labelKey: 'statusIntervention'
     },
     RESOLVED: {
-      bg: 'bg-emerald-500/15 dark:bg-emerald-500/20',
-      text: 'text-emerald-700 dark:text-emerald-300',
-      border: 'border-emerald-500/30',
+      bg: 'bg-forest-900/20 dark:bg-forest-800/40',
+      text: 'text-forest-900 dark:text-sage-200',
+      border: 'border-forest-900/40',
       icon: CheckCircle2,
       labelKey: 'statusResolved'
     }
@@ -65,7 +65,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'md' })
 
   const config = configs[status] || configs.NEW;
   const Icon = config.icon;
-  const sizeClasses = size === 'sm' ? 'text-xs px-2 py-0.5 space-x-1' : 'text-xs px-2.5 py-1 space-x-1.5 font-semibold';
+  const sizeClasses = size === 'sm' ? 'text-[10px] px-2 py-0.5 space-x-1 font-semibold' : 'text-xs px-2.5 py-1 space-x-1.5 font-bold';
 
   return (
     <span className={`inline-flex items-center rounded-md border ${config.bg} ${config.text} ${config.border} ${sizeClasses}`}>

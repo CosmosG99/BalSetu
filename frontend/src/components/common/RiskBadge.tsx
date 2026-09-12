@@ -15,30 +15,30 @@ export const RiskBadge: React.FC<RiskBadgeProps> = ({ level, score, showIcon = t
 
   const configs: Record<RiskLevel, { bg: string; text: string; border: string; icon: any; labelKey: string }> = {
     CRITICAL: {
-      bg: 'bg-red-500/15 dark:bg-red-500/20',
-      text: 'text-red-700 dark:text-red-400',
-      border: 'border-red-500/40',
+      bg: 'bg-terracotta-600/15 dark:bg-terracotta-600/20',
+      text: 'text-terracotta-700 dark:text-terracotta-500',
+      border: 'border-terracotta-600/40',
       icon: ShieldAlert,
       labelKey: 'riskCritical'
     },
     HIGH: {
-      bg: 'bg-amber-500/15 dark:bg-amber-500/20',
-      text: 'text-amber-700 dark:text-amber-400',
-      border: 'border-amber-500/40',
+      bg: 'bg-amberGold-600/15 dark:bg-amberGold-600/20',
+      text: 'text-amberGold-700 dark:text-amberGold-500',
+      border: 'border-amberGold-600/40',
       icon: AlertTriangle,
       labelKey: 'riskHigh'
     },
     MEDIUM: {
-      bg: 'bg-blue-500/15 dark:bg-blue-500/20',
-      text: 'text-blue-700 dark:text-blue-400',
-      border: 'border-blue-500/40',
+      bg: 'bg-sage-600/15 dark:bg-sage-600/20',
+      text: 'text-forest-900 dark:text-sage-300',
+      border: 'border-sage-600/40',
       icon: AlertCircle,
       labelKey: 'riskMedium'
     },
     LOW: {
-      bg: 'bg-emerald-500/15 dark:bg-emerald-500/20',
-      text: 'text-emerald-700 dark:text-emerald-400',
-      border: 'border-emerald-500/40',
+      bg: 'bg-forest-900/10 dark:bg-forest-800/20',
+      text: 'text-forest-900 dark:text-sage-400',
+      border: 'border-forest-900/30',
       icon: Info,
       labelKey: 'riskLow'
     }
@@ -48,16 +48,16 @@ export const RiskBadge: React.FC<RiskBadgeProps> = ({ level, score, showIcon = t
   const Icon = config.icon;
 
   const sizeClasses = {
-    sm: 'text-xs px-2 py-0.5 space-x-1',
-    md: 'text-sm px-3 py-1 space-x-1.5',
-    lg: 'text-base px-4 py-1.5 space-x-2 font-bold'
+    sm: 'text-[10px] px-2 py-0.5 space-x-1 font-mono font-bold',
+    md: 'text-xs px-3 py-1 space-x-1.5 font-bold',
+    lg: 'text-sm px-4 py-1.5 space-x-2 font-extrabold'
   };
 
   return (
     <span
-      className={`inline-flex items-center rounded-full border ${config.bg} ${config.text} ${config.border} ${sizeClasses[size]} font-semibold tracking-wide uppercase transition-colors shadow-sm`}
+      className={`inline-flex items-center rounded-lg border ${config.bg} ${config.text} ${config.border} ${sizeClasses[size]} uppercase tracking-wider transition-colors shadow-sm`}
     >
-      {showIcon && <Icon className={size === 'lg' ? 'w-5 h-5' : size === 'sm' ? 'w-3.5 h-3.5' : 'w-4 h-4'} />}
+      {showIcon && <Icon className={size === 'lg' ? 'w-4 h-4' : size === 'sm' ? 'w-3 h-3' : 'w-3.5 h-3.5'} />}
       <span>{t(config.labelKey)}</span>
       {score !== undefined && <span className="opacity-90 font-mono ml-1">({score}/100)</span>}
     </span>

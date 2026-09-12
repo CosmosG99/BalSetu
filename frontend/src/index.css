@@ -7,7 +7,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-slate-50 text-slate-900 dark:bg-brand-dark dark:text-slate-100 font-sans selection:bg-brand-purple/30 selection:text-slate-900 dark:selection:text-white antialiased transition-colors duration-300 overflow-x-hidden;
+    @apply bg-ivory-100 text-charcoal-800 dark:bg-charcoal-950 dark:text-ivory-100 font-sans selection:bg-forest-900/20 selection:text-forest-900 dark:selection:bg-sage-600/30 dark:selection:text-ivory-100 antialiased transition-colors duration-300 overflow-x-hidden;
   }
 }
 
@@ -18,49 +18,41 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-slate-200 dark:bg-slate-950;
+  @apply bg-ivory-200 dark:bg-charcoal-900;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-brand-purple/40 dark:bg-brand-purple/30 rounded-full;
+  @apply bg-sage-600/40 dark:bg-forest-600/40 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-brand-purple/70 dark:bg-brand-purple/50;
+  @apply bg-forest-900/60 dark:bg-sage-500/60;
 }
 
-/* Theme-Aware Glassmorphism Tokens */
-.glass-panel {
-  @apply bg-white/90 dark:bg-slate-900/70 backdrop-blur-xl border border-slate-200/80 dark:border-white/10 text-slate-900 dark:text-slate-100 shadow-lg transition-colors duration-300;
+/* Natural Card & Panel Component Utilities */
+.natural-panel {
+  @apply bg-white dark:bg-charcoal-900 border border-charcoal-200/80 dark:border-charcoal-800 text-charcoal-800 dark:text-ivory-100 shadow-card rounded-2xl transition-colors duration-200;
 }
 
-.glass-panel-hover {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+.natural-card-hover {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.glass-panel-hover:hover {
-  @apply bg-white dark:bg-slate-800/85 border-brand-purple/40 dark:border-brand-purple/40 shadow-xl;
-  transform: translateY(-2px);
-}
-
-.glow-purple {
-  box-shadow: 0 0 40px -10px rgba(139, 92, 246, 0.3);
-}
-
-.glow-magenta {
-  box-shadow: 0 0 40px -10px rgba(217, 70, 239, 0.3);
+.natural-card-hover:hover {
+  @apply bg-white dark:bg-charcoal-850 border-forest-900/30 dark:border-sage-500/40 shadow-modal;
+  transform: translateY(-1px);
 }
 
 /* Background Grid Masks for Light & Dark mode */
 .bg-grid-pattern {
   background-size: 40px 40px;
   background-image: 
-    linear-gradient(to right, rgba(148, 163, 184, 0.15) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(148, 163, 184, 0.15) 1px, transparent 1px);
+    linear-gradient(to right, rgba(100, 115, 109, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(100, 115, 109, 0.08) 1px, transparent 1px);
 }
 
 .dark .bg-grid-pattern {
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(242, 240, 232, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(242, 240, 232, 0.04) 1px, transparent 1px);
 }

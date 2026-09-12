@@ -12,14 +12,14 @@ interface IncidentCardProps {
 export const IncidentCard: React.FC<IncidentCardProps> = ({ type, selected, onToggle }) => {
   const { t } = useLanguage();
 
-  const configs: Record<IncidentType, { icon: any; titleKey: string; color: string }> = {
-    LOST: { icon: HelpCircle, titleKey: 'incLost', color: 'border-blue-500/40 text-blue-600 dark:text-blue-400' },
-    DISTRESSED: { icon: Frown, titleKey: 'incDistressed', color: 'border-amber-500/40 text-amber-600 dark:text-amber-400' },
-    UNACCOMPANIED: { icon: UserX, titleKey: 'incSolo', color: 'border-purple-500/40 text-purple-600 dark:text-purple-400' },
-    TRAFFICKING: { icon: ShieldAlert, titleKey: 'incTrafficking', color: 'border-red-500/50 text-red-600 dark:text-red-400' },
-    ABUSE: { icon: AlertTriangle, titleKey: 'incAbuse', color: 'border-red-500/50 text-red-600 dark:text-red-400' },
-    BULLYING: { icon: Users, titleKey: 'incBullying', color: 'border-indigo-500/40 text-indigo-600 dark:text-indigo-400' },
-    OTHER: { icon: Compass, titleKey: 'incOther', color: 'border-slate-400 text-slate-600 dark:text-slate-400' }
+  const configs: Record<IncidentType, { icon: any; titleKey: string }> = {
+    LOST: { icon: HelpCircle, titleKey: 'incLost' },
+    DISTRESSED: { icon: Frown, titleKey: 'incDistressed' },
+    UNACCOMPANIED: { icon: UserX, titleKey: 'incSolo' },
+    TRAFFICKING: { icon: ShieldAlert, titleKey: 'incTrafficking' },
+    ABUSE: { icon: AlertTriangle, titleKey: 'incAbuse' },
+    BULLYING: { icon: Users, titleKey: 'incBullying' },
+    OTHER: { icon: Compass, titleKey: 'incOther' }
   };
 
   const config = configs[type];
@@ -29,32 +29,36 @@ export const IncidentCard: React.FC<IncidentCardProps> = ({ type, selected, onTo
     <button
       type="button"
       onClick={() => onToggle(type)}
-      className={`relative p-5 rounded-2xl border text-left transition-all duration-300 flex flex-col justify-between space-y-3 group ${
+      className={`relative p-4 sm:p-5 rounded-2xl border text-center transition-all duration-200 flex flex-col items-center justify-center space-y-3 group ${
         selected
-          ? 'bg-purple-500/10 dark:bg-gradient-to-br dark:from-brand-purple/25 dark:to-brand-card border-brand-purple shadow-glow-purple scale-[1.02]'
-          : 'bg-white dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/60'
+          ? 'bg-forest-900/10 dark:bg-forest-800/30 border-forest-900 dark:border-sage-500 shadow-subtle'
+          : 'bg-white dark:bg-charcoal-900 border-charcoal-200 dark:border-charcoal-800 hover:border-charcoal-300 dark:hover:border-charcoal-700 hover:bg-ivory-50 dark:hover:bg-charcoal-850'
       }`}
     >
-      <div className="flex items-center justify-between">
-        <div className={`p-3 rounded-xl bg-slate-100 dark:bg-slate-950/60 border ${config.color} group-hover:scale-110 transition-transform`}>
-          <Icon className="w-6 h-6" />
-        </div>
+      <div className={`p-3 rounded-2xl transition-transform group-hover:scale-105 ${
+        selected
+          ? 'bg-forest-900 text-white'
+          : 'bg-ivory-100 dark:bg-charcoal-800 text-forest-900 dark:text-sage-300 border border-charcoal-200 dark:border-charcoal-700'
+      }`}>
+        <Icon className="w-6 h-6" />
+      </div>
 
-        <div
-          className={`w-6 h-6 rounded-full border flex items-center justify-center transition-all ${
-            selected
-              ? 'bg-brand-purple border-brand-purple text-white'
-              : 'border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-950 text-transparent'
-          }`}
-        >
-          <Check className="w-4 h-4" />
+      <div className="space-y-1">
+        <div className={`font-bold text-xs sm:text-sm transition-colors ${
+          selected ? 'text-forest-900 dark:text-ivory-100' : 'text-charcoal-800 dark:text-charcoal-300'
+        }`}>
+          {t(config.titleKey)}
         </div>
       </div>
 
-      <div>
-        <div className={`font-semibold text-sm transition-colors ${selected ? 'text-brand-purple dark:text-white font-bold' : 'text-slate-800 dark:text-slate-200'}`}>
-          {t(config.titleKey)}
-        </div>
+      <div
+        className={`absolute top-3 right-3 w-5 h-5 rounded-full border flex items-center justify-center transition-all ${
+          selected
+            ? 'bg-forest-900 border-forest-900 text-white'
+            : 'border-charcoal-300 dark:border-charcoal-700 bg-ivory-100 dark:bg-charcoal-950 text-transparent'
+        }`}
+      >
+        <Check className="w-3.5 h-3.5" />
       </div>
     </button>
   );
