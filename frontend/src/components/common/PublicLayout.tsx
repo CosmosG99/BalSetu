@@ -16,7 +16,8 @@ import {
   Menu,
   X,
   Lock,
-  ExternalLink
+  ExternalLink,
+  Sparkles
 } from 'lucide-react';
 import { Language } from '../../types';
 import { OfflineBanner } from './OfflineBanner';
@@ -40,21 +41,21 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
   const currentPath = location.pathname;
 
   const navItems = [
-    { label: t('navHome'), path: '/', icon: Home, exact: true },
-    { label: t('navHowItWorks'), path: '/how-it-works', icon: Workflow, exact: false },
-    { label: t('navImpact'), path: '/impact', icon: BarChart3, exact: false },
-    { label: t('navResources'), path: '/resources', icon: BookOpen, exact: false },
-    { label: t('navTrack'), path: '/track', icon: Search, exact: false },
+    { label: t('navHome'), path: '/app', icon: Home, exact: true },
+    { label: t('navHowItWorks'), path: '/app/how-it-works', icon: Workflow, exact: false },
+    { label: t('navImpact'), path: '/app/impact', icon: BarChart3, exact: false },
+    { label: t('navResources'), path: '/app/resources', icon: BookOpen, exact: false },
+    { label: t('navTrack'), path: '/app/track', icon: Search, exact: false },
   ];
 
   const isNavItemActive = (item: typeof navItems[0]) => {
     if (item.exact) {
-      return currentPath === item.path;
+      return currentPath === '/app' || currentPath === '/app/';
     }
     return currentPath === item.path || currentPath.startsWith(`${item.path}/`);
   };
 
-  const isReportFlow = currentPath.startsWith('/report');
+  const isReportFlow = currentPath.includes('/report');
 
   return (
     <div className="min-h-screen flex bg-ivory-100 dark:bg-charcoal-950 text-charcoal-800 dark:text-ivory-100 font-sans transition-colors duration-300">
@@ -79,7 +80,7 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
         {/* 1. SIDEBAR BRANDING LOGO                           */}
         {/* -------------------------------------------------- */}
         <div className="p-5 border-b border-charcoal-200/80 dark:border-charcoal-800 flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-3 group">
+          <Link to="/" className="flex items-center space-x-3 group" title="Return to Landing Experience">
             <div className="w-9 h-9 rounded-xl bg-teal-700 text-white flex items-center justify-center font-bold shadow-subtle group-hover:scale-105 transition-transform">
               <Shield className="w-5 h-5" />
             </div>
@@ -137,7 +138,7 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
           {/* -------------------------------------------------- */}
           <div className="pt-2">
             <Link
-              to="/report"
+              to="/app/report"
               className="group w-full flex items-center justify-between px-4 py-3 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs shadow-subtle hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
               <div className="flex items-center space-x-2">
@@ -149,9 +150,20 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
           </div>
 
           {/* -------------------------------------------------- */}
-          {/* 4. RESPONDER / ADMIN ACCESS QUICK LINK            */}
+          {/* 4. RESPONDER ACCESS & LANDING FRONT DOOR LINK    */}
           {/* -------------------------------------------------- */}
-          <div className="pt-2 border-t border-charcoal-200/60 dark:border-charcoal-800/60">
+          <div className="pt-2 space-y-1 border-t border-charcoal-200/60 dark:border-charcoal-800/60">
+            <Link
+              to="/"
+              className="flex items-center justify-between px-3 py-2 rounded-lg text-[11px] font-semibold text-charcoal-600 hover:text-teal-700 dark:text-charcoal-400 dark:hover:text-teal-300 transition-colors"
+            >
+              <div className="flex items-center space-x-2">
+                <Sparkles className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400" />
+                <span>Landing Entry Experience</span>
+              </div>
+              <ExternalLink className="w-3 h-3" />
+            </Link>
+
             <Link
               to="/responder"
               className="flex items-center justify-between px-3 py-2 rounded-lg text-[11px] font-semibold text-charcoal-600 hover:text-teal-700 dark:text-charcoal-400 dark:hover:text-teal-300 transition-colors"
@@ -208,7 +220,7 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
             </button>
 
             <Link
-              to="/report"
+              to="/app/report"
               className="px-3 py-1.5 rounded-lg bg-teal-700 text-white font-bold text-xs shadow-xs"
             >
               {t('btnReportConcern')}

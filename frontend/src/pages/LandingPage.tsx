@@ -27,6 +27,7 @@ import {
 import { RiskBadge } from '../components/common/RiskBadge';
 import { StatusBadge } from '../components/common/StatusBadge';
 
+
 export const LandingPage: React.FC = () => {
   const { t } = useLanguage();
   const [openFaq, setOpenFaq] = useState<number | null>(0);

@@ -7,6 +7,7 @@ import { CaseProvider } from './context/CaseContext';
 
 import { PublicLayout } from './components/common/PublicLayout';
 
+import { LandingEntryPage } from './pages/LandingEntryPage';
 import { LandingPage } from './pages/LandingPage';
 import { HowItWorksPage } from './pages/HowItWorksPage';
 import { ImpactPage } from './pages/ImpactPage';
@@ -31,7 +32,11 @@ export const App: React.FC = () => {
             <Router>
               <Routes>
                 
-                {/* Responder Command Center Portal (Wrapped in ResponderLayout with Left Sidebar) */}
+                {/* 1. FRONT DOOR ENTRY LANDING PAGE (No Left Sidebar) */}
+                <Route path="/" element={<LandingEntryPage />} />
+                <Route path="/landing" element={<LandingEntryPage />} />
+
+                {/* 2. RESPONDER COMMAND CENTER PORTAL (Wrapped in ResponderLayout) */}
                 <Route
                   path="/responder/*"
                   element={
@@ -48,7 +53,7 @@ export const App: React.FC = () => {
                   }
                 />
 
-                {/* Admin Analytics (Wrapped in ResponderLayout) */}
+                {/* 3. ADMIN ANALYTICS PORTAL (Wrapped in ResponderLayout) */}
                 <Route
                   path="/admin/*"
                   element={
@@ -62,13 +67,12 @@ export const App: React.FC = () => {
                   }
                 />
 
-                {/* Public Website & Citizen App (Wrapped in PublicLayout with Fixed Left Sidebar) */}
+                {/* 4. MAIN RAKSHAK APPLICATION (Wrapped in PublicLayout with Fixed Left Sidebar) */}
                 <Route
-                  path="/*"
+                  path="/app/*"
                   element={
                     <PublicLayout>
                       <Routes>
-                        {/* Public Marketing Website Routes */}
                         <Route path="/" element={<LandingPage />} />
                         <Route path="/how-it-works" element={<HowItWorksPage />} />
                         <Route path="/impact" element={<ImpactPage />} />
@@ -76,22 +80,31 @@ export const App: React.FC = () => {
                         <Route path="/resources" element={<ResourcesPage />} />
                         <Route path="/trusted-reporter" element={<TrustedReporterPage />} />
 
-                        {/* Citizen Reporting App Routes */}
                         <Route path="/report" element={<ReportPage />} />
                         <Route path="/report/review" element={<ReportPage />} />
                         <Route path="/report/analysis" element={<ReportPage />} />
                         <Route path="/report/success" element={<ReportPage />} />
 
-                        {/* Citizen Case Tracking */}
                         <Route path="/track" element={<TrackPage />} />
                         <Route path="/track/:caseId" element={<TrackPage />} />
 
-                        {/* Fallback Redirect */}
-                        <Route path="*" element={<Navigate to="/" replace />} />
+                        <Route path="*" element={<Navigate to="/app" replace />} />
                       </Routes>
                     </PublicLayout>
                   }
                 />
+
+                {/* Fallback Direct Link Redirects to /app/* */}
+                <Route path="/how-it-works" element={<Navigate to="/app/how-it-works" replace />} />
+                <Route path="/impact" element={<Navigate to="/app/impact" replace />} />
+                <Route path="/about" element={<Navigate to="/app/about" replace />} />
+                <Route path="/resources" element={<Navigate to="/app/resources" replace />} />
+                <Route path="/trusted-reporter" element={<Navigate to="/app/trusted-reporter" replace />} />
+                <Route path="/report/*" element={<Navigate to="/app/report" replace />} />
+                <Route path="/track/*" element={<Navigate to="/app/track" replace />} />
+
+                {/* Fallback Redirect to Landing Entry Page */}
+                <Route path="*" element={<Navigate to="/" replace />} />
 
               </Routes>
             </Router>

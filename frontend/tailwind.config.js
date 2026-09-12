@@ -85,7 +85,31 @@ export default {
         'subtle': '0 2px 10px 0 rgba(20, 155, 132, 0.05)',
         'card': '0 4px 20px -2px rgba(7, 26, 22, 0.08)',
         'modal': '0 16px 36px -8px rgba(7, 26, 22, 0.35)',
-      }
+      },
+      keyframes: {
+        'float-slow': {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
+        'float-delayed': {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-6px)' },
+        },
+        'float-slow-reverse': {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(6px)' },
+        },
+        'float-delayed-reverse': {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(8px)' },
+        },
+      },
+      animation: {
+        'float-slow': 'float-slow 5s ease-in-out infinite',
+        'float-delayed': 'float-delayed 6s ease-in-out 1s infinite',
+        'float-slow-reverse': 'float-slow-reverse 7s ease-in-out 0.5s infinite',
+        'float-delayed-reverse': 'float-delayed-reverse 5.5s ease-in-out 1.5s infinite',
+      },
     },
   },
   plugins: [],
