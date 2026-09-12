@@ -96,7 +96,7 @@ npm test
 The test suite executes 65 automated assertions covering all 16 feature sets, privacy guarantees, and edge cases.
 
 ---
-helo guys 
+Geetesh backend is done.
 ## 4. API Endpoints
 
 All authenticated routes require `Authorization: Bearer <token>`.
