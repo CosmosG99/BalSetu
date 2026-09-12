@@ -7,7 +7,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-ivory-100 text-charcoal-800 dark:bg-charcoal-950 dark:text-charcoal-100 font-sans selection:bg-teal-700/20 selection:text-teal-900 dark:selection:bg-teal-500/30 dark:selection:text-charcoal-100 antialiased transition-colors duration-300 overflow-x-hidden;
+    @apply bg-ivory-100 text-charcoal-800 dark:bg-forest-950 dark:text-charcoal-100 font-sans selection:bg-teal-700/20 selection:text-teal-900 dark:selection:bg-teal-500/30 dark:selection:text-charcoal-100 antialiased transition-colors duration-300 overflow-x-hidden;
   }
 }
 
@@ -18,29 +18,29 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-ivory-200 dark:bg-charcoal-900;
+  @apply bg-ivory-200 dark:bg-forest-900;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-teal-700/30 dark:bg-teal-500/30 rounded-full;
+  @apply bg-teal-700/30 dark:bg-teal-400/30 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-teal-700/60 dark:bg-teal-500/60;
+  @apply bg-teal-700/60 dark:bg-teal-400/60;
 }
 
 /* Natural Card & Panel Component Utilities */
 .natural-panel {
-  @apply bg-white dark:bg-charcoal-900 border border-charcoal-200/80 dark:border-charcoal-800 text-charcoal-800 dark:text-charcoal-100 shadow-card rounded-2xl transition-colors duration-200;
+  @apply bg-white dark:bg-forest-850 border border-charcoal-200/80 dark:border-white/10 text-charcoal-800 dark:text-charcoal-100 shadow-card rounded-2xl transition-colors duration-200;
 }
 
 .natural-card-hover {
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .natural-card-hover:hover {
-  @apply bg-white dark:bg-charcoal-850 border-teal-700/30 dark:border-teal-500/40 shadow-modal;
-  transform: translateY(-1px);
+  @apply bg-white dark:bg-forest-800 border-teal-700/40 dark:border-teal-400/40 shadow-modal;
+  transform: translateY(-2px);
 }
 
 /* Background Grid Masks for Light & Dark mode */
@@ -53,6 +53,6 @@
 
 .dark .bg-grid-pattern {
   background-image: 
-    linear-gradient(to right, rgba(245, 244, 238, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(245, 244, 238, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(245, 247, 246, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(245, 247, 246, 0.04) 1px, transparent 1px);
 }

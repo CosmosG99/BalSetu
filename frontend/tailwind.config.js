@@ -8,71 +8,83 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Bright Teal Brand Colors
+        // Deep Natural Green Background & Surfaces
+        forest: {
+          950: '#071A16', // Primary dark background
+          900: '#0D2420', // Secondary dark surface
+          850: '#102A25', // Card dark surface
+          800: '#153D35',
+          700: '#1B4D43',
+          600: '#236155'
+        },
+        // Primary Brand Teal
         teal: {
-          950: '#0A1815',
-          900: '#0F1D19', // Dark mode background
-          850: '#162722', // Dark mode surface
-          800: '#136657',
-          700: '#167A68', // Primary light mode brand
-          600: '#1E9680',
-          500: '#2B9A82', // Primary dark mode brand
-          400: '#4AB59D',
-          300: '#6ECBB5',
-          200: '#8BCDB4', // Secondary mint
-          100: '#D4F0E7',
-          50: '#F0F9F6'
+          950: '#061D1A',
+          900: '#0A2B27',
+          800: '#0E423B',
+          700: '#149B84', // Primary brand teal
+          600: '#19B394',
+          500: '#26C7A7',
+          400: '#63D5C0', // Light teal
+          300: '#8CE3D2',
+          200: '#B5EFE4',
+          100: '#DCF7F2',
+          50: '#F2FDFB'
         },
-        // Warm Ivory Background Colors
+        // Rich Multi-Accent Palette
+        accentBlue: '#4F7CFF',
+        accentPurple: '#8B4DE8',
+        accentViolet: '#6D5CE7',
+        accentOrange: '#FF9D24',
+        accentCoral: '#FF654A',
+        accentPink: '#E85AA7',
+        accentCyan: '#42C7D9',
+        accentAmber: '#F4C95D',
+        accentGreen: '#2E9B72',
+
+        // Warm Light Mode Ivory
         ivory: {
-          300: '#E2E5D8',
-          200: '#ECEEE5',
-          100: '#F7F8F4', // Light mode background
-          50: '#FCFCF9'
+          300: '#E6E4D8',
+          200: '#EFECE2',
+          100: '#F6F5EF', // Light mode background
+          50: '#FAF9F5'
         },
-        // Charcoal Typography & Surface Colors
+        // Charcoal Typography & Surface Tokens
         charcoal: {
-          950: '#0F1D19',
-          900: '#162722',
-          850: '#1B2E28',
-          800: '#18332D', // Primary light text
-          700: '#2C4A42',
-          600: '#60736D', // Secondary light text
-          500: '#7E918B',
-          400: '#9DB0A8', // Dark mode muted text
-          300: '#C2D1CB',
-          200: '#DFE7E3',
-          100: '#F5F4EE', // Dark mode text
+          950: '#071A16', // Dark mode background
+          900: '#0D2420', // Dark mode surface
+          850: '#102A25', // Dark mode card
+          800: '#071A16', // Primary light text
+          700: '#1B332E',
+          600: '#60736D', // Muted light text
+          500: '#7E9690', // Muted text
+          400: '#7E9690',
+          300: '#A9BBB6', // Secondary dark text
+          200: '#D0DCD8',
+          100: '#F5F7F6', // Primary dark text
           50: '#F7FAF9'
         },
-        // Warm Coral Accents
+        // Functional Badges
         coral: {
-          700: '#C75B42',
-          600: '#E8785D', // Main warm coral
-          500: '#F08E76',
-          200: '#FAD5CB',
-          100: '#FCECE8'
+          700: '#E04E35',
+          600: '#FF654A',
+          500: '#FF7D66',
+          100: '#FFEBE8'
         },
-        // Warm Amber Accents
         amberGold: {
-          700: '#C5962B',
-          600: '#E7B84B', // Warm golden yellow
-          500: '#F2C663',
-          200: '#F8E8C0',
-          100: '#FAF3DF'
-        },
-        // Functional Badges & Statuses
-        statusSuccess: '#2E9B72',
-        statusWarning: '#D99A32',
-        statusDanger: '#D95C55'
+          700: '#D6A93E',
+          600: '#F4C95D',
+          500: '#F8D882',
+          100: '#FEF8E8'
+        }
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
       boxShadow: {
-        'subtle': '0 2px 10px 0 rgba(22, 122, 104, 0.05)',
-        'card': '0 4px 20px -2px rgba(24, 51, 45, 0.06)',
-        'modal': '0 16px 36px -8px rgba(15, 29, 25, 0.18)',
+        'subtle': '0 2px 10px 0 rgba(20, 155, 132, 0.05)',
+        'card': '0 4px 20px -2px rgba(7, 26, 22, 0.08)',
+        'modal': '0 16px 36px -8px rgba(7, 26, 22, 0.35)',
       }
     },
   },

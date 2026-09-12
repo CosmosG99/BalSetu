@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCases } from '../context/CaseContext';
 import { useLanguage } from '../context/LanguageContext';
-import { Search, Lock, CheckCircle2, Circle, MapPin, AlertCircle } from 'lucide-react';
+import { Search, Lock, CheckCircle2, Circle, MapPin, AlertCircle, ArrowRight, ShieldCheck, Clock, Cpu, UserCheck, Activity } from 'lucide-react';
 import { StatusBadge } from '../components/common/StatusBadge';
 import { RiskBadge } from '../components/common/RiskBadge';
 
@@ -12,7 +12,7 @@ export const TrackPage: React.FC = () => {
   const { t } = useLanguage();
   const { getCaseById } = useCases();
 
-  const [inputCaseId, setInputCaseId] = useState(paramCaseId || 'RB-2026-10482');
+  const [inputCaseId, setInputCaseId] = useState(paramCaseId || 'RKS-2026-00421');
   const activeCase = paramCaseId ? getCaseById(paramCaseId) : getCaseById(inputCaseId);
 
   const handleSearch = (e: React.FormEvent) => {
@@ -22,48 +22,59 @@ export const TrackPage: React.FC = () => {
     }
   };
 
+  const statusTimelineSteps = [
+    { title: 'REPORT RECEIVED', desc: 'Bystander observation submitted securely', color: 'text-teal-700 dark:text-teal-400 bg-teal-700/10 border-teal-700/30', icon: ShieldCheck },
+    { title: 'TRIAGED', desc: 'AI risk assessment & category classification complete', color: 'text-accentPurple bg-accentPurple/10 border-accentPurple/30', icon: Cpu },
+    { title: 'RESPONDER ASSIGNED', desc: 'Platform response team or RPF officer notified', color: 'text-accentViolet bg-accentViolet/10 border-accentViolet/30', icon: UserCheck },
+    { title: 'ACTION IN PROGRESS', desc: 'Ground verification check underway', color: 'text-accentOrange bg-accentOrange/10 border-accentOrange/30', icon: Activity },
+    { title: 'RESOLVED', desc: 'Child secured and safely reunited or supported', color: 'text-accentGreen bg-accentGreen/10 border-accentGreen/30', icon: CheckCircle2 }
+  ];
+
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 space-y-8">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 space-y-10">
       
-      {/* Search Header */}
+      {/* Search Hero */}
       <div className="text-center space-y-3">
-        <div className="w-12 h-12 rounded-2xl bg-forest-900/10 dark:bg-sage-400/10 text-forest-800 dark:text-sage-300 border border-forest-800/20 dark:border-sage-400/20 mx-auto flex items-center justify-center">
+        <div className="w-12 h-12 rounded-2xl bg-teal-700/10 text-teal-700 dark:text-teal-400 border border-teal-700/20 mx-auto flex items-center justify-center font-bold">
           <Search className="w-6 h-6" />
         </div>
-        <h1 className="text-3xl font-extrabold text-charcoal-900 dark:text-ivory-100">{t('trackTitle')}</h1>
-        <p className="text-xs text-charcoal-600 dark:text-ivory-300 max-w-md mx-auto">{t('trackSubtitle')}</p>
+        <h1 className="text-3xl font-extrabold text-charcoal-800 dark:text-charcoal-100">Track a Report</h1>
+        <p className="text-xs text-charcoal-600 dark:text-charcoal-300 max-w-md mx-auto">
+          Enter your unique Case Reference ID to check real-time resolution progress.
+        </p>
 
-        {/* Input Form */}
-        <form onSubmit={handleSearch} className="flex items-center space-x-2 max-w-md mx-auto pt-2">
-          <div className="relative flex-1">
+        {/* Large Central Tracking Component */}
+        <form onSubmit={handleSearch} className="flex flex-col sm:flex-row items-center gap-2 max-w-lg mx-auto pt-2">
+          <div className="relative flex-1 w-full">
             <input
               type="text"
               value={inputCaseId}
               onChange={(e) => setInputCaseId(e.target.value)}
-              placeholder={t('trackPlaceholder')}
-              className="w-full pl-4 pr-4 py-3 bg-white/90 dark:bg-charcoal-900/90 border border-ivory-300 dark:border-charcoal-700 rounded-xl text-sm font-mono text-charcoal-900 dark:text-ivory-100 placeholder-charcoal-400 dark:placeholder-ivory-400 focus:outline-none focus:border-forest-700 shadow-sm"
+              placeholder="e.g. RKS-2026-00421"
+              className="w-full pl-4 pr-4 py-3.5 bg-white dark:bg-forest-850 border border-charcoal-200 dark:border-white/10 rounded-xl text-sm font-mono text-charcoal-800 dark:text-charcoal-100 placeholder-charcoal-400 focus:outline-none focus:border-teal-700 shadow-sm"
             />
           </div>
           <button
             type="submit"
-            className="py-3 px-5 rounded-xl bg-forest-900 hover:bg-forest-800 text-ivory-100 font-bold text-xs shadow-sm transition-colors"
+            className="w-full sm:w-auto py-3.5 px-6 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs shadow-card flex items-center justify-center space-x-1.5 transition-all"
           >
-            {t('trackBtn')}
+            <span>TRACK REPORT</span>
+            <ArrowRight className="w-4 h-4" />
           </button>
         </form>
       </div>
 
       {/* Case Details Display */}
       {activeCase ? (
-        <div className="natural-panel p-6 sm:p-8 rounded-3xl space-y-6 shadow-sm animate-fade-in">
+        <div className="natural-panel p-6 sm:p-8 rounded-3xl space-y-6 shadow-modal border border-charcoal-200/80 dark:border-white/10">
           
           {/* Header Strip */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-ivory-300 dark:border-charcoal-800 pb-4 gap-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-charcoal-200/80 dark:border-charcoal-800 pb-4 gap-3">
             <div>
-              <span className="text-[10px] text-charcoal-500 dark:text-ivory-400 font-mono uppercase">{t('caseReferenceLabel')}</span>
-              <h2 className="text-2xl font-extrabold text-charcoal-900 dark:text-ivory-100 font-mono">{activeCase.id}</h2>
-              <div className="flex items-center space-x-2 pt-1 text-xs text-charcoal-600 dark:text-ivory-400">
-                <MapPin className="w-3.5 h-3.5 text-forest-700 dark:text-sage-300" />
+              <span className="text-[10px] text-charcoal-500 font-mono uppercase">Case Reference ID</span>
+              <h2 className="text-2xl font-extrabold text-charcoal-800 dark:text-charcoal-100 font-mono">{activeCase.id}</h2>
+              <div className="flex items-center space-x-2 pt-1 text-xs text-charcoal-600 dark:text-charcoal-300">
+                <MapPin className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400" />
                 <span>Location: {activeCase.report.location}</span>
               </div>
             </div>
@@ -75,39 +86,30 @@ export const TrackPage: React.FC = () => {
           </div>
 
           {/* Privacy Disclaimer Card */}
-          <div className="p-3.5 rounded-xl bg-forest-900/10 dark:bg-sage-400/10 border border-forest-800/20 dark:border-sage-400/20 text-forest-900 dark:text-sage-200 text-xs flex items-center space-x-2">
-            <Lock className="w-4 h-4 text-forest-700 dark:text-sage-300 flex-shrink-0" />
-            <span>{t('privacyDisclaimerTrack')}</span>
+          <div className="p-3.5 rounded-xl bg-teal-700/10 dark:bg-teal-500/20 border border-teal-700/20 dark:border-teal-500/30 text-teal-800 dark:text-teal-300 text-xs flex items-center space-x-2">
+            <Lock className="w-4 h-4 text-teal-700 dark:text-teal-400 flex-shrink-0" />
+            <span>Strict privacy mode active. No personal names or identity details are exposed publicly.</span>
           </div>
 
-          {/* Timeline Milestones */}
+          {/* Polished Status Timeline */}
           <div className="space-y-4 pt-2">
-            <h3 className="text-xs font-bold text-charcoal-800 dark:text-ivory-200 uppercase tracking-wider">
-              {t('resolutionProgressTitle')}
+            <h3 className="text-xs font-bold text-charcoal-800 dark:text-charcoal-100 uppercase tracking-wider">
+              Resolution Progress & Milestones
             </h3>
 
-            <div className="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-ivory-300 dark:before:bg-charcoal-800">
-              {activeCase.timeline.map((step) => (
-                <div key={step.id} className="relative space-y-0.5">
-                  <div
-                    className={`absolute -left-6 top-0.5 w-5 h-5 rounded-full flex items-center justify-center ${
-                      step.completed
-                        ? 'bg-forest-900/20 text-forest-800 dark:text-sage-300 border border-forest-800/40'
-                        : 'bg-ivory-200 dark:bg-charcoal-800 text-charcoal-400 dark:text-ivory-500 border border-ivory-300 dark:border-charcoal-700'
-                    }`}
-                  >
-                    {step.completed ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Circle className="w-3 h-3" />}
+            <div className="space-y-3">
+              {statusTimelineSteps.map((step, idx) => (
+                <div key={idx} className="p-3.5 rounded-xl bg-ivory-100/60 dark:bg-forest-900 border border-charcoal-200/60 dark:border-charcoal-800 flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className={`p-2 rounded-lg border ${step.color}`}>
+                      <step.icon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-charcoal-800 dark:text-charcoal-100">{step.title}</div>
+                      <div className="text-[11px] text-charcoal-600 dark:text-charcoal-400">{step.desc}</div>
+                    </div>
                   </div>
-
-                  <div className="flex items-center justify-between text-xs">
-                    <span className={`font-bold ${step.completed ? 'text-charcoal-900 dark:text-ivory-100' : 'text-charcoal-400 dark:text-ivory-400'}`}>
-                      {step.title}
-                    </span>
-                    <span className="font-mono text-[10px] text-charcoal-600 dark:text-ivory-400 bg-ivory-200 dark:bg-charcoal-800 px-2 py-0.5 rounded border border-ivory-300 dark:border-charcoal-700">
-                      {step.timestamp}
-                    </span>
-                  </div>
-                  <p className="text-xs text-charcoal-600 dark:text-ivory-400">{step.description}</p>
+                  <span className="text-[10px] font-mono font-bold text-teal-700 dark:text-teal-400">Step 0{idx + 1}</span>
                 </div>
               ))}
             </div>
@@ -115,11 +117,11 @@ export const TrackPage: React.FC = () => {
 
         </div>
       ) : (
-        <div className="natural-panel p-8 rounded-3xl text-center space-y-3 shadow-sm">
-          <AlertCircle className="w-10 h-10 text-amberGold-600 dark:text-amberGold-400 mx-auto" />
-          <h3 className="text-lg font-bold text-charcoal-900 dark:text-ivory-100">{t('noCaseFoundTitle')} "{paramCaseId || inputCaseId}"</h3>
-          <p className="text-xs text-charcoal-600 dark:text-ivory-400">
-            {t('noCaseFoundDesc')}
+        <div className="natural-panel p-8 rounded-3xl text-center space-y-3 shadow-card">
+          <AlertCircle className="w-10 h-10 text-amberGold-600 mx-auto" />
+          <h3 className="text-lg font-bold text-charcoal-800 dark:text-charcoal-100">No Case Found for "{paramCaseId || inputCaseId}"</h3>
+          <p className="text-xs text-charcoal-600 dark:text-charcoal-400">
+            Please check the case reference string and try again. Sample case format: RKS-2026-00421.
           </p>
         </div>
       )}
