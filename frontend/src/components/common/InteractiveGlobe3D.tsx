@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState, useCallback, useEffect, Suspense } from 'react';
+import React, { useRef, useMemo, useState, useCallback, Suspense } from 'react';
 import { Canvas, useFrame, useThree, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -42,7 +42,7 @@ const CONNECTION_PAIRS: [number, number, string][] = [
   [10, 12,'#2dd4bf'], // Bangkok ↔ Sydney
 ];
 
-/* Network Connectivity Nodes (Non-alert Teal/Cyan Nodes) */
+/* Network Connectivity Nodes (Non-alert Cyan/Teal Nodes) */
 const NETWORK_NODES: { lat: number; lng: number }[] = [
   { lat: 37.77, lng: -122.41 }, // San Francisco
   { lat: 41.87, lng: -87.62 },  // Chicago
@@ -78,234 +78,74 @@ function latLngToVec3(lat: number, lng: number, radius: number): THREE.Vector3 {
 }
 
 /* ================================================================
-   2. DIGITAL BASE EARTH WITH ILLUMINATED LANDMASS SHAPE
+   2. REALISTIC 3D EARTH SPHERE (SATELLITE ALBEDO + SPECULAR + NORMAL)
    ================================================================ */
-function DarkEarthBase({ radius }: { radius: number }) {
-  const topoTexture = useLoader(THREE.TextureLoader, '/earth-topology.png');
+function RealisticEarthSphere({ radius }: { radius: number }) {
+  const dayMap = useLoader(THREE.TextureLoader, '/earth-day.jpg');
+  const specularMap = useLoader(THREE.TextureLoader, '/earth-specular.jpg');
+  const normalMap = useLoader(THREE.TextureLoader, '/earth-normal.jpg');
 
-  const shaderMaterial = useMemo(() => {
-    return new THREE.ShaderMaterial({
-      uniforms: {
-        topoMap: { value: topoTexture },
-        lightDir: { value: new THREE.Vector3(1.0, 0.6, 1.2).normalize() },
-      },
-      vertexShader: `
-        varying vec2 vUv;
-        varying vec3 vNormal;
-        void main() {
-          vUv = uv;
-          vNormal = normalize(normalMatrix * normal);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform sampler2D topoMap;
-        uniform vec3 lightDir;
-        varying vec2 vUv;
-        varying vec3 vNormal;
-
-        void main() {
-          vec4 topo = texture2D(topoMap, vUv);
-          float lum = dot(topo.rgb, vec3(0.299, 0.587, 0.114));
-
-          // Dark teal ocean (#061F1F) vs visible dark emerald landmass (#145247)
-          vec3 darkOcean = vec3(0.035, 0.120, 0.120); // #091F1F
-          vec3 darkLand  = vec3(0.080, 0.320, 0.280); // #145247
-          vec3 landGlow  = vec3(0.120, 0.520, 0.450); // #1E8573
-
-          float landMask = smoothstep(0.08, 0.28, lum);
-          float coastMask = smoothstep(0.15, 0.32, lum) * (1.0 - smoothstep(0.32, 0.50, lum));
-
-          vec3 baseColor = mix(darkOcean, darkLand, landMask);
-          baseColor = mix(baseColor, landGlow, coastMask * 0.6 + lum * landMask * 0.4);
-
-          // Front-facing camera lighting boost so land is clearly visible across front face
-          vec3 viewDir = vec3(0.0, 0.0, 1.0);
-          float frontFacing = max(dot(vNormal, viewDir), 0.0);
-          float diff = max(dot(vNormal, lightDir), 0.40);
-          float lighting = clamp(diff * 0.6 + frontFacing * 0.5, 0.45, 1.0);
-
-          gl_FragColor = vec4(baseColor * lighting, 1.0);
-        }
-      `,
+  const material = useMemo(() => {
+    return new THREE.MeshPhongMaterial({
+      map: dayMap,
+      specularMap: specularMap,
+      normalMap: normalMap,
+      normalScale: new THREE.Vector2(0.85, 0.85),
+      specular: new THREE.Color('#3388aa'),
+      shininess: 25,
     });
-  }, [topoTexture]);
+  }, [dayMap, specularMap, normalMap]);
 
   return (
-    <mesh material={shaderMaterial}>
+    <mesh material={material}>
       <sphereGeometry args={[radius, 64, 64]} />
     </mesh>
   );
 }
 
 /* ================================================================
-   3. HIGH-CONTRAST DOTTED CONTINENT PARTICLES
+   3. SEPARATE ROTATING CLOUD LAYER
    ================================================================ */
-function DottedContinents({ radius }: { radius: number }) {
-  const [geometry, setGeometry] = useState<THREE.BufferGeometry | null>(null);
+function RealisticCloudLayer({ radius }: { radius: number }) {
+  const cloudGroupRef = useRef<THREE.Group>(null!);
+  const cloudsMap = useLoader(THREE.TextureLoader, '/earth-clouds.png');
 
-  useEffect(() => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.src = '/earth-topology.png';
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = 1024;
-      canvas.height = 512;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-
-      ctx.drawImage(img, 0, 0, 1024, 512);
-      const imgData = ctx.getImageData(0, 0, 1024, 512);
-
-      const positions: number[] = [];
-      const colors: number[] = [];
-      const sizes: number[] = [];
-
-      // Dense lat/lng sampling for halftone continental dots
-      for (let lat = -84; lat <= 84; lat += 1.0) {
-        const radLat = (lat * Math.PI) / 180;
-        const cosLat = Math.cos(radLat);
-        const lngStep = 1.0 / Math.max(0.2, cosLat);
-
-        for (let lng = -180; lng < 180; lng += lngStep) {
-          const u = (lng + 180) / 360;
-          const v = (90 - lat) / 180;
-          const px = Math.floor(u * 1024);
-          const py = Math.floor(v * 512);
-          const idx = (py * 1024 + px) * 4;
-
-          const r = imgData.data[idx];
-          const g = imgData.data[idx + 1];
-          const b = imgData.data[idx + 2];
-          const bright = (r + g + b) / 3;
-
-          if (bright > 35) {
-            // Land point: render crisp bright particle dot
-            const vec = latLngToVec3(lat, lng, radius + 0.007);
-            positions.push(vec.x, vec.y, vec.z);
-
-            const isHighland = bright > 95;
-            const isMidland  = bright > 55 && bright <= 95;
-
-            // Bright Vibrant Teal / Cyan Palette for clear continent readability
-            let col = new THREE.Color('#38BDF8'); // #38BDF8 bright cyan default
-            if (isHighland) col = new THREE.Color('#5EEAD4'); // #5EEAD4 glowing mint
-            else if (isMidland) col = new THREE.Color('#2DD4BF'); // #2DD4BF bright teal
-
-            colors.push(col.r, col.g, col.b);
-            sizes.push(isHighland ? 0.046 : isMidland ? 0.040 : 0.034);
-          } else {
-            // Ocean point: subtle dark teal dots for grid context
-            if (Math.random() < 0.03) {
-              const vec = latLngToVec3(lat, lng, radius + 0.003);
-              positions.push(vec.x, vec.y, vec.z);
-              const oceanCol = new THREE.Color('#0D4B43');
-              colors.push(oceanCol.r, oceanCol.g, oceanCol.b);
-              sizes.push(0.018);
-            }
-          }
-        }
-      }
-
-      const geom = new THREE.BufferGeometry();
-      geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-      geom.setAttribute('aColor', new THREE.Float32BufferAttribute(colors, 3));
-      geom.setAttribute('aSize', new THREE.Float32BufferAttribute(sizes, 1));
-      setGeometry(geom);
-    };
-  }, [radius]);
-
-  const shaderMaterial = useMemo(() => {
-    return new THREE.ShaderMaterial({
-      uniforms: {
-        uLightDir: { value: new THREE.Vector3(1.0, 0.6, 1.2).normalize() },
-      },
-      vertexShader: `
-        attribute float aSize;
-        attribute vec3 aColor;
-        varying vec3 vColor;
-        varying vec3 vWorldPos;
-
-        void main() {
-          vColor = aColor;
-          vWorldPos = (modelMatrix * vec4(position, 1.0)).xyz;
-          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = aSize * (500.0 / -mvPosition.z);
-          gl_Position = projectionMatrix * mvPosition;
-        }
-      `,
-      fragmentShader: `
-        varying vec3 vColor;
-        varying vec3 vWorldPos;
-        uniform vec3 uLightDir;
-
-        void main() {
-          vec2 coord = gl_PointCoord - vec2(0.5);
-          float dist = length(coord);
-          if (dist > 0.5) discard;
-
-          float alpha = smoothstep(0.5, 0.10, dist);
-
-          vec3 normal = normalize(vWorldPos);
-          vec3 viewDir = vec3(0.0, 0.0, 1.0);
-          float frontFacing = max(dot(normal, viewDir), 0.0);
-          float diff = max(dot(normal, uLightDir), 0.50);
-
-          float brightness = clamp(diff * 0.6 + frontFacing * 0.55, 0.60, 1.0);
-
-          gl_FragColor = vec4(vColor * brightness, alpha * 0.98);
-        }
-      `,
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-    });
-  }, []);
-
-  if (!geometry) return null;
-
-  return <points geometry={geometry} material={shaderMaterial} />;
-}
-
-/* ================================================================
-   4. NETWORK NODES (NON-ALERT CYAN/TEAL NODES)
-   ================================================================ */
-function NetworkNodes({ radius }: { radius: number }) {
-  const geometry = useMemo(() => {
-    const positions: number[] = [];
-    NETWORK_NODES.forEach((node) => {
-      const vec = latLngToVec3(node.lat, node.lng, radius + 0.009);
-      positions.push(vec.x, vec.y, vec.z);
-    });
-    const geom = new THREE.BufferGeometry();
-    geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-    return geom;
-  }, [radius]);
+  // Clouds rotate slightly faster than Earth (~35 seconds per revolution)
+  useFrame(({ clock }) => {
+    if (cloudGroupRef.current) {
+      cloudGroupRef.current.rotation.y = clock.getElapsedTime() * ((Math.PI * 2) / 35);
+    }
+  });
 
   const material = useMemo(() => {
-    return new THREE.PointsMaterial({
-      color: new THREE.Color('#38bdf8'),
-      size: 0.052,
+    return new THREE.MeshStandardMaterial({
+      map: cloudsMap,
       transparent: true,
-      opacity: 0.95,
-      blending: THREE.AdditiveBlending,
+      opacity: 0.85,
+      blending: THREE.NormalBlending,
+      depthWrite: false,
     });
-  }, []);
+  }, [cloudsMap]);
 
-  return <points geometry={geometry} material={material} />;
+  return (
+    <group ref={cloudGroupRef}>
+      <mesh material={material} scale={[1.018, 1.018, 1.018]}>
+        <sphereGeometry args={[radius, 64, 64]} />
+      </mesh>
+    </group>
+  );
 }
 
 /* ================================================================
-   5. ATMOSPHERIC OUTER RIM GLOW
+   4. ATMOSPHERIC OUTER RIM GLOW (INTEGRATION WITH RAKSHAK TEAL)
    ================================================================ */
 function AtmosphereGlow({ radius }: { radius: number }) {
   const shaderMaterial = useMemo(() => {
     return new THREE.ShaderMaterial({
       uniforms: {
         glowColor: { value: new THREE.Color('#26c7a7') },
-        coefficient: { value: 0.70 },
-        power: { value: 3.0 },
+        coefficient: { value: 0.65 },
+        power: { value: 3.2 },
       },
       vertexShader: `
         varying vec3 vNormal;
@@ -345,7 +185,35 @@ function AtmosphereGlow({ radius }: { radius: number }) {
 }
 
 /* ================================================================
-   6. RED ALERT HOTSPOT — HIGH CONTRAST CORAL/RED STAGGERED PULSE
+   5. NETWORK CONNECTIVITY NODES (SECONDARY DIGITAL ACCENT)
+   ================================================================ */
+function NetworkNodes({ radius }: { radius: number }) {
+  const geometry = useMemo(() => {
+    const positions: number[] = [];
+    NETWORK_NODES.forEach((node) => {
+      const vec = latLngToVec3(node.lat, node.lng, radius + 0.022);
+      positions.push(vec.x, vec.y, vec.z);
+    });
+    const geom = new THREE.BufferGeometry();
+    geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    return geom;
+  }, [radius]);
+
+  const material = useMemo(() => {
+    return new THREE.PointsMaterial({
+      color: new THREE.Color('#38bdf8'),
+      size: 0.045,
+      transparent: true,
+      opacity: 0.85,
+      blending: THREE.AdditiveBlending,
+    });
+  }, []);
+
+  return <points geometry={geometry} material={material} />;
+}
+
+/* ================================================================
+   6. RED ALERT HOTSPOT — ATTACHED TO EARTH & STAGGERED PULSE
    ================================================================ */
 function AlertHotspot({
   alert,
@@ -362,7 +230,7 @@ function AlertHotspot({
   const coreRef = useRef<THREE.Mesh>(null!);
   const glowRef = useRef<THREE.Mesh>(null!);
   const ringRef = useRef<THREE.Mesh>(null!);
-  const position = useMemo(() => latLngToVec3(alert.lat, alert.lng, radius + 0.015), [alert, radius]);
+  const position = useMemo(() => latLngToVec3(alert.lat, alert.lng, radius + 0.025), [alert, radius]);
 
   const phaseOffset = useMemo(() => (alert.id * 0.75) % (Math.PI * 2), [alert.id]);
 
@@ -438,7 +306,7 @@ function AlertHotspot({
 }
 
 /* ================================================================
-   7. CONNECTION ARCS BETWEEN NODES
+   7. CONNECTION ARCS BETWEEN ALERT NODES
    ================================================================ */
 function ConnectionArc({
   from,
@@ -452,8 +320,8 @@ function ConnectionArc({
   color: string;
 }) {
   const lineObj = useMemo(() => {
-    const start = latLngToVec3(from.lat, from.lng, radius + 0.012);
-    const end = latLngToVec3(to.lat, to.lng, radius + 0.012);
+    const start = latLngToVec3(from.lat, from.lng, radius + 0.02);
+    const end = latLngToVec3(to.lat, to.lng, radius + 0.02);
     const mid = start.clone().add(end).multiplyScalar(0.5);
 
     const midLen = mid.length();
@@ -475,14 +343,14 @@ function ConnectionArc({
 }
 
 /* ================================================================
-   8. ORBITAL ARCS SURROUNDING THE GLOBE
+   8. SUBTLE ORBITAL ARCS SURROUNDING THE GLOBE
    ================================================================ */
 function OrbitalArcs({ radius }: { radius: number }) {
   const arcs = useMemo(() => {
     const configs = [
-      { r: radius * 1.18, tiltX: 0.45, tiltZ: 0.2,  color: '#2dd4bf', opacity: 0.40 },
-      { r: radius * 1.25, tiltX: -0.6, tiltZ: -0.3, color: '#38bdf8', opacity: 0.35 },
-      { r: radius * 1.32, tiltX: 0.9,  tiltZ: 0.7,  color: '#c084fc', opacity: 0.25 },
+      { r: radius * 1.18, tiltX: 0.45, tiltZ: 0.2,  color: '#2dd4bf', opacity: 0.35 },
+      { r: radius * 1.25, tiltX: -0.6, tiltZ: -0.3, color: '#38bdf8', opacity: 0.30 },
+      { r: radius * 1.32, tiltX: 0.9,  tiltZ: 0.7,  color: '#c084fc', opacity: 0.20 },
     ];
 
     return configs.map((cfg, idx) => {
@@ -524,21 +392,22 @@ function GlobeScene({
   onAlertHover: (alert: AlertPoint, screenPos: { x: number; y: number }) => void;
   onAlertLeave: () => void;
 }) {
-  const rotatingGroupRef = useRef<THREE.Group>(null!);
+  const rotatingEarthGroupRef = useRef<THREE.Group>(null!);
   const GLOBE_RADIUS = 1.55;
 
-  // Continuous rotation: ~28 seconds per revolution
+  // Continuous rotation: ~28 seconds per revolution for Earth surface + attached nodes
   useFrame(({ clock }) => {
-    if (rotatingGroupRef.current) {
-      rotatingGroupRef.current.rotation.y = clock.getElapsedTime() * ((Math.PI * 2) / 28);
+    if (rotatingEarthGroupRef.current) {
+      rotatingEarthGroupRef.current.rotation.y = clock.getElapsedTime() * ((Math.PI * 2) / 28);
     }
   });
 
   return (
     <>
-      {/* Directional & Ambient Lighting for rich 3D depth */}
-      <ambientLight intensity={0.30} color="#1a6e5c" />
-      <directionalLight position={[4, 3, 5]} intensity={1.5} color="#e0fff8" />
+      {/* Directional & Ambient Lighting for realistic 3D sphere shading */}
+      <ambientLight intensity={0.45} color="#d4f0ec" />
+      <directionalLight position={[5, 3, 5]} intensity={1.5} color="#ffffff" />
+      <directionalLight position={[-4, -2, -3]} intensity={0.25} color="#10332c" />
 
       {/* Atmospheric outer glow rim */}
       <AtmosphereGlow radius={GLOBE_RADIUS} />
@@ -546,18 +415,18 @@ function GlobeScene({
       {/* Orbital arcs around globe silhouette */}
       <OrbitalArcs radius={GLOBE_RADIUS} />
 
-      {/* Rotating 3D World */}
-      <group ref={rotatingGroupRef}>
-        {/* Base Earth with visible dark emerald landmass shape */}
-        <DarkEarthBase radius={GLOBE_RADIUS} />
+      {/* Cloud Layer (rotates independently) */}
+      <RealisticCloudLayer radius={GLOBE_RADIUS} />
 
-        {/* High-contrast halftone particle dots for visible continents */}
-        <DottedContinents radius={GLOBE_RADIUS} />
+      {/* Rotating 3D World (Earth Surface + Incident Points + Arcs) */}
+      <group ref={rotatingEarthGroupRef}>
+        {/* Realistic NASA Blue Marble Earth Sphere */}
+        <RealisticEarthSphere radius={GLOBE_RADIUS} />
 
         {/* Network connectivity nodes */}
         <NetworkNodes radius={GLOBE_RADIUS} />
 
-        {/* Red alert hotspots */}
+        {/* Red alert hotspots (Attached to Earth surface) */}
         {DEMO_ALERTS.map((alert) => (
           <AlertHotspot
             key={alert.id}
@@ -568,7 +437,7 @@ function GlobeScene({
           />
         ))}
 
-        {/* Connection arcs */}
+        {/* Connection arcs between alert pairs */}
         {CONNECTION_PAIRS.map(([fromIdx, toIdx, color], i) => (
           <ConnectionArc
             key={i}
