@@ -38,7 +38,6 @@ console.log(`  - FIREBASE_CLIENT_EMAIL: ${hasValue(process.env.FIREBASE_CLIENT_E
 console.log(`  - FIREBASE_STORAGE_BUCKET: ${hasValue(process.env.FIREBASE_STORAGE_BUCKET) ? process.env.FIREBASE_STORAGE_BUCKET : 'missing'}`);
 console.log(`  - TWILIO_ACCOUNT_SID: ${hasValue(process.env.TWILIO_ACCOUNT_SID) ? 'configured' : 'missing'}`);
 console.log(`  - TWILIO_WHATSAPP_NUMBER: ${hasValue(process.env.TWILIO_WHATSAPP_NUMBER) ? process.env.TWILIO_WHATSAPP_NUMBER : 'missing'}`);
-console.log(`  - GOOGLE_MAPS_API_KEY: ${hasValue(process.env.VITE_GOOGLE_MAPS_API_KEY) ? 'configured in frontend env' : 'missing in frontend env'}`);
 
 // Security & Parsing Middleware
 app.use(cors({ origin: true, credentials: true }));
