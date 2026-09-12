@@ -13,51 +13,51 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'md' })
 
   const configs: Record<CaseStatus, { bg: string; text: string; border: string; icon: any; labelKey: string }> = {
     NEW: {
-      bg: 'bg-forest-900/10 dark:bg-forest-800/20',
-      text: 'text-forest-900 dark:text-sage-300',
-      border: 'border-forest-900/30',
+      bg: 'bg-teal-700/10 dark:bg-teal-500/20',
+      text: 'text-teal-700 dark:text-teal-300',
+      border: 'border-teal-700/30',
       icon: FileText,
       labelKey: 'statusNew'
     },
     TRIAGED: {
-      bg: 'bg-sage-600/15 dark:bg-sage-600/20',
-      text: 'text-forest-900 dark:text-sage-300',
-      border: 'border-sage-600/30',
+      bg: 'bg-mint-200/40 dark:bg-teal-800/30',
+      text: 'text-teal-800 dark:text-teal-300',
+      border: 'border-mint-200/60',
       icon: Clock,
       labelKey: 'statusTriaged'
     },
     UNDER_REVIEW: {
-      bg: 'bg-amberGold-600/15 dark:bg-amberGold-600/20',
-      text: 'text-amberGold-700 dark:text-amberGold-500',
-      border: 'border-amberGold-600/30',
+      bg: 'bg-amberGold-600/15 dark:bg-amberGold-600/25',
+      text: 'text-amberGold-700 dark:text-amberGold-400',
+      border: 'border-amberGold-600/35',
       icon: Eye,
       labelKey: 'statusReview'
     },
     ROUTED: {
-      bg: 'bg-forest-900/15 dark:bg-forest-800/30',
-      text: 'text-forest-900 dark:text-ivory-100',
-      border: 'border-forest-900/40',
+      bg: 'bg-teal-700/15 dark:bg-teal-500/25',
+      text: 'text-teal-800 dark:text-teal-200',
+      border: 'border-teal-700/40',
       icon: Send,
       labelKey: 'statusRouted'
     },
     ASSIGNED: {
-      bg: 'bg-sage-600/20 dark:bg-sage-600/30',
-      text: 'text-forest-950 dark:text-ivory-100',
-      border: 'border-sage-600/40',
+      bg: 'bg-mint-200/50 dark:bg-teal-700/30',
+      text: 'text-teal-900 dark:text-teal-100',
+      border: 'border-mint-200/70',
       icon: UserCheck,
       labelKey: 'statusAssigned'
     },
     INTERVENTION: {
-      bg: 'bg-terracotta-600/15 dark:bg-terracotta-600/20',
-      text: 'text-terracotta-700 dark:text-terracotta-500',
-      border: 'border-terracotta-600/40',
+      bg: 'bg-coral-600/15 dark:bg-coral-600/25',
+      text: 'text-coral-600 dark:text-coral-400',
+      border: 'border-coral-600/40',
       icon: ShieldCheck,
       labelKey: 'statusIntervention'
     },
     RESOLVED: {
-      bg: 'bg-forest-900/20 dark:bg-forest-800/40',
-      text: 'text-forest-900 dark:text-sage-200',
-      border: 'border-forest-900/40',
+      bg: 'bg-teal-700/20 dark:bg-teal-500/30',
+      text: 'text-teal-800 dark:text-teal-200',
+      border: 'border-teal-700/40',
       icon: CheckCircle2,
       labelKey: 'statusResolved'
     }

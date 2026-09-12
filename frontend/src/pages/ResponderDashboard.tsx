@@ -70,7 +70,7 @@ export const ResponderDashboard: React.FC = () => {
           value={activeCasesCount}
           change="+12% active"
           icon={Layers}
-          accentColor="forest"
+          accentColor="teal"
         />
         <MetricCard
           title="HIGH PRIORITY"
@@ -78,7 +78,7 @@ export const ResponderDashboard: React.FC = () => {
           change="+2 new alerts"
           isPositive={false}
           icon={AlertTriangle}
-          accentColor="terracotta"
+          accentColor="coral"
         />
         <MetricCard
           title="NEW REPORTS"
@@ -92,7 +92,7 @@ export const ResponderDashboard: React.FC = () => {
           value={resolvedCount}
           change="+24% safe"
           icon={CheckCircle2}
-          accentColor="sage"
+          accentColor="mint"
         />
       </div>
 

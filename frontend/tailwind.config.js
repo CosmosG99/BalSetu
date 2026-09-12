@@ -8,67 +8,71 @@ export default {
   theme: {
     extend: {
       colors: {
-        forest: {
-          950: '#0F2922',
-          900: '#173C32',
-          800: '#1F4D41',
-          700: '#2A6354',
-          600: '#387B6A',
-          500: '#4A9482',
-          200: '#BFDDD6',
-          100: '#E8F0EC',
-          50: '#F2F7F4'
+        // Bright Teal Brand Colors
+        teal: {
+          950: '#0A1815',
+          900: '#0F1D19', // Dark mode background
+          850: '#162722', // Dark mode surface
+          800: '#136657',
+          700: '#167A68', // Primary light mode brand
+          600: '#1E9680',
+          500: '#2B9A82', // Primary dark mode brand
+          400: '#4AB59D',
+          300: '#6ECBB5',
+          200: '#8BCDB4', // Secondary mint
+          100: '#D4F0E7',
+          50: '#F0F9F6'
         },
-        sage: {
-          700: '#5C7A66',
-          600: '#6F8F7A',
-          500: '#7E9E89',
-          300: '#A9C4B3',
-          200: '#CBE0D3',
-          100: '#E7F2EB',
-          50: '#F3F8F5'
-        },
+        // Warm Ivory Background Colors
         ivory: {
-          200: '#EBE7DD',
-          100: '#F5F3ED',
-          50: '#FAF8F5'
+          300: '#E2E5D8',
+          200: '#ECEEE5',
+          100: '#F7F8F4', // Light mode background
+          50: '#FCFCF9'
         },
+        // Charcoal Typography & Surface Colors
         charcoal: {
-          950: '#101B18',
-          900: '#162620',
-          850: '#1A2E27',
-          800: '#1E2925',
-          700: '#2D3B36',
-          600: '#465550',
-          500: '#66736D',
-          400: '#8A9B93',
-          200: '#C7D4CE',
-          100: '#E4ECE8',
-          50: '#F4F7F6'
+          950: '#0F1D19',
+          900: '#162722',
+          850: '#1B2E28',
+          800: '#18332D', // Primary light text
+          700: '#2C4A42',
+          600: '#60736D', // Secondary light text
+          500: '#7E918B',
+          400: '#9DB0A8', // Dark mode muted text
+          300: '#C2D1CB',
+          200: '#DFE7E3',
+          100: '#F5F4EE', // Dark mode text
+          50: '#F7FAF9'
         },
-        terracotta: {
-          700: '#B06341',
-          600: '#C97955',
-          500: '#D98965',
-          200: '#F3CBB8',
-          100: '#FBECE5',
-          50: '#FDF5F1'
+        // Warm Coral Accents
+        coral: {
+          700: '#C75B42',
+          600: '#E8785D', // Main warm coral
+          500: '#F08E76',
+          200: '#FAD5CB',
+          100: '#FCECE8'
         },
+        // Warm Amber Accents
         amberGold: {
-          700: '#B88732',
-          600: '#D6A64F',
-          500: '#E4B65F',
-          200: '#F5E2B8',
-          100: '#FBF3E2'
-        }
+          700: '#C5962B',
+          600: '#E7B84B', // Warm golden yellow
+          500: '#F2C663',
+          200: '#F8E8C0',
+          100: '#FAF3DF'
+        },
+        // Functional Badges & Statuses
+        statusSuccess: '#2E9B72',
+        statusWarning: '#D99A32',
+        statusDanger: '#D95C55'
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
       boxShadow: {
-        'subtle': '0 2px 10px 0 rgba(23, 60, 50, 0.06)',
-        'card': '0 4px 20px -2px rgba(23, 60, 50, 0.08)',
-        'modal': '0 20px 40px -10px rgba(16, 27, 24, 0.25)',
+        'subtle': '0 2px 10px 0 rgba(22, 122, 104, 0.05)',
+        'card': '0 4px 20px -2px rgba(24, 51, 45, 0.06)',
+        'modal': '0 16px 36px -8px rgba(15, 29, 25, 0.18)',
       }
     },
   },

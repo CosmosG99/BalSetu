@@ -17,11 +17,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (saved === 'light' || saved === 'dark') {
       return saved;
     }
-    // Check system preference
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    return 'light'; // Default to light mode
+    // Default to Light Mode for welcoming, bright citizen experience
+    return 'light';
   });
 
   const applyThemeToDOM = (selectedTheme: Theme) => {

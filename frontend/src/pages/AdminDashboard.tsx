@@ -13,22 +13,22 @@ export const AdminDashboard: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-ivory-300 dark:border-charcoal-800 pb-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-charcoal-200 dark:border-charcoal-800 pb-4">
         <div>
           <div className="flex items-center space-x-2">
-            <LayoutDashboard className="w-6 h-6 text-forest-700 dark:text-sage-300" />
-            <h1 className="text-2xl font-extrabold text-charcoal-900 dark:text-ivory-100">{t('adminTitle')}</h1>
+            <LayoutDashboard className="w-6 h-6 text-teal-700 dark:text-teal-400" />
+            <h1 className="text-2xl font-extrabold text-charcoal-800 dark:text-charcoal-100">{t('adminTitle')}</h1>
           </div>
-          <p className="text-xs text-charcoal-600 dark:text-ivory-400">{t('adminSub')}</p>
+          <p className="text-xs text-charcoal-600 dark:text-charcoal-400">{t('adminSub')}</p>
         </div>
 
-        <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-forest-900/10 dark:bg-sage-400/10 text-forest-800 dark:text-sage-300 border border-forest-800/20 dark:border-sage-400/20">
+        <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-teal-700/10 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300 border border-teal-700/20 dark:border-teal-500/30">
           {t('opsOverview')}
         </span>
       </div>
 
       {/* Data Disclaimer */}
-      <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-charcoal-900/90 border border-ivory-300 dark:border-charcoal-800 text-xs text-charcoal-600 dark:text-ivory-400 flex items-center space-x-2 shadow-sm">
+      <div className="p-3.5 rounded-2xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 text-xs text-charcoal-600 dark:text-charcoal-400 flex items-center space-x-2 shadow-sm">
         <AlertCircle className="w-4 h-4 text-amberGold-600 dark:text-amberGold-400 flex-shrink-0" />
         <span>{t('syntheticDataNotice')}</span>
       </div>
@@ -40,7 +40,7 @@ export const AdminDashboard: React.FC = () => {
           value={analyticsData.totalReports}
           change="+12% volume"
           icon={FileText}
-          accentColor="forest"
+          accentColor="teal"
         />
         <MetricCard
           title={t('activeCasesMetric')}
@@ -54,14 +54,14 @@ export const AdminDashboard: React.FC = () => {
           value={`${analyticsData.avgResponseTimeMin}m`}
           change="-1.8m improvement"
           icon={Clock}
-          accentColor="sage"
+          accentColor="mint"
         />
         <MetricCard
           title={t('resolutionRate')}
           value="84.2%"
           change="+4.1% efficiency"
           icon={CheckCircle2}
-          accentColor="forest"
+          accentColor="teal"
         />
       </div>
 
@@ -71,4 +71,3 @@ export const AdminDashboard: React.FC = () => {
     </div>
   );
 };
-

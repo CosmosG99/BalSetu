@@ -15,30 +15,30 @@ export const RiskBadge: React.FC<RiskBadgeProps> = ({ level, score, showIcon = t
 
   const configs: Record<RiskLevel, { bg: string; text: string; border: string; icon: any; labelKey: string }> = {
     CRITICAL: {
-      bg: 'bg-terracotta-600/15 dark:bg-terracotta-600/20',
-      text: 'text-terracotta-700 dark:text-terracotta-500',
-      border: 'border-terracotta-600/40',
+      bg: 'bg-coral-600/15 dark:bg-coral-600/25',
+      text: 'text-coral-600 dark:text-coral-400',
+      border: 'border-coral-600/40',
       icon: ShieldAlert,
       labelKey: 'riskCritical'
     },
     HIGH: {
-      bg: 'bg-amberGold-600/15 dark:bg-amberGold-600/20',
-      text: 'text-amberGold-700 dark:text-amberGold-500',
+      bg: 'bg-amberGold-600/15 dark:bg-amberGold-600/25',
+      text: 'text-amberGold-700 dark:text-amberGold-400',
       border: 'border-amberGold-600/40',
       icon: AlertTriangle,
       labelKey: 'riskHigh'
     },
     MEDIUM: {
-      bg: 'bg-sage-600/15 dark:bg-sage-600/20',
-      text: 'text-forest-900 dark:text-sage-300',
-      border: 'border-sage-600/40',
+      bg: 'bg-teal-700/10 dark:bg-teal-500/20',
+      text: 'text-teal-700 dark:text-teal-300',
+      border: 'border-teal-700/30',
       icon: AlertCircle,
       labelKey: 'riskMedium'
     },
     LOW: {
-      bg: 'bg-forest-900/10 dark:bg-forest-800/20',
-      text: 'text-forest-900 dark:text-sage-400',
-      border: 'border-forest-900/30',
+      bg: 'bg-mint-200/40 dark:bg-teal-800/30',
+      text: 'text-teal-800 dark:text-teal-300',
+      border: 'border-mint-200/60',
       icon: Info,
       labelKey: 'riskLow'
     }

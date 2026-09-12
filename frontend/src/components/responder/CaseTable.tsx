@@ -45,13 +45,13 @@ export const CaseTable: React.FC<CaseTableProps> = ({ cases }) => {
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
         {/* Search Input */}
         <div className="relative w-full sm:w-80">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-charcoal-400" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-charcoal-500" />
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search Case ID or Location..."
-            className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 rounded-xl text-xs text-charcoal-800 dark:text-ivory-100 placeholder-charcoal-400 focus:outline-none focus:border-forest-900 shadow-sm transition-all"
+            className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 rounded-xl text-xs text-charcoal-800 dark:text-charcoal-100 placeholder-charcoal-500 focus:outline-none focus:border-teal-700 shadow-sm transition-all"
           />
         </div>
 
@@ -63,8 +63,8 @@ export const CaseTable: React.FC<CaseTableProps> = ({ cases }) => {
               onClick={() => setActiveFilter(tab.key)}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 activeFilter === tab.key
-                  ? 'bg-forest-900 text-white shadow-sm'
-                  : 'bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 text-charcoal-600 dark:text-charcoal-400 hover:text-charcoal-900 dark:hover:text-ivory-100'
+                  ? 'bg-teal-700 text-white shadow-sm'
+                  : 'bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 text-charcoal-800 dark:text-charcoal-200 hover:text-teal-700 dark:hover:text-teal-300'
               }`}
             >
               {tab.label}
@@ -73,11 +73,11 @@ export const CaseTable: React.FC<CaseTableProps> = ({ cases }) => {
         </div>
       </div>
 
-      {/* Main Table Container matching Reference Blueprint */}
+      {/* Main Table Container */}
       <div className="natural-panel overflow-hidden shadow-modal">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-charcoal-700 dark:text-charcoal-300">
-            <thead className="bg-ivory-100/90 dark:bg-charcoal-950 border-b border-charcoal-200/80 dark:border-charcoal-800 text-charcoal-600 dark:text-charcoal-400 font-bold uppercase tracking-wider">
+          <table className="w-full text-left text-xs text-charcoal-800 dark:text-charcoal-200">
+            <thead className="bg-ivory-100 dark:bg-charcoal-950 border-b border-charcoal-200/80 dark:border-charcoal-800 text-charcoal-800 dark:text-charcoal-300 font-bold uppercase tracking-wider">
               <tr>
                 <th className="py-3.5 px-4">Priority</th>
                 <th className="py-3.5 px-4">Case ID</th>
@@ -92,7 +92,7 @@ export const CaseTable: React.FC<CaseTableProps> = ({ cases }) => {
             <tbody className="divide-y divide-charcoal-200/80 dark:divide-charcoal-800/80">
               {filteredCases.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="py-12 text-center text-charcoal-500">
+                  <td colSpan={8} className="py-12 text-center text-charcoal-600 dark:text-charcoal-400 font-medium">
                     No matching cases found in response queue.
                   </td>
                 </tr>
@@ -101,37 +101,37 @@ export const CaseTable: React.FC<CaseTableProps> = ({ cases }) => {
                   <tr
                     key={c.id}
                     onClick={() => navigate(`/responder/cases/${c.id}`)}
-                    className="hover:bg-ivory-100/80 dark:hover:bg-charcoal-850 cursor-pointer transition-colors group"
+                    className="hover:bg-teal-700/5 dark:hover:bg-charcoal-850 cursor-pointer transition-colors group"
                   >
                     <td className="py-3.5 px-4">
                       <RiskBadge level={c.aiAnalysis.riskLevel} score={c.aiAnalysis.riskScore} size="sm" />
                     </td>
-                    <td className="py-3.5 px-4 font-mono font-extrabold text-forest-900 dark:text-sage-300">
+                    <td className="py-3.5 px-4 font-mono font-extrabold text-teal-700 dark:text-teal-400">
                       {c.id}
                     </td>
-                    <td className="py-3.5 px-4 font-bold text-charcoal-800 dark:text-ivory-100">
+                    <td className="py-3.5 px-4 font-bold text-charcoal-800 dark:text-charcoal-100">
                       {c.report.incidentTypes.join(', ')}
                     </td>
-                    <td className="py-3.5 px-4 font-medium text-charcoal-700 dark:text-charcoal-300 max-w-[180px] truncate">
+                    <td className="py-3.5 px-4 font-medium text-charcoal-800 dark:text-charcoal-200 max-w-[180px] truncate">
                       <div className="flex items-center space-x-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-forest-900 dark:text-sage-400 flex-shrink-0" />
+                        <MapPin className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400 flex-shrink-0" />
                         <span className="truncate">{c.report.location}</span>
                       </div>
                     </td>
-                    <td className="py-3.5 px-4 text-charcoal-500 font-mono">
+                    <td className="py-3.5 px-4 text-charcoal-600 dark:text-charcoal-400 font-mono">
                       <div className="flex items-center space-x-1">
-                        <Clock className="w-3 h-3 text-charcoal-400" />
+                        <Clock className="w-3 h-3 text-charcoal-500" />
                         <span>{c.report.approxTime || '12 min ago'}</span>
                       </div>
                     </td>
-                    <td className="py-3.5 px-4 font-medium text-charcoal-800 dark:text-ivory-100">
+                    <td className="py-3.5 px-4 font-semibold text-charcoal-800 dark:text-charcoal-100">
                       {c.assignedResponder || 'Unassigned'}
                     </td>
                     <td className="py-3.5 px-4">
                       <StatusBadge status={c.status} size="sm" />
                     </td>
                     <td className="py-3.5 px-4 text-right">
-                      <button className="px-3 py-1 rounded-lg bg-forest-900/10 dark:bg-forest-800/30 text-forest-900 dark:text-sage-300 font-bold hover:bg-forest-900 hover:text-white transition-all inline-flex items-center space-x-1 text-[11px]">
+                      <button className="px-3 py-1 rounded-lg bg-teal-700/10 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300 font-bold hover:bg-teal-700 hover:text-white transition-all inline-flex items-center space-x-1 text-[11px]">
                         <span>Open</span>
                         <ChevronRight className="w-3.5 h-3.5" />
                       </button>
