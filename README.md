@@ -1,12 +1,12 @@
-# BalSetu
+# RAKSHAK
 
-BalSetu is a full-stack child-safety reporting and response platform built for real incident intake, AI-assisted triage, responder coordination, analytics, and public tracking.
+RAKSHAK is a full-stack child-safety reporting and response platform built for real incident intake, AI-assisted triage, responder coordination, analytics, and public tracking.
 
 It includes a React + Vite frontend, an Express + Node.js backend, Firebase-backed persistence, Groq-powered AI triage and summaries, Twilio WhatsApp integration, and an OpenStreetMap-based location search experience.
 
 ## Project Overview
 
-BalSetu helps citizens quickly report missing, distressed, or unaccompanied children in transit hubs and public spaces. Reports are routed through a backend workflow that can:
+RAKSHAK helps citizens quickly report missing, distressed, or unaccompanied children in transit hubs and public spaces. Reports are routed through a backend workflow that can:
 
 - validate and store reports
 - run AI-assisted safety triage
@@ -70,7 +70,7 @@ BalSetu helps citizens quickly report missing, distressed, or unaccompanied chil
 ## Repository Structure
 
 ```text
-BalSetu/
+RAKSHAK/
 ├── README.md
 ├── package.json
 ├── backend/
