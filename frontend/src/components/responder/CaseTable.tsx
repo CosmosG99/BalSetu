@@ -4,6 +4,7 @@ import { RiskBadge } from '../common/RiskBadge';
 import { StatusBadge } from '../common/StatusBadge';
 import { Search, ChevronRight, MapPin, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { formatRelativeTime } from '../../api/cases';
 
 interface CaseTableProps {
   cases: CaseModel[];
@@ -119,9 +120,9 @@ export const CaseTable: React.FC<CaseTableProps> = ({ cases }) => {
                       </div>
                     </td>
                     <td className="py-3.5 px-4 text-charcoal-600 dark:text-charcoal-400 font-mono">
-                      <div className="flex items-center space-x-1">
+                      <div className="flex items-center space-x-1" title={c.createdAt ? new Date(c.createdAt).toLocaleString() : undefined}>
                         <Clock className="w-3 h-3 text-charcoal-500" />
-                        <span>{c.report.approxTime || '12 min ago'}</span>
+                        <span>{c.report.approxTime || formatRelativeTime(c.createdAt)}</span>
                       </div>
                     </td>
                     <td className="py-3.5 px-4 font-semibold text-charcoal-800 dark:text-charcoal-100">

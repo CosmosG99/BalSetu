@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useCases } from '../context/CaseContext';
 import { useLanguage } from '../context/LanguageContext';
 import { CaseStatus } from '../types';
+import { formatRelativeTime } from '../api/cases';
 import { RiskBadge } from '../components/common/RiskBadge';
 import { StatusBadge } from '../components/common/StatusBadge';
 import { CaseTimeline } from '../components/responder/CaseTimeline';
@@ -125,9 +126,9 @@ export const CaseDetailPage: React.FC = () => {
                 <span>{caseData.report.location}</span>
               </span>
               <span>•</span>
-              <span className="flex items-center space-x-1">
+              <span className="flex items-center space-x-1" title={caseData.createdAt ? new Date(caseData.createdAt).toLocaleString() : undefined}>
                 <Clock className="w-3.5 h-3.5 text-charcoal-400" />
-                <span>{caseData.report.approxTime || '12 min ago'}</span>
+                <span>{caseData.report.approxTime || formatRelativeTime(caseData.createdAt)}</span>
               </span>
             </div>
           </div>

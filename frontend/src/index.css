@@ -1,3 +1,4 @@
+@import 'leaflet/dist/leaflet.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -119,4 +120,64 @@
   background-image: 
     linear-gradient(to right, rgba(245, 247, 246, 0.04) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(245, 247, 246, 0.04) 1px, transparent 1px);
+}
+
+/* Leaflet Custom Styling for Dark & Light themes */
+.leaflet-container {
+  font-family: inherit !important;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  background: #eef2ef !important;
+}
+
+.dark .leaflet-container {
+  background: #091a16 !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(12px) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.15) !important;
+  padding: 4px !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.dark .leaflet-popup-content-wrapper {
+  background: rgba(15, 30, 26, 0.95) !important;
+  color: #f5f7f6 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.4) !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(255, 255, 255, 0.96) !important;
+}
+
+.dark .leaflet-popup-tip {
+  background: rgba(15, 30, 26, 0.95) !important;
+}
+
+.pulse-marker-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  animation: markerPulse 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes markerPulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.85;
+  }
+  65% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
 }

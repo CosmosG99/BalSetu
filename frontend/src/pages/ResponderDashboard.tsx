@@ -109,10 +109,15 @@ export const ResponderDashboard: React.FC = () => {
 
               <div>
                 <div className="font-mono text-sm font-extrabold text-white">{highestPriorityCase.id}</div>
-                <div className="text-xs font-bold text-white line-clamp-1">{highestPriorityCase.report.incidentTypes.join(', ')}</div>
-                <div className="text-[11px] text-teal-100 flex items-center space-x-1 mt-1">
-                  <MapPin className="w-3 h-3 text-mint-200 flex-shrink-0" />
-                  <span className="truncate">{highestPriorityCase.report.location}</span>
+                <div className="text-[11px] text-teal-100 flex items-center justify-between mt-1">
+                  <div className="flex items-center space-x-1 truncate max-w-[200px]">
+                    <MapPin className="w-3 h-3 text-mint-200 flex-shrink-0" />
+                    <span className="truncate">{highestPriorityCase.report.location}</span>
+                  </div>
+                  <div className="flex items-center space-x-1 text-mint-200 flex-shrink-0 font-mono text-[10px]" title={highestPriorityCase.createdAt ? new Date(highestPriorityCase.createdAt).toLocaleString() : undefined}>
+                    <Clock className="w-3 h-3" />
+                    <span>{highestPriorityCase.report.approxTime || 'Recently'}</span>
+                  </div>
                 </div>
               </div>
 

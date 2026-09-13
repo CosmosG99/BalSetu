@@ -45,6 +45,24 @@ function displayTime(value: ApiTimestamp) {
   return new Intl.DateTimeFormat(undefined, { hour: '2-digit', minute: '2-digit' }).format(new Date(iso(value)));
 }
 
+export function formatRelativeTime(value: ApiTimestamp): string {
+  if (!value) return 'Recently';
+  const isoStr = iso(value);
+  const dateMs = new Date(isoStr).getTime();
+  if (isNaN(dateMs)) return 'Recently';
+
+  const diffMs = Date.now() - dateMs;
+  if (diffMs < 0 || diffMs < 60000) return 'Just now';
+  const diffMin = Math.floor(diffMs / 60000);
+  if (diffMin < 60) return `${diffMin}m ago`;
+  const diffHours = Math.floor(diffMin / 60);
+  if (diffHours < 24) return `${diffHours}h ago`;
+  const diffDays = Math.floor(diffHours / 24);
+  if (diffDays < 7) return `${diffDays}d ago`;
+
+  return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(dateMs));
+}
+
 function priorityToRisk(priority?: string): RiskLevel {
   return ({ critical: 'CRITICAL', high: 'HIGH', medium: 'MEDIUM', low: 'LOW' } as Record<string, RiskLevel>)[priority || ''] || 'MEDIUM';
 }
@@ -68,6 +86,8 @@ export function caseFromApi(data: ApiCase): CaseModel {
   const triage = data.aiTriage || {};
   const riskLevel = priorityToRisk(data.priority || triage.priority);
   const location = data.location || {};
+  const approxTime = data.approxTime || formatRelativeTime(data.createdAt);
+
   return {
     id: data.id,
     report: {
@@ -78,7 +98,8 @@ export function caseFromApi(data: ApiCase): CaseModel {
       description: data.description || '',
       photoUrl: data.photoUrl || undefined,
       isBlurred: true,
-      isAnonymous: data.anonymous !== false
+      isAnonymous: data.anonymous !== false,
+      approxTime
     },
     aiAnalysis: {
       riskScore: riskScore(data.priority || triage.priority),
