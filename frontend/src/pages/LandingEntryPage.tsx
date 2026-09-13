@@ -36,14 +36,14 @@ export const LandingEntryPage: React.FC = () => {
   };
 
   const marqueeItems = [
-    { title: 'Community Reporting', subtitle: '30s anonymous bystander submission' },
-    { title: 'AI-Assisted Triage', subtitle: 'Advisory trauma risk assessment' },
-    { title: 'Location Awareness', subtitle: 'Transit hub concourse mapping' },
-    { title: 'Coordinated Response', subtitle: 'RPF & child welfare dispatch' }
+    { title: t('entryMarqueeCommunity'), subtitle: t('entryMarqueeCommunitySub') },
+    { title: t('entryMarqueeAi'), subtitle: t('entryMarqueeAiSub') },
+    { title: t('entryMarqueeLocation'), subtitle: t('entryMarqueeLocationSub') },
+    { title: t('entryMarqueeResponse'), subtitle: t('entryMarqueeResponseSub') }
   ];
 
   return (
-    <div className="relative min-h-screen bg-[#edf7f2] text-[#102a24] font-sans selection:bg-teal-500/30 selection:text-[#102a24] overflow-hidden flex flex-col justify-between">
+    <div className="relative min-h-screen bg-[#edf7f2] text-[#102a24] dark:bg-[#061d18] dark:text-[#edf7f2] font-sans selection:bg-teal-500/30 selection:text-[#102a24] dark:selection:text-[#edf7f2] overflow-hidden flex flex-col justify-between">
       
       {/* Background Ambient Grid & Radial Spotlights */}
       <div className="absolute inset-0 bg-grid-pattern opacity-20 pointer-events-none" />
@@ -59,11 +59,11 @@ export const LandingEntryPage: React.FC = () => {
         <Link to="/" className="flex items-center space-x-3 group">
           <img src="/rakshak-mark.svg" alt="Rakshak logo" className="w-10 h-10 object-contain group-hover:scale-105 transition-transform" />
           <div>
-            <div className="text-xl font-extrabold tracking-tight text-[#102a24] leading-none mb-1">
+            <div className="text-xl font-extrabold tracking-tight text-[#102a24] dark:text-[#edf7f2] leading-none mb-1">
               {t('appName')}
             </div>
-            <div className="text-[11px] font-medium text-[#2d6b5d] tracking-wide uppercase">
-              Protect. Connect. Respond.
+            <div className="text-[11px] font-medium text-[#2d6b5d] dark:text-[#d6f0ea] tracking-wide uppercase">
+              {t('entryTagline')}
             </div>
           </div>
         </Link>
@@ -72,12 +72,12 @@ export const LandingEntryPage: React.FC = () => {
         <div className="flex items-center space-x-3">
           
           {/* Language Selector Dropdown */}
-          <div className="relative flex items-center bg-white/70 backdrop-blur-md border border-[#1c4d42]/15 rounded-xl px-3 py-1.5 text-xs text-[#102a24] shadow-subtle hover:border-teal-500/40 transition-colors">
-            <Globe className="w-4 h-4 mr-2 text-teal-600" />
+          <div className="relative flex items-center bg-white/70 dark:bg-[#0d2d28]/70 backdrop-blur-md border border-[#1c4d42]/15 dark:border-[#9ae0d1]/20 rounded-xl px-3 py-1.5 text-xs text-[#102a24] dark:text-[#edf7f2] shadow-subtle hover:border-teal-500/40 transition-colors">
+            <Globe className="w-4 h-4 mr-2 text-teal-600 dark:text-teal-300" />
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value as Language)}
-              className="bg-transparent text-[#102a24] font-bold focus:outline-none cursor-pointer pr-1 text-xs"
+              className="bg-transparent text-[#102a24] dark:text-[#edf7f2] font-bold focus:outline-none cursor-pointer pr-1 text-xs"
             >
               <option value="en" className="bg-white text-[#102a24]">English</option>
               <option value="hi" className="bg-white text-[#102a24]">हिन्दी</option>
@@ -88,7 +88,7 @@ export const LandingEntryPage: React.FC = () => {
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="p-2.5 rounded-xl bg-white/70 backdrop-blur-md border border-[#1c4d42]/15 text-[#102a24] hover:text-teal-700 transition-all shadow-subtle flex items-center justify-center cursor-pointer"
+            className="p-2.5 rounded-xl bg-white/70 dark:bg-[#0d2d28]/70 backdrop-blur-md border border-[#1c4d42]/15 dark:border-[#9ae0d1]/20 text-[#102a24] dark:text-[#edf7f2] hover:text-teal-700 dark:hover:text-teal-300 transition-all shadow-subtle flex items-center justify-center cursor-pointer"
             title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
           >
             {isDark ? <Sun className="w-4 h-4 text-amberGold-500" /> : <Moon className="w-4 h-4 text-teal-600" />}
@@ -107,15 +107,15 @@ export const LandingEntryPage: React.FC = () => {
           
           {/* Hero Eyebrow Pill */}
           {/* Hero Impactful Heading */}
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-[#102a24] tracking-tight leading-[1.08]">
-            Stronger <br />
-            Communities. <br />
-            <span className="text-teal-700">Safer Children.</span>
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-[#102a24] dark:text-[#edf7f2] tracking-tight leading-[1.08]">
+            {t('entryHeroTitle1')} <br />
+            {t('entryHeroTitle2')} <br />
+            <span className="text-teal-700 dark:text-teal-300">{t('entryHeroTitleHighlight')}</span>
           </h1>
 
           {/* Hero Short Description */}
-          <p className="text-base sm:text-lg text-[#2d6b5d] max-w-xl leading-relaxed">
-            RAKSHAK connects community reports, AI-powered triage, and coordinated response to protect vulnerable children in public spaces.
+          <p className="text-base sm:text-lg text-[#2d6b5d] dark:text-[#d3efe8] max-w-xl leading-relaxed">
+            {t('entryHeroDescription')}
           </p>
 
           {/* Dominant ENTER RAKSHAK CTA Button */}
@@ -124,12 +124,12 @@ export const LandingEntryPage: React.FC = () => {
               onClick={handleEnterApp}
               className="group px-9 py-4 rounded-2xl bg-teal-600 hover:bg-teal-500 text-white font-extrabold text-sm sm:text-base shadow-modal hover:scale-105 active:scale-95 transition-all duration-300 flex items-center space-x-3 cursor-pointer"
             >
-              <span>ENTER RAKSHAK</span>
+              <span>{t('entryCta')}</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
             </button>
 
-            <div className="text-xs text-[#2d6b5d] font-medium tracking-wide">
-              Be alert. Report. Make a difference.
+            <div className="text-xs text-[#2d6b5d] dark:text-[#d3efe8] font-medium tracking-wide">
+              {t('entrySupportText')}
             </div>
           </div>
 
@@ -176,10 +176,10 @@ export const LandingEntryPage: React.FC = () => {
             {[...marqueeItems, ...marqueeItems].map((item, index) => (
               <div
                 key={`${item.title}-${index}`}
-                className="flex items-center gap-3 rounded-full border border-[#1c4d42]/10 bg-white/70 px-4 py-2 text-left"
+                className="flex items-center gap-3 rounded-full border border-[#1c4d42]/10 dark:border-[#9ae0d1]/20 bg-white/70 dark:bg-[#0d2d28]/70 px-4 py-2 text-left"
               >
-                <span className="text-sm font-bold text-[#102a24]">{item.title}</span>
-                <span className="text-xs text-[#4a665f]">{item.subtitle}</span>
+                <span className="text-sm font-bold text-[#102a24] dark:text-[#edf7f2]">{item.title}</span>
+                <span className="text-xs text-[#4a665f] dark:text-[#cfeae4]">{item.subtitle}</span>
               </div>
             ))}
           </div>

@@ -40,11 +40,11 @@ export const LandingPage: React.FC = () => {
   const narrativeSteps = [
     {
       num: '01',
-      title: 'NOTICE',
-      subtitle: 'Bystander Observation',
-      desc: 'A citizen, railway staff member, or vendor spots a child travelling alone or showing signs of distress at a station.',
+      title: t('stepNoticeTitle'),
+      subtitle: t('stepNoticeSub'),
+      desc: t('stepNoticeDesc'),
       icon: Eye,
-      tag: 'Step 1',
+      tag: t('stepTag1'),
       accentColor: 'text-accentCyan',
       iconBg: 'bg-accentCyan/15 border-accentCyan/30 text-accentCyan',
       badgeBg: 'bg-accentCyan/10 text-accentCyan border-accentCyan/30',
@@ -52,11 +52,11 @@ export const LandingPage: React.FC = () => {
     },
     {
       num: '02',
-      title: 'REPORT',
-      subtitle: '30-Second Mobile Submission',
-      desc: 'Quick report submitted without creating an account. Optional face-blur photo protection is automatically applied.',
+      title: t('stepReportTitle'),
+      subtitle: t('stepReportSub'),
+      desc: t('stepReportDesc'),
       icon: Send,
-      tag: 'Step 2',
+      tag: t('stepTag2'),
       accentColor: 'text-teal-700 dark:text-teal-400',
       iconBg: 'bg-teal-700/15 text-teal-700 dark:text-teal-400 border-teal-700/30',
       badgeBg: 'bg-teal-700/10 text-teal-700 dark:text-teal-300 border-teal-700/30',
@@ -64,11 +64,11 @@ export const LandingPage: React.FC = () => {
     },
     {
       num: '03',
-      title: 'ASSESS',
-      subtitle: 'Advisory AI Triage',
-      desc: 'Rakshak AI assesses trauma risk indicators (0–100 score) and provides human-readable explanations.',
+      title: t('stepAssessTitle'),
+      subtitle: t('stepAssessSub'),
+      desc: t('stepAssessDesc'),
       icon: Cpu,
-      tag: 'Step 3',
+      tag: t('stepTag3'),
       accentColor: 'text-accentPurple',
       iconBg: 'bg-accentPurple/15 text-accentPurple border-accentPurple/30',
       badgeBg: 'bg-accentPurple/10 text-accentPurple border-accentPurple/30',
@@ -76,11 +76,11 @@ export const LandingPage: React.FC = () => {
     },
     {
       num: '04',
-      title: 'ROUTE',
-      subtitle: 'Smart Dispatch Matrix',
-      desc: 'Notifications dispatch simultaneously to platform RPF protection cells, welfare desks, and verified NGO partners.',
+      title: t('stepRouteTitle'),
+      subtitle: t('stepRouteSub'),
+      desc: t('stepRouteDesc'),
       icon: Network,
-      tag: 'Step 4',
+      tag: t('stepTag4'),
       accentColor: 'text-accentOrange',
       iconBg: 'bg-accentOrange/15 text-accentOrange border-accentOrange/30',
       badgeBg: 'bg-accentOrange/10 text-accentOrange border-accentOrange/30',
@@ -88,11 +88,11 @@ export const LandingPage: React.FC = () => {
     },
     {
       num: '05',
-      title: 'RESPOND',
-      subtitle: 'Ground Welfare Verification',
-      desc: 'On-duty responders conduct physical verification, update the live audit log, and facilitate safe reunion.',
+      title: t('stepRespondTitle'),
+      subtitle: t('stepRespondSub'),
+      desc: t('stepRespondDesc'),
       icon: ShieldCheck,
-      tag: 'Step 5',
+      tag: t('stepTag5'),
       accentColor: 'text-accentGreen',
       iconBg: 'bg-accentGreen/15 text-accentGreen border-accentGreen/30',
       badgeBg: 'bg-accentGreen/10 text-accentGreen border-accentGreen/30',
@@ -102,28 +102,28 @@ export const LandingPage: React.FC = () => {
 
   const faqs = [
     {
-      q: 'What is Rakshak?',
-      a: 'Rakshak is a first-mile child-safety coordination platform designed for transit hubs, railway stations, and bus terminals. It connects bystander observations to a coordinated response network quickly, safely, and anonymously.'
+      q: t('faq1Question'),
+      a: t('faq1Answer')
     },
     {
-      q: 'Can I report a concern completely anonymously?',
-      a: 'Yes. Anonymous reporting is enabled by default. We do not require your name, phone number, email, or account creation to submit a child safety concern.'
+      q: t('faq2Question'),
+      a: t('faq2Answer')
     },
     {
-      q: 'Does Rakshak use facial recognition to identify children?',
-      a: 'No. Rakshak does NOT perform facial identification or public surveillance. Images submitted by bystanders automatically feature face-blur protection and are strictly restricted to authorized ground responders for physical verification.'
+      q: t('faq3Question'),
+      a: t('faq3Answer')
     },
     {
-      q: 'Who receives the submitted report?',
-      a: 'Reports are processed through Rakshak AI triage and dispatched to the designated local station response cell, child help desk, and verified support partners at that specific transit node.'
+      q: t('faq4Question'),
+      a: t('faq4Answer')
     },
     {
-      q: 'Is Rakshak connected to government systems?',
-      a: 'Integrations displayed in this application represent simulated response concepts. Rakshak is designed to complement existing child protection systems.'
+      q: t('faq5Question'),
+      a: t('faq5Answer')
     },
     {
-      q: 'What happens after I submit a report?',
-      a: 'You receive a unique Case ID (e.g. RKS-2026-00421) and QR code. You can track high-level resolution progress anytime without exposing sensitive data.'
+      q: t('faq6Question'),
+      a: t('faq6Answer')
     }
   ];
 
@@ -134,19 +134,19 @@ export const LandingPage: React.FC = () => {
       {/* 1. HERO SECTION WITH RICH SEMANTIC ACCENTS                   */}
       {/* ============================================================ */}
       <section className="relative pt-8 pb-6 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+        <div className="rounded-[2rem] border border-[#d8f5ee]/40 bg-gradient-to-r from-[#0c5e58] via-[#0e7367] to-[#0d514d] p-4 sm:p-6 lg:p-8 shadow-[0_20px_50px_-20px_rgba(12,94,88,0.85)]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           
           {/* Hero Left Column */}
           <div className="lg:col-span-6 space-y-8 lg:space-y-10 text-left animate-fade-up lg:pb-4">
             
-            <h1 className="max-w-[900px] text-[3.25rem] sm:text-[4.4rem] lg:text-[6.8rem] font-black text-charcoal-800 dark:text-charcoal-100 tracking-[-0.08em] leading-[0.78]">
-              Turn a moment <br className="hidden sm:block" />
-              of concern into a <br className="hidden sm:block" />
-              <span className="text-teal-700 dark:text-teal-400">moment of protection.</span>
+            <h1 className="max-w-[900px] text-[3.25rem] sm:text-[4.4rem] lg:text-[6.8rem] font-black text-white tracking-[-0.08em] leading-[0.78]">
+              {t('heroHeadline1')} <br className="hidden sm:block" />
+              <span className="text-[#b8efe0]">{t('heroHeadlineHighlight')}</span>
             </h1>
 
-            <p className="text-sm sm:text-base text-charcoal-600 dark:text-charcoal-400 max-w-xl leading-relaxed">
-              Rakshak connects citizens who notice vulnerable or lost children in public transit hubs with an advisory AI-assisted ground response network — quickly, safely, and anonymously.
+            <p className="text-sm sm:text-base text-[#dffaf3] max-w-xl leading-relaxed">
+              {t('heroSubhead')}
             </p>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
@@ -154,7 +154,7 @@ export const LandingPage: React.FC = () => {
                 to="/report"
                 className="px-6 py-3 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-sm shadow-card hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center space-x-2"
               >
-                <span>REPORT A CONCERN</span>
+                <span>{t('heroReportCTA')}</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
 
@@ -162,7 +162,7 @@ export const LandingPage: React.FC = () => {
                 to="/how-it-works"
                 className="px-6 py-3 rounded-xl bg-white dark:bg-charcoal-900 hover:bg-ivory-100 dark:hover:bg-charcoal-850 text-charcoal-800 dark:text-charcoal-100 font-bold text-sm border border-charcoal-200 dark:border-charcoal-800 transition-all flex items-center justify-center space-x-2 text-center shadow-xs"
               >
-                <span>See How It Works</span>
+                <span>{t('heroHowCTA')}</span>
               </Link>
             </div>
 
@@ -186,10 +186,10 @@ export const LandingPage: React.FC = () => {
                 <div className="space-y-0.5">
                   <div className="flex items-center space-x-2">
                     <span className="font-mono text-xs font-extrabold text-teal-700 dark:text-teal-400">RKS-2026-00421</span>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-accentCoral/15 text-accentCoral border border-accentCoral/30">HIGH PRIORITY</span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-accentCoral/15 text-accentCoral border border-accentCoral/30">{t('riskHigh')}</span>
                   </div>
-                  <div className="text-xs font-bold text-charcoal-800 dark:text-charcoal-100">Child appears lost & distressed</div>
-                  <div className="text-[11px] text-charcoal-600 dark:text-charcoal-400">Mumbai Central Station • Platform 4</div>
+                  <div className="text-xs font-bold text-charcoal-800 dark:text-charcoal-100">{t('landingHeroStatusTitle')}</div>
+                  <div className="text-[11px] text-charcoal-600 dark:text-charcoal-400">{t('landingHeroStatusLocation')}</div>
                 </div>
 
                 <div className="flex flex-col items-end space-y-1">
@@ -201,6 +201,7 @@ export const LandingPage: React.FC = () => {
           </div>
 
         </div>
+        </div>
       </section>
 
       {/* ============================================================ */}
@@ -209,13 +210,13 @@ export const LandingPage: React.FC = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-12 space-y-2">
           <span className="text-xs font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400">
-            Coordinated Protection Lifecycle
+            {t('landingNarrativeBadge')}
           </span>
           <h2 className="text-3xl font-extrabold text-charcoal-800 dark:text-charcoal-100 tracking-tight">
-            From Observation to Safe Reunion
+            {t('landingNarrativeTitle')}
           </h2>
           <p className="text-xs sm:text-sm text-charcoal-600 dark:text-charcoal-400">
-            How Rakshak coordinates bystanders, AI triage, and ground responders seamlessly.
+            {t('landingNarrativeSubtitle')}
           </p>
         </div>
 
@@ -265,10 +266,10 @@ export const LandingPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-charcoal-200/80 dark:border-charcoal-800 pb-4">
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400 block">
-                SOFTWARE PREVIEW
+                {t('softwarePreviewTitle')}
               </span>
               <h2 className="text-2xl font-extrabold text-charcoal-800 dark:text-charcoal-100">
-                Inside the Responder Command Center
+                {t('softwarePreviewHeading')}
               </h2>
             </div>
 
@@ -281,7 +282,7 @@ export const LandingPage: React.FC = () => {
                     : 'bg-ivory-100 dark:bg-charcoal-850 text-charcoal-600 dark:text-charcoal-300'
                 }`}
               >
-                Queue Overview
+                {t('previewQueueOverview')}
               </button>
               <button
                 onClick={() => setActivePreviewTab('ai')}
@@ -291,7 +292,7 @@ export const LandingPage: React.FC = () => {
                     : 'bg-ivory-100 dark:bg-charcoal-850 text-charcoal-600 dark:text-charcoal-300'
                 }`}
               >
-                AI Triage Matrix
+                {t('previewAiTriageMatrix')}
               </button>
             </div>
           </div>
@@ -306,7 +307,7 @@ export const LandingPage: React.FC = () => {
                 <span className="text-xs font-mono font-bold text-charcoal-600 dark:text-charcoal-400 ml-2">rakshak-responder-portal.app</span>
               </div>
               <span className="text-[10px] font-mono font-bold text-teal-700 dark:text-teal-400 bg-teal-700/10 px-2 py-0.5 rounded border border-teal-700/20">
-                SIMULATED PREVIEW
+                {t('previewSimulated')}
               </span>
             </div>
 
@@ -315,19 +316,19 @@ export const LandingPage: React.FC = () => {
                 <div className="grid grid-cols-4 gap-3 text-center">
                   <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-accentBlue/30 text-accentBlue">
                     <div className="text-xl font-extrabold font-mono">24</div>
-                    <div className="text-[10px] font-bold uppercase">Active Cases (Blue)</div>
+                    <div className="text-[10px] font-bold uppercase">{t('previewActiveCases')}</div>
                   </div>
                   <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-accentCoral/30 text-accentCoral">
                     <div className="text-xl font-extrabold font-mono">7</div>
-                    <div className="text-[10px] font-bold uppercase">High Priority (Coral)</div>
+                    <div className="text-[10px] font-bold uppercase">{t('previewHighPriority')}</div>
                   </div>
                   <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-accentPurple/30 text-accentPurple">
                     <div className="text-xl font-extrabold font-mono">14</div>
-                    <div className="text-[10px] font-bold uppercase">AI Triaged (Purple)</div>
+                    <div className="text-[10px] font-bold uppercase">{t('previewAiTriaged')}</div>
                   </div>
                   <div className="p-3 rounded-xl bg-white dark:bg-charcoal-900 border border-accentGreen/30 text-accentGreen">
                     <div className="text-xl font-extrabold font-mono">83</div>
-                    <div className="text-[10px] font-bold uppercase">Resolved (Green)</div>
+                    <div className="text-[10px] font-bold uppercase">{t('previewResolved')}</div>
                   </div>
                 </div>
 
@@ -335,7 +336,7 @@ export const LandingPage: React.FC = () => {
                   <div className="flex items-center space-x-3">
                     <RiskBadge level="HIGH" score={78} size="sm" />
                     <span className="font-mono font-bold text-teal-700 dark:text-teal-400">RKS-2026-00421</span>
-                    <span className="font-bold text-charcoal-800 dark:text-charcoal-100">Child lost near platform 4</span>
+                    <span className="font-bold text-charcoal-800 dark:text-charcoal-100">{t('landingHeroStatusTitle')}</span>
                   </div>
                   <StatusBadge status="ROUTED" size="sm" />
                 </div>
@@ -345,17 +346,17 @@ export const LandingPage: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2 text-accentPurple font-bold">
                     <Cpu className="w-4 h-4" />
-                    <span>AI Risk Indicator Assessment</span>
+                    <span>{t('previewAiAssessment')}</span>
                   </div>
                   <span className="font-mono font-bold text-accentPurple bg-accentPurple/10 px-2 py-0.5 rounded border border-accentPurple/30">
-                    Score: 78/100
+                    {t('previewAiScore')}
                   </span>
                 </div>
                 <p className="text-charcoal-600 dark:text-charcoal-400">
-                  Indicators detected: Unaccompanied minor in high-density transit node during late evening hours without adult supervision.
+                  {t('previewAiNote')}
                 </p>
                 <div className="text-[11px] font-mono text-charcoal-500 pt-1">
-                  Note: AI provides advisory recommendations only. Human verification required before taking official ground action.
+                  {t('previewAiNote')}
                 </div>
               </div>
             )}
@@ -366,7 +367,7 @@ export const LandingPage: React.FC = () => {
               to="/responder"
               className="inline-flex items-center space-x-2 px-6 py-3 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs shadow-card transition-all"
             >
-              <span>EXPLORE FULL RESPONDER PORTAL</span>
+              <span>{t('previewExplorePortal')}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -381,10 +382,10 @@ export const LandingPage: React.FC = () => {
         <div className="text-center space-y-2 mb-8">
           <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-accentAmber/15 text-amberGold-700 dark:text-amberGold-400 border border-amberGold-600/30 text-xs font-bold">
             <HelpCircle className="w-3.5 h-3.5" />
-            <span>Frequently Asked Questions</span>
+            <span>{t('faqBadge')}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-charcoal-800 dark:text-charcoal-100">
-            Everything You Need to Know
+            {t('faqHeading')}
           </h2>
         </div>
 
@@ -423,10 +424,10 @@ export const LandingPage: React.FC = () => {
         <div className="p-8 sm:p-12 rounded-3xl bg-teal-700 text-white text-center space-y-6 shadow-modal relative overflow-hidden">
           <div className="max-w-2xl mx-auto space-y-3 relative z-10">
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-              Notice a Child Alone or Distressed?
+              {t('bottomCtaHeading')}
             </h2>
             <p className="text-sm text-teal-100 leading-relaxed">
-              Every second matters in a public transit hub. Submit an anonymous 30-second report to alert local protection teams immediately.
+              {t('bottomCtaSub')}
             </p>
           </div>
 
@@ -435,7 +436,7 @@ export const LandingPage: React.FC = () => {
               to="/report"
               className="py-3.5 px-8 rounded-xl bg-white text-teal-900 font-extrabold text-sm shadow-card hover:bg-ivory-100 hover:scale-[1.02] transition-all flex items-center space-x-2"
             >
-              <span>REPORT A CONCERN NOW</span>
+              <span>{t('bottomCtaReportNow')}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
 
@@ -443,7 +444,7 @@ export const LandingPage: React.FC = () => {
               to="/track"
               className="py-3.5 px-8 rounded-xl bg-teal-800 hover:bg-teal-900 text-white font-bold text-sm border border-teal-500/40 shadow-xs transition-all"
             >
-              Track Existing Report
+              {t('bottomCtaTrackReport')}
             </Link>
           </div>
         </div>

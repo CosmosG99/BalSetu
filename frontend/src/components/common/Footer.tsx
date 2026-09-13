@@ -25,7 +25,7 @@ export const Footer: React.FC = () => {
           </p>
 
           <div className="p-3.5 rounded-2xl bg-white dark:bg-charcoal-900 border border-charcoal-200 dark:border-charcoal-800 text-[11px] text-charcoal-600 dark:text-charcoal-400 space-y-1 shadow-sm">
-            <div className="font-bold text-amberGold-600 dark:text-amberGold-500">⚠️ Operational Notice</div>
+            <div className="font-bold text-amberGold-600 dark:text-amberGold-500">⚠️ {t('footerOperationalNotice')}</div>
             <p>
               {t('footerPrototypeNotice')}
             </p>
@@ -34,7 +34,7 @@ export const Footer: React.FC = () => {
 
         {/* Column 2: Platform Links */}
         <div className="space-y-3">
-          <div className="text-xs font-bold text-charcoal-800 dark:text-ivory-100 uppercase tracking-wider">Platform</div>
+          <div className="text-xs font-bold text-charcoal-800 dark:text-ivory-100 uppercase tracking-wider">{t('footerPlatform')}</div>
           <ul className="space-y-2.5 text-xs">
             <li>
               <Link to="/report" className="hover:text-forest-900 dark:hover:text-sage-300 transition-colors">
@@ -94,7 +94,7 @@ export const Footer: React.FC = () => {
 
         {/* Column 4: Project Info */}
         <div className="space-y-3">
-          <div className="text-xs font-bold text-charcoal-800 dark:text-ivory-100 uppercase tracking-wider">Project</div>
+          <div className="text-xs font-bold text-charcoal-800 dark:text-ivory-100 uppercase tracking-wider">{t('footerProject')}</div>
           <ul className="space-y-2.5 text-xs">
             <li>
               <Link to="/about" className="hover:text-forest-900 dark:hover:text-sage-300 transition-colors">
@@ -107,7 +107,7 @@ export const Footer: React.FC = () => {
               </a>
             </li>
             <li>
-              <span className="text-charcoal-500 block">Bit N Build Hackathon</span>
+              <span className="text-charcoal-500 block">{t('footerHackathon')}</span>
             </li>
           </ul>
 
@@ -122,9 +122,9 @@ export const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto mt-12 pt-6 border-t border-charcoal-200/80 dark:border-charcoal-900 flex flex-col sm:flex-row items-center justify-between text-xs text-charcoal-500 space-y-3 sm:space-y-0">
         <div>© 2026 {t('appName')} Team — {t('footerRights')}</div>
         <div className="flex items-center space-x-1">
-          <span>Crafted with</span>
+          <span>{t('footerCraftedWith')}</span>
           <Heart className="w-3.5 h-3.5 text-terracotta-600 fill-terracotta-600" />
-          <span>for Child Protection & Civic Technology</span>
+          <span>{t('footerForChildProtection')}</span>
         </div>
       </div>
     </footer>

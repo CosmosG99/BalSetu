@@ -14,13 +14,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<Theme>(() => {
     const savedTheme = localStorage.getItem('rakshak_theme');
-
-    // Keep the app in light mode by default for the public-facing experience.
-    if (savedTheme === 'dark') {
-      localStorage.setItem('rakshak_theme', 'light');
-    }
-
-    return 'light';
+    return savedTheme === 'dark' ? 'dark' : 'light';
   });
 
   const applyThemeToDOM = (selectedTheme: Theme) => {

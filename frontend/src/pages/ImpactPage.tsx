@@ -1,36 +1,38 @@
 import React from 'react';
 import { Sparkles } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export const ImpactPage: React.FC = () => {
+  const { t } = useLanguage();
   const metrics = [
     {
-      label: 'Faster First-Mile Reporting',
+      label: t('impactMetric1Label'),
       val: '< 30s',
-      desc: 'Zero account creation friction enables instant observation submission.',
+      desc: t('impactMetric1Desc'),
       image:
         'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80',
       accent: 'text-[#0f8b73]'
     },
     {
-      label: 'AI-Assisted Advisory Triage',
+      label: t('impactMetric2Label'),
       val: '0-100',
-      desc: 'Instant trauma risk scoring and indicator detection to guide human responders.',
+      desc: t('impactMetric2Desc'),
       image:
         'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
       accent: 'text-[#4c5bd4]'
     },
     {
-      label: 'Community Participation',
+      label: t('impactMetric3Label'),
       val: '100%',
-      desc: 'Default privacy and face-blur protection ensures safe bystander reporting.',
+      desc: t('impactMetric3Desc'),
       image:
         'https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1200&q=80',
       accent: 'text-[#0f8b73]'
     },
     {
-      label: 'Successful Ground Resolution',
+      label: t('impactMetric4Label'),
       val: '24/7',
-      desc: 'Continuous coordination connecting bystanders to verified station protection cells.',
+      desc: t('impactMetric4Desc'),
       image:
         'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=80',
       accent: 'text-[#0f8b73]'
@@ -46,13 +48,13 @@ export const ImpactPage: React.FC = () => {
 
       <div className="mx-auto max-w-4xl space-y-3 text-center">
         <h1 className="text-3xl font-extrabold tracking-[-0.06em] text-[#102a24] sm:text-4xl lg:text-[4rem] lg:leading-[0.96]">
-          Small moments of awareness
-          <span className="block">can create meaningful</span>
-          <span className="block text-[#0f8b73]">protection.</span>
+          {t('impactPageTitle1')}
+          <span className="block">{t('impactPageTitle2')}</span>
+          <span className="block text-[#0f8b73]">{t('impactPageTitle3')}</span>
         </h1>
 
         <p className="mx-auto max-w-3xl text-sm text-[#2d6b5d] sm:text-base">
-          Quantifying first-mile child protection efficiency across high-footfall transit hubs.
+          {t('impactPageSubtitle')}
         </p>
       </div>
 

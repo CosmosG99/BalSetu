@@ -1,41 +1,43 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 export const ResourcesPage: React.FC = () => {
+  const { t } = useLanguage();
   const resourceCards = [
     {
-      title: 'What to do if you get separated or lost',
-      desc: 'Stay calm. Look for station uniforms, ticket counters, or station vendors wearing Rakshak safety badges.',
+      title: t('resource1Title'),
+      desc: t('resource1Desc'),
       image: 'https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=1200&q=80',
       badge: 'Help'
     },
     {
-      title: 'Recognizing unsafe or uncomfortable situations',
-      desc: 'If an adult makes you feel scared, demands that you follow them, or tries to hide you from cameras, speak up to bystanders immediately.',
+      title: t('resource2Title'),
+      desc: t('resource2Desc'),
       image: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=1200&q=80',
       badge: null
     },
     {
-      title: 'How to ask a trusted adult for help',
-      desc: 'Approach station staff, shopkeepers inside the station, or uniformed security workers. Explain that you need help finding family.',
+      title: t('resource3Title'),
+      desc: t('resource3Desc'),
       image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80',
       badge: null
     },
     {
-      title: 'Bullying & Peer Harassment',
-      desc: 'If group intimidation happens near transit stops, move towards well-lit public concourses and notify station volunteers.',
+      title: t('resource4Title'),
+      desc: t('resource4Desc'),
       image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1200&q=80',
       badge: null
     },
     {
-      title: 'Preserving evidence safely for bystanders',
-      desc: 'Never put yourself or a child in danger to record a video or photo. Maintain distance and note location details.',
+      title: t('resource5Title'),
+      desc: t('resource5Desc'),
       image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
       badge: null
     },
     {
-      title: 'Emergency Service Coordination',
-      desc: 'Rakshak coordinates bystander reports with local ground protection desks across railway and bus networks.',
+      title: t('resource6Title'),
+      desc: t('resource6Desc'),
       image: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=80',
       badge: null
     }
@@ -55,10 +57,10 @@ export const ResourcesPage: React.FC = () => {
         </div>
 
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.06em] text-[#102a24] leading-[0.96]">
-          Safety Resource Center
+          {t('resourcesPageTitle')}
         </h1>
         <p className="text-sm sm:text-base text-[#2d6b5d] leading-relaxed">
-          Trauma-informed guidance and friendly safety tips for children, parents, and community bystanders.
+          {t('resourcesPageSubtitle')}
         </p>
       </div>
 
@@ -94,7 +96,7 @@ export const ResourcesPage: React.FC = () => {
                 to="/report"
                 className="inline-flex items-center gap-2 text-sm font-bold text-[#0f8b73] transition-colors hover:text-[#0d7a64]"
               >
-                <span>Report a concern now</span>
+                <span>{t('resourceCta')}</span>
                 <span aria-hidden="true">→</span>
               </Link>
             </div>
