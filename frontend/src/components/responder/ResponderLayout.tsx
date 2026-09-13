@@ -82,6 +82,31 @@ export const ResponderLayout: React.FC<ResponderLayoutProps> = ({ children }) =>
     }
   };
 
+  const isItemActive = (itemPath: string) => {
+    const currentPathname = routerLocation.pathname;
+    const currentSearch = routerLocation.search;
+
+    if (itemPath.includes('?')) {
+      const [targetPath, targetQuery] = itemPath.split('?');
+      if (currentPathname !== targetPath) return false;
+
+      const targetParams = new URLSearchParams(targetQuery);
+      const currentParams = new URLSearchParams(currentSearch);
+
+      for (const [key, val] of targetParams.entries()) {
+        if (currentParams.get(key) !== val) return false;
+      }
+      return true;
+    }
+
+    if (itemPath === '/responder') {
+      const currentParams = new URLSearchParams(currentSearch);
+      return currentPathname === '/responder' && !currentParams.has('filter') && !currentParams.has('tab');
+    }
+
+    return currentPathname.startsWith(itemPath);
+  };
+
   return (
     <div className="min-h-screen flex bg-ivory-100 dark:bg-charcoal-950 text-charcoal-800 dark:text-charcoal-100 transition-colors duration-300">
       
@@ -122,33 +147,35 @@ export const ResponderLayout: React.FC<ResponderLayoutProps> = ({ children }) =>
         </div>
 
         {/* Sidebar Nav Links */}
-        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+        <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = item.exact
-              ? currentPath === item.path
-              : currentPath.startsWith(item.path.split('?')[0]) && item.path !== '/responder';
+            const isActive = isItemActive(item.path);
 
             return (
               <Link
                 key={item.label}
                 to={item.path}
                 onClick={() => setMobileSidebarOpen(false)}
-                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-200 ${
                   isActive
-                    ? 'bg-teal-700 text-white dark:bg-teal-500/25 dark:text-teal-300 shadow-subtle border-l-4 border-teal-700 dark:border-teal-400'
-                    : 'text-charcoal-800 dark:text-charcoal-300 hover:bg-teal-700/5 dark:hover:bg-charcoal-850 hover:text-teal-700 dark:hover:text-teal-300'
+                    ? 'bg-gradient-to-r from-teal-700 to-teal-800 text-white dark:from-teal-600 dark:to-teal-700 shadow-md border-l-4 border-amberGold-400 scale-[1.02]'
+                    : 'text-charcoal-700 dark:text-charcoal-300 hover:bg-teal-700/10 dark:hover:bg-charcoal-850 hover:text-teal-900 dark:hover:text-teal-200'
                 }`}
               >
                 <div className="flex items-center space-x-3">
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-white dark:text-teal-300' : 'text-charcoal-600 dark:text-charcoal-400'}`} />
-                  <span>{item.label}</span>
+                  <Icon className={`w-4 h-4 transition-all duration-200 ${isActive ? 'text-amberGold-400 scale-110' : 'text-charcoal-500 dark:text-charcoal-400'}`} />
+                  <span className={`text-xs transition-all ${isActive ? 'font-extrabold tracking-wide uppercase text-white' : 'font-semibold tracking-normal'}`}>
+                    {item.label}
+                  </span>
                 </div>
 
                 {item.badge !== undefined && item.badge > 0 && (
                   <span
-                    className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${
-                      item.badgeColor || 'bg-charcoal-200 dark:bg-charcoal-800 text-charcoal-800 dark:text-charcoal-300'
+                    className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold transition-all ${
+                      isActive
+                        ? 'bg-amberGold-400 text-teal-950 font-extrabold shadow-xs'
+                        : item.badgeColor || 'bg-charcoal-200 dark:bg-charcoal-800 text-charcoal-800 dark:text-charcoal-300'
                     }`}
                   >
                     {item.badge}
