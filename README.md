@@ -290,6 +290,8 @@ This project is currently distributed without a separate public license file. If
 
 ## Contributing
 
+
+DEPLOYED LINK: https://rakshak-hazel.vercel.app/
 If you want to improve the project, you can:
 
 1. create a feature branch
